@@ -10,6 +10,7 @@ angular.module('teamtoolApp')
 
       if(form.$valid) {
         Auth.createUser({
+          firstname: $scope.user.firstname,
           surname: $scope.user.surname,
           name: $scope.user.name,
           email: $scope.user.email,
