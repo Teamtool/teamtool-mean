@@ -10,6 +10,7 @@ div(ng-include='"components/navbar/navbar.html"')
           label Firstname
           input.form-control(type='text', name='firstname', ng-model='user.firstname', required='')
           p.help-block(ng-show='form.firstname.$error.required && submitted')
+            | A firstname is required
 
 
         .form-group(ng-class='{ "has-success": form.surname.$valid && submitted,\
@@ -19,12 +20,12 @@ div(ng-include='"components/navbar/navbar.html"')
           p.help-block(ng-show='form.surname.$error.required && submitted')
             | A surname is required
 
-        .form-group(ng-class='{ "has-success": form.name.$valid && submitted,\
-        "has-error": form.name.$invalid && submitted }')
-          label Name
-          input.form-control(type='text', name='name', ng-model='user.name', required='')
-          p.help-block(ng-show='form.name.$error.required && submitted')
-            | A name is required
+        .form-group(ng-class='{ "has-success": form.username.$valid && submitted,\
+        "has-error": form.username.$invalid && submitted }')
+          label Username
+          input.form-control(type='text', name='username', ng-model='user.username', required='')
+          p.help-block(ng-show='form.username.$error.required && submitted')
+            | A username is required
 
         .form-group(ng-class='{ "has-success": form.email.$valid && submitted,\
         "has-error": form.email.$invalid && submitted }')

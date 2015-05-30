@@ -12,7 +12,7 @@ angular.module('teamtoolApp')
         Auth.createUser({
           firstname: $scope.user.firstname,
           surname: $scope.user.surname,
-          name: $scope.user.name,
+          username: $scope.user.username,
           email: $scope.user.email,
           password: $scope.user.password
         })
