@@ -10,7 +10,8 @@ exports.config = {
 
   // A base URL for your application under test. Calls to protractor.get()
   // with relative paths will be prepended with this.
-  baseUrl: 'http://localhost:' + (process.env.PORT || '9000'),
+  baseUrl: 'http://localhost:9000',
+  seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
 
   // If true, only chromedriver will be started, not a standalone selenium.
   // Tests for browsers other than chrome will not run.
@@ -18,7 +19,7 @@ exports.config = {
 
   // list of files / patterns to load in the browser
   specs: [
-    'e2e/**/*.spec.js'
+    'features/*.feature'
   ],
 
   // Patterns to exclude.
@@ -39,12 +40,13 @@ exports.config = {
   // Jasmine and Cucumber are fully supported as a test and assertion framework.
   // Mocha has limited beta support. You will need to include your own
   // assertion framework if working with mocha.
-  framework: 'jasmine',
+  framework: 'cucumber',
 
   // ----- Options to be passed to minijasminenode -----
   //
   // See the full list at https://github.com/juliemr/minijasminenode
-  jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
+  cucumberOpts: {
+    require: 'features/steps/*_steps.js',
+    format: 'pretty'
   }
 };

@@ -13,4 +13,9 @@ describe('Main View', function() {
     expect(page.imgEl.getAttribute('src')).toMatch(/assets\/images\/logo.png$/);
     expect(page.imgEl.getAttribute('alt')).toBe('Agile Moves');
   });
+
+  it('should include navigation bar with correct data', function() {
+    expect(page.aLogin.getText()).toBe('Login');
+  });
 });
+
