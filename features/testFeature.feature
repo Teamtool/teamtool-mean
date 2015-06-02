@@ -12,8 +12,8 @@ Feature: Running Cucumber with Protractor
 
   Scenario: Valid Login
     Given I go on "login"
-    When I enter the email "test@test.com"
-    And I enter the password "test"
+    When I enter "test@test.com" in "user.email"
+    And I enter "test" in "user.password"
     And I click on "Login"
     Then the menu should contain "Home"
     And the menu should contain "Hello Test user"
