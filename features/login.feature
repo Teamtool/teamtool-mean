@@ -1,7 +1,7 @@
-Feature: Running Cucumber with Protractor
-  As a user of Protractor
-  I should be able to use Cucumber
-  to run my E2E tests
+Feature: Login
+  As a user of Teamtool
+  I should be able to login
+  with my valid credentials
 
   Scenario: Home
     Given I go on "index.html"
@@ -14,9 +14,8 @@ Feature: Running Cucumber with Protractor
     Given I go on "login"
     When I enter "test@test.com" in "user.email"
     And I enter "test" in "user.password"
-    And I click on "Login"
+    And I submit the login form
     Then the menu should contain "Home"
-    And the menu should contain "Hello Test user"
     And the menu should contain "Logout"
 
 
