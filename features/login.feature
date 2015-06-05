@@ -18,4 +18,8 @@ Feature: Login
     Then the menu should contain "Home"
     And the menu should contain "Logout"
 
+  Scenario: Email and password required
+    Given I go on "login"
+    When I submit the login form
+    Then I see the message "Please enter your email and password."
 
