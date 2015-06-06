@@ -7,10 +7,10 @@ div(ng-include='"components/navbar/navbar.html"')
       form.form(name='form', ng-submit='register(form)', novalidate='')
         .form-group(ng-class='{ "has-success": form.firstname.$valid && submitted,\
         "has-error": form.firstname.$invalid && submitted }')
-          label Firstname
+          label First name
           input.form-control(type='text', name='firstname', ng-model='user.firstname', required='')
           p.help-block(ng-show='form.firstname.$error.required && submitted')
-            | A firstname is required
+            | What's your first name?
 
 
         .form-group(ng-class='{ "has-success": form.surname.$valid && submitted,\
@@ -18,14 +18,14 @@ div(ng-include='"components/navbar/navbar.html"')
           label Surname
           input.form-control(type='text', name='surname', ng-model='user.surname', required='')
           p.help-block(ng-show='form.surname.$error.required && submitted')
-            | A surname is required
+            | What's your surname?
 
         .form-group(ng-class='{ "has-success": form.username.$valid && submitted,\
         "has-error": form.username.$invalid && submitted }')
           label Username
           input.form-control(type='text', name='username', ng-model='user.username', required='')
           p.help-block(ng-show='form.username.$error.required && submitted')
-            | A username is required
+            | Please choose a username
 
         .form-group(ng-class='{ "has-success": form.email.$valid && submitted,\
         "has-error": form.email.$invalid && submitted }')
@@ -63,10 +63,10 @@ div(ng-include='"components/navbar/navbar.html"')
             | Passwords do not match!
 
         div
-          button.btn.btn-inverse.btn-lg.btn-login(type='submit')
+          button.btn.btn-inverse.btn-lg.btn-register(type='submit')
             | Sign up
           = ' '
-          a.btn.btn-default.btn-lg.btn-register(href='/login')
+          a.btn.btn-default.btn-lg.btn-login(href='/login')
             | Login
 
 

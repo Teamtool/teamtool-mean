@@ -5,5 +5,10 @@ var myStepDefinitionsWrapper = function () {
     element(by.css('.btn-login')).click();
     callback();
   });
+
+  this.When(/^I submit the signup form$/, function (callback) {
+    element(by.css('.btn-register')).click();
+    callback();
+  });
 };
 module.exports = myStepDefinitionsWrapper;
