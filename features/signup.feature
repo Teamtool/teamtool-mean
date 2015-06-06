@@ -1,7 +1,7 @@
-Feature: Login
+Feature: Signup
   As a user of Teamtool
-  I should be able to login
-  with my valid credentials
+  I should be able to signup
+  by means of the registration form
 
   Scenario: Required fields for signup
     Given I go on "signup"
