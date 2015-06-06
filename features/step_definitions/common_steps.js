@@ -41,8 +41,15 @@ var myStepDefinitionsWrapper = function () {
     callback.pending();
   });
 
-  this.Then(/^I see the message "([^"]*)"$/, function (arg1, callback) {
-    callback.pending();
+  this.Then(/^I see the help message "([^"]*)"$/, function (arg1, callback) {
+    element.all(by.css('.help-block')).filter(function(elem, index) {
+      return elem.getText().then(function(text) {
+        return text === arg1;
+      });
+    }).then(function(filteredElements) {
+      expect(filteredElements).to.have.length(1);
+      callback();
+    });
   });
 };
 module.exports = myStepDefinitionsWrapper;

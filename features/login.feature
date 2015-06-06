@@ -21,5 +21,12 @@ Feature: Login
   Scenario: Email and password required
     Given I go on "login"
     When I submit the login form
-    Then I see the message "Please enter your email and password."
+    Then I see the help message "Please enter your email"
+    And I see the help message "Please enter your password"
 
+  Scenario: Not valid password
+    Given I go on "login"
+    When I enter "test@test.com" in "user.email"
+    And I enter "not-valid" in "user.password"
+    And I submit the login form
+    Then I see the help message "This password is not correct."
