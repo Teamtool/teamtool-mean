@@ -672,9 +672,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-selenium-webdriver');
   grunt.registerTask('e2e', [
     'selenium_start',
-    'clean:server',
-    'concurrent:server',
-    'express:dev',
     'protractor',
     'selenium_stop'
   ])
