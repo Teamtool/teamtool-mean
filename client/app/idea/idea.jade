@@ -1,4 +1,23 @@
 div(ng-include='"components/navbar/navbar.html"')
+
+.container
+  .row
+    .col-lg-2
+    .col-lg-8
+      form.thing-form
+        label Share your ideas in realtime with your team
+        p.input-group
+          input.form-control(type='text', placeholder='Add a new idea here.', ng-model='newIdea')
+          span.input-group-btn
+            button.btn.btn-primary(type='submit', ng-click='addIdea()') Add New
+
+      h1.page-header Ideas Backlog
+      ul.nav.nav-tabs.nav-stacked(ng-repeat='idea in awesomeIdeas')
+        li
+          a(href='#', tooltip='{{idea.info}}')
+            | {{idea.name}}
+            button.close(type='button', ng-click='deleteIdea(idea)') ×
+    .col-lg-2
 footer.footer
   .container
     p
