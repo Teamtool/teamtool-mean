@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
 
 var IdeaSchema = new Schema({
   name: String,
+  description: String,
   info: String,
   active: Boolean
 });

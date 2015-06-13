@@ -6,17 +6,23 @@ div(ng-include='"components/navbar/navbar.html"')
     .col-lg-8
       form.thing-form
         label Share your ideas in realtime with your team
-        p.input-group
-          input.form-control(type='text', placeholder='Add a new idea here.', ng-model='newIdea')
-          span.input-group-btn
-            button.btn.btn-primary(type='submit', ng-click='addIdea()') Add New
+        .form-group
+          input.form-control(type='text', placeholder='Add the title here.', ng-model='title', required='')
+        .form-group
+          textarea.form-control(type='textarea', placeholder='Add the description here.', ng-model='description', required='')
+
+          //span.input-group-btn
+        div
+          button.btn.btn-primary(type='submit', ng-click='addIdea()') Add New Idea
 
       h1.page-header Ideas Backlog
-      ul.nav.nav-tabs.nav-stacked(ng-repeat='idea in awesomeIdeas')
+      ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | orderBy:'-_id'")
         li
-          a(href='#', tooltip='{{idea.info}}')
-            | {{idea.name}}
+          a
+            b {{idea.name}}
             button.close(type='button', ng-click='deleteIdea(idea)') ×
+            p {{idea.description}}
+
     .col-lg-2
 footer.footer
   .container

@@ -10,11 +10,12 @@ angular.module('teamtoolApp')
     });
 
     $scope.addIdea = function() {
-      if($scope.newIdea === '') {
+      if($scope.title === '') {
         return;
       }
-      $http.post('/api/ideas', { name: $scope.newIdea });
-      $scope.newIdea = '';
+      $http.post('/api/ideas', { name: $scope.title , description: $scope.description});
+      $scope.title = '';
+      $scope.description = '';
     };
 
     $scope.deleteIdea = function(idea) {
