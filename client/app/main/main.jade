@@ -10,19 +10,6 @@ header#banner.hero-unit
   .row
     .col-lg-2
     .col-lg-8
-      form.thing-form
-        label Share your ideas in realtime with your team
-        p.input-group
-          input.form-control(type='text', placeholder='Add a new idea here.', ng-model='newThing')
-          span.input-group-btn
-            button.btn.btn-primary(type='submit', ng-click='addThing()') Add New
-
-      h1.page-header Ideas:
-      ul.nav.nav-tabs.nav-stacked(ng-repeat='thing in awesomeThings')
-        li
-          a(href='#', tooltip='{{thing.info}}')
-            | {{thing.name}}
-            button.close(type='button', ng-click='deleteThing(thing)') ×
     .col-lg-2
 
 

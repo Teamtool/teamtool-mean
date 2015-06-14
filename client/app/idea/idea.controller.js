@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('teamtoolApp')
-  .controller('IdeaCtrl', function ($scope, $http, socket) {
+  .controller('IdeaCtrl', function ($scope, $http, socket, Auth) {
     $scope.awesomeIdeas = [];
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
@@ -13,7 +13,7 @@ angular.module('teamtoolApp')
       if($scope.title === '') {
         return;
       }
-      $http.post('/api/ideas', { name: $scope.title , description: $scope.description});
+      $http.post('/api/ideas', { name: $scope.title , description: $scope.description, createdBy: Auth.getCurrentUser()._id});
       $scope.title = '';
       $scope.description = '';
     };

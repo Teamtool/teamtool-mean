@@ -19,9 +19,16 @@ div(ng-include='"components/navbar/navbar.html"')
       ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | orderBy:'-_id'")
         li
           a
-            b {{idea.name}}
+            .row
+              .col-md-10
+                b {{idea.name}}
+              .col-md-2(align="right")
+                | {{idea.createdBy.username}}
             button.close(type='button', ng-click='deleteIdea(idea)') ×
-            p {{idea.description}}
+            .row
+              .col-md-10
+                i {{idea.description}}
+
 
     .col-lg-2
 footer.footer
