@@ -10,6 +10,7 @@ var expect = chai.expect;
 
 
 var myStepDefinitionsWrapper = function () {
+
   this.Given(/^I go on "([^"]*)"$/, function (arg1, callback) {
     browser.get('http://localhost:9000/' + arg1);
     callback();
@@ -20,7 +21,6 @@ var myStepDefinitionsWrapper = function () {
     element(by.model(model)).sendKeys(input);
     callback();
   });
-
 
   this.Then(/^the title should equal "([^"]*)"$/, function (arg1, callback) {
     expect(browser.getTitle()).to.eventually.equal(arg1).and.notify(callback);
@@ -37,8 +37,9 @@ var myStepDefinitionsWrapper = function () {
     });
   });
 
-  this.When(/^I click on "([^"]*)"$/, function (arg1, callback) {
-    callback.pending();
+  this.When(/^I click on "([^"]*)"$/, function (buttonText, callback) {
+    element(by.buttonText(buttonText)).click();
+    callback();
   });
 
   this.Then(/^I see the help message "([^"]*)"$/, function (arg1, callback) {

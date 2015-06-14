@@ -3,6 +3,7 @@
 angular.module('teamtoolApp')
   .controller('IdeaCtrl', function ($scope, $http, socket, Auth) {
     $scope.awesomeIdeas = [];
+    $scope.idea = {};
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
       $scope.awesomeIdeas = awesomeIdeas;
@@ -10,12 +11,12 @@ angular.module('teamtoolApp')
     });
 
     $scope.addIdea = function() {
-      if($scope.title === '') {
+      if($scope.idea.title === '') {
         return;
       }
-      $http.post('/api/ideas', { name: $scope.title , description: $scope.description, createdBy: Auth.getCurrentUser()._id});
-      $scope.title = '';
-      $scope.description = '';
+      $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, createdBy: Auth.getCurrentUser()._id});
+      $scope.idea.title = '';
+      $scope.idea.description = '';
     };
 
     $scope.deleteIdea = function(idea) {

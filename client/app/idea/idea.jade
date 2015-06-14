@@ -7,9 +7,9 @@ div(ng-include='"components/navbar/navbar.html"')
       form.thing-form
         label Share your ideas in realtime with your team
         .form-group
-          input.form-control(type='text', placeholder='Add the title here.', ng-model='title', required='')
+          input.form-control(type='text', placeholder='Add the title here.', ng-model='idea.title', required='')
         .form-group
-          textarea.form-control(type='textarea', placeholder='Add the description here.', ng-model='description', required='')
+          textarea.form-control(type='textarea', placeholder='Add the description here.', ng-model='idea.description', required='')
 
           //span.input-group-btn
         div
