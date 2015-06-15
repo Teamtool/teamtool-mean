@@ -20,10 +20,15 @@ div(ng-include='"components/navbar/navbar.html"')
         li
           a
             .row
-              .col-md-10
+              .col-md-7
                 b {{idea.name}}
-              .col-md-2(align="right")
+              .col-md-2
                 | {{idea.createdBy.username}}
+              .col-md-3(align="right")
+                rating(ng-model="idea.rate", max="max")
+                b (Rate: {{idea.rate}})
+
+
             button.close(type='button', ng-click='deleteIdea(idea)') ×
             .row
               .col-md-10

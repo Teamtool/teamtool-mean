@@ -4,6 +4,9 @@ angular.module('teamtoolApp')
   .controller('IdeaCtrl', function ($scope, $http, socket, Auth) {
     $scope.awesomeIdeas = [];
     $scope.idea = {};
+    $scope.rate = 0;
+    $scope.max = 5;
+    $scope.isReadonly = false;
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
       $scope.awesomeIdeas = awesomeIdeas;
