@@ -3,10 +3,6 @@
 angular.module('teamtoolApp')
   .controller('IdeaCtrl', function ($scope, $http, socket, Auth) {
     $scope.awesomeIdeas = [];
-    $scope.idea = {};
-    $scope.rate = 0;
-    $scope.max = 5;
-    $scope.isReadonly = false;
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
       $scope.awesomeIdeas = awesomeIdeas;
@@ -17,7 +13,7 @@ angular.module('teamtoolApp')
       if($scope.idea.title === '') {
         return;
       }
-      $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, createdBy: Auth.getCurrentUser()._id});
+      $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, author: Auth.getCurrentUser()._id});
       $scope.idea.title = '';
       $scope.idea.description = '';
     };
@@ -29,5 +25,9 @@ angular.module('teamtoolApp')
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('idea');
     });
+
+    $scope.addRating = function(idea) {
+      $http.post('/api/ratings', { content: "Hallo" , star_rating: $scope.star_rating, author: Auth.getCurrentUser()._id, idea: idea._id });
+    };
 
   });

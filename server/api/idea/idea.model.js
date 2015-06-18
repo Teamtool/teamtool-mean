@@ -6,14 +6,16 @@ var mongoose = require('mongoose'),
 var IdeaSchema = new Schema({
   name: String,
   description: String,
-  createdBy: {type : Schema.ObjectId, ref : 'User'},
+  author: {type : Schema.ObjectId, ref : 'User'},
+  rating: { type: mongoose.Schema.Types.ObjectId, ref: 'Rating' },
+  date: { type: Date, default: Date.now },
   info: String,
   active: Boolean
 });
 
 IdeaSchema.statics = {
   load: function (id, cb) {
-    this.findOne({ _id : id }).populate('user').exec(cb);
+    this.findOne({ _id : id }).populate('rating').populate('author').exec(cb);
   }
 };
 

@@ -8,6 +8,7 @@
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
 var Idea = require('../api/idea/idea.model');
+var Rating = require('../api/rating/rating.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
@@ -50,14 +51,29 @@ User.find({}).remove(function() {
   );
 });
 
+Rating.find({}).remove(function() {
+  Rating.create({
+      content: 'Test rating',
+      star_rating: 3
+    }, {
+      content: 'Test rating 2',
+      star_rating: 4
+    }, function() {
+      console.log('finished populating rating');
+    }
+  );
+});
+
 Idea.find({}).remove(function() {
   Idea.create({
     name : 'Development Tools',
     description : 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less.',
-    createdBy: User.findOne({username: 'Test User'})._id
+    author: User.findOne({username: 'Test User'})._id
   }, {
     name : 'Deployment Ready',
     description : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators',
-    createdBy: User.findOne({username: 'Test User'})._id
+    author: User.findOne({username: 'Test User'})._id
   });
+
 });
+
