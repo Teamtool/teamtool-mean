@@ -27,7 +27,7 @@ angular.module('teamtoolApp')
     });
 
     $scope.addRating = function(idea) {
-      $http.post('/api/ratings', { content: "Hallo" , star_rating: $scope.star_rating, author: Auth.getCurrentUser()._id, idea: idea._id });
+      $http.patch('/api/ideas/' + idea._id, { rating: idea.rating});
     };
 
   });

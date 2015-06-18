@@ -8,7 +8,7 @@ exports.index = function(req, res) {
   Idea.find(function (err, ideas) {
     if(err) { return handleError(res, err); }
     return res.json(200, ideas);
-  }).populate('author').populate('rating');
+  }).populate('author');
 };
 
 // Get a single idea

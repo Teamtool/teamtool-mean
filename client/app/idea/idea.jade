@@ -25,8 +25,8 @@ div(ng-include='"components/navbar/navbar.html"')
               .col-md-2
                 | {{idea.author.username}}
               .col-md-3(align="right")
-                rating(ng-model="star_rating", max="5", on-leave='addRating(idea)')
-                b (Rate: {{idea.rating.star_rating}})
+                rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
+                b (Rate: {{idea.rating}})
 
 
             button.close(type='button', ng-click='deleteIdea(idea)') ×

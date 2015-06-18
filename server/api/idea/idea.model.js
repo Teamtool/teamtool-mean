@@ -7,7 +7,8 @@ var IdeaSchema = new Schema({
   name: String,
   description: String,
   author: {type : Schema.ObjectId, ref : 'User'},
-  rating: { type: mongoose.Schema.Types.ObjectId, ref: 'Rating' },
+  ratings: [{star_rating: Number, author: {type : Schema.ObjectId, ref : 'User'}}],
+  rating: Number,
   date: { type: Date, default: Date.now },
   info: String,
   active: Boolean
@@ -15,7 +16,7 @@ var IdeaSchema = new Schema({
 
 IdeaSchema.statics = {
   load: function (id, cb) {
-    this.findOne({ _id : id }).populate('rating').populate('author').exec(cb);
+    this.findOne({ _id : id }).populate('author').exec(cb);
   }
 };
 
