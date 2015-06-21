@@ -33,6 +33,14 @@ module.exports = function (grunt) {
       client: require('./bower.json').appPath || 'client',
       dist: 'dist'
     },
+    forever: {
+      express: {
+        options: {
+          script: 'dist/server/app.js',
+          logDir: 'logs'
+        }
+      }
+    },
     express: {
       options: {
         port: process.env.PORT || 9000
@@ -713,4 +721,7 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.loadNpmTasks('grunt-forever');
+
 };
