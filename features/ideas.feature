@@ -7,7 +7,7 @@ Feature: Ideas
     Given I go on "idea"
     When I enter "my title" in "idea.title"
     And I enter "my description" in "idea.description"
-    And I click on "Add New Idea"
+    And I click on "Create Idea"
     Then the ideas backlog should contain "my title"
     And the ideas backlog should contain "my description"
 
