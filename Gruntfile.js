@@ -36,7 +36,7 @@ module.exports = function (grunt) {
     forever: {
       express: {
         options: {
-          script: 'dist/server/app.js',
+          index: 'dist/server/app.js',
           logDir: 'logs'
         }
       }
@@ -602,7 +602,7 @@ module.exports = function (grunt) {
       'build',
       'env:all',
       'env:prod',
-      'express:prod',
+      'forever:express:restart',
       'wait',
       'open',
       'express-keepalive'
