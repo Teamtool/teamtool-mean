@@ -46,7 +46,7 @@ exports.config = {
   //
   // See the full list at https://github.com/juliemr/minijasminenode
   cucumberOpts: {
-    require: 'features/step_definition/*_steps.js',
+    require: 'features/step_definitions/*_steps.js',
     format: 'pretty'
   }
 };
