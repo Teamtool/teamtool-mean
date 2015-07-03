@@ -28,7 +28,12 @@ var myStepDefinitionsWrapper = function () {
   });
 
   this.Given(/^I am not logged in$/, function (callback) {
-    element(by.linkText("Logout")).click();
+    element(by.css('.logout')).click();
+    callback();
+  });
+
+  this.Given(/^I go to the home page$/, function (callback) {
+    browser.get('http://localhost:9000/');
     callback();
   });
 };

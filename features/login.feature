@@ -4,17 +4,16 @@ Feature: Login
   with my valid credentials
 
   Scenario: Home
-    Given I am not logged in
-    Given I go on "index.html"
+    Given I go to the home page
     Then the title should equal "Teamtool"
-    And the menu should contain "Home"
+    Then the menu should contain "Home"
     And the menu should contain "Login"
     And the menu should contain "Sign up"
 
-  Scenario: Valid Login
+  Scenario: Charlie logs in
     Given I go on "login"
-    When I enter "test@test.com" in "user.email"
-    And I enter "test" in "user.password"
+    When I enter "charlie@user.com" in "user.email"
+    And I enter "user" in "user.password"
     And I submit the login form
     Then the menu should contain "Home"
     And the menu should contain "Logout"
@@ -25,9 +24,9 @@ Feature: Login
     Then I see the help message "Please enter your email"
     And I see the help message "Please enter your password"
 
-  Scenario: Not valid password
+  Scenario: Charlie write the wrong password
     Given I go on "login"
-    When I enter "test@test.com" in "user.email"
+    When I enter "charlie@user.com" in "user.email"
     And I enter "not-valid" in "user.password"
     And I submit the login form
     Then I see the help message "This password is not correct."

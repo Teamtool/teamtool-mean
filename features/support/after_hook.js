@@ -5,7 +5,7 @@ var myAfterHooks = function () {
     // Again, "this" is set to the World instance the scenario just finished
     // playing with.
 
-    element(by.buttonText("Logout")).click();
+    element(by.css('.logout')).click();
 
     // Release control:
     callback();
