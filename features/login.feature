@@ -4,7 +4,8 @@ Feature: Login
   with my valid credentials
 
   Scenario: Home
-    Given I go to the home page
+    Given I am not logged in
+    And I go to the home page
     Then the title should equal "Teamtool"
     Then the menu should contain "Home"
     And the menu should contain "Login"

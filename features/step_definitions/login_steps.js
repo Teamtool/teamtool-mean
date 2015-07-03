@@ -19,10 +19,18 @@ var myStepDefinitionsWrapper = function () {
   });
 
 
-  this.Given(/^I am logged in as "([^"]*)"$/, function (email, callback) {
+  this.Given(/^I am logged in as "([^"]*)" as user$/, function (name, callback) {
     browser.get('http://localhost:9000/login');
-    element(by.model('user.email')).sendKeys(email);
-    element(by.model('user.password')).sendKeys("test");
+    element(by.model('user.email')).sendKeys(name+"@user.com");
+    element(by.model('user.password')).sendKeys("user");
+    element(by.css('.btn-login')).click();
+    callback();
+  });
+
+  this.Given(/^I am logged in as "([^"]*)" as admin$/, function (name, callback) {
+    browser.get('http://localhost:9000/login');
+    element(by.model('user.email')).sendKeys(name+"@admin.com");
+    element(by.model('user.password')).sendKeys("admin");
     element(by.css('.btn-login')).click();
     callback();
   });

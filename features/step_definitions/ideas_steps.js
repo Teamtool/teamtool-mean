@@ -10,19 +10,6 @@ var expect = chai.expect;
 var Idea = require('../../server/api/idea/idea.model');
 
 var myStepDefinitionsWrapper = function () {
-  this.Then(/^the ideas backlog should contain "([^"]*)"$/, function (content, callback) {
-
-    element.all(by.css('.idea-name')).filter(function(elem, index) {
-      console.log("###Element: ");
-      console.log(elem.getText());
-      return elem.getText().then(function(text) {
-        return text === content;
-      });
-    }).then(function(filteredElements) {
-      expect(filteredElements).to.have.length(1);
-      callback();
-    });
-  });
 
   this.Given(/^I go to the ideas backlog$/, function (callback) {
     browser.get('http://localhost:9000/idea');
@@ -36,6 +23,28 @@ var myStepDefinitionsWrapper = function () {
 
   this.Then(/^I see the mean value of (.*) stars for the idea "([^"]*)"$/, function (arg1, arg2, callback) {
     callback.pending();
+  });
+
+  this.When(/^I enter "([^"]*)" as idea's title$/, function (input, callback) {
+    element(by.model('idea.title')).sendKeys(input);
+    callback();
+  });
+
+  this.When(/^I enter "([^"]*)" as idea's description$/, function (input, callback) {
+    element(by.model('idea.description')).sendKeys(input);
+    callback();
+  });
+
+
+  this.Then(/^the ideas backlog should contain the idea "([^"]*)" with the description  "([^"]*)"$/, function (title, arg2, callback) {
+    element.all(by.css('.idea-name')).filter(function(elem, index) {
+      return elem.getText().then(function(text) {
+        return text === title;
+      });
+    }).then(function(filteredElements) {
+      expect(filteredElements).to.have.length.least(1);
+      callback();
+    });
   });
 };
 module.exports = myStepDefinitionsWrapper;

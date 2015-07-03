@@ -32,12 +32,12 @@ var myStepDefinitionsWrapper = function () {
         return text === arg1;
       });
     }).then(function(filteredElements) {
-      expect(filteredElements).to.have.length(1);
+      expect(filteredElements).to.have.length.least(1);
       callback();
     });
   });
 
-  this.When(/^I click on "([^"]*)"$/, function (buttonText, callback) {
+  this.When(/^I click on the button "([^"]*)"$/, function (buttonText, callback) {
     element(by.buttonText(buttonText)).click();
     callback();
   });
@@ -48,7 +48,7 @@ var myStepDefinitionsWrapper = function () {
         return text === arg1;
       });
     }).then(function(filteredElements) {
-      expect(filteredElements).to.have.length(1);
+      expect(filteredElements).to.have.length.least(1);
       callback();
     });
   });
