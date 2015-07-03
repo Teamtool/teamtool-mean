@@ -4,6 +4,7 @@ Feature: Login
   with my valid credentials
 
   Scenario: Home
+    Given I am not logged in
     Given I go on "index.html"
     Then the title should equal "Teamtool"
     And the menu should contain "Home"

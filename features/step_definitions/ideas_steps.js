@@ -11,7 +11,10 @@ var Idea = require('../../server/api/idea/idea.model');
 
 var myStepDefinitionsWrapper = function () {
   this.Then(/^the ideas backlog should contain "([^"]*)"$/, function (content, callback) {
-    element.all(by.css('.ng-binding')).filter(function(elem, index) {
+
+    element.all(by.css('.idea-name')).filter(function(elem, index) {
+      console.log("###Element: ");
+      console.log(elem.getText());
       return elem.getText().then(function(text) {
         return text === content;
       });

@@ -19,8 +19,17 @@ var myStepDefinitionsWrapper = function () {
   });
 
 
-  this.Given(/^I am logged in as "([^"]*)"$/, function (username, callback) {
-    callback.pending();
+  this.Given(/^I am logged in as "([^"]*)"$/, function (email, callback) {
+    browser.get('http://localhost:9000/login');
+    element(by.model('user.email')).sendKeys(email);
+    element(by.model('user.password')).sendKeys("test");
+    element(by.css('.btn-login')).click();
+    callback();
+  });
+
+  this.Given(/^I am not logged in$/, function (callback) {
+    element(by.linkText("Logout")).click();
+    callback();
   });
 };
 module.exports = myStepDefinitionsWrapper;

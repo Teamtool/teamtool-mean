@@ -17,12 +17,12 @@ div(ng-include='"components/navbar/navbar.html"')
 
       h1.page-header Ideas Backlog
       ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | orderBy:'-_id'")
-        li
+        li.idea
           a
             .row
               .col-md-7
-                b {{idea.name}}
-              .col-md-2
+                b.idea-name {{idea.name}}
+              .col-md-2.idea-name
                 | {{idea.author.username}}
               .col-md-3(align="right")
                 rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
@@ -32,7 +32,7 @@ div(ng-include='"components/navbar/navbar.html"')
             button.close(type='button', ng-click='deleteIdea(idea)') ×
             .row
               .col-md-10
-                i {{idea.description}}
+                i.idea-description {{idea.description}}
 
 
     .col-lg-2
