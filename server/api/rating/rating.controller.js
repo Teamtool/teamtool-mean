@@ -1,5 +1,14 @@
 'use strict';
 
+/**
+ * Using Rails-like standard naming convention for endpoints.
+ * GET     /ratings              ->  index
+ * POST    /ratings              ->  create
+ * GET     /ratings/:id          ->  show
+ * PUT     /ratings/:id          ->  update
+ * DELETE  /ratings/:id          ->  destroy
+ */
+
 var _ = require('lodash');
 var Rating = require('./rating.model');
 

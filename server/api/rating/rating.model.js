@@ -7,17 +7,13 @@ var RatingSchema = new Schema({
   content: String,
   star_rating: Number,
   date: { type: Date, default: Date.now },
-  author: {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-  },
-  idea: { type: mongoose.Schema.Types.ObjectId, ref: 'Idea' },
+  idea: {type : Schema.ObjectId, ref : 'Idea'},
   active: Boolean
 });
 
 RatingSchema.statics = {
   load: function (id, cb) {
-    this.findOne({ _id : id }).populate('idea').populate('author').exec(cb);
+    this.findOne({ _id : id }).populate('author').populate('idea').exec(cb);
   }
 };
 

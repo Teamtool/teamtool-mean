@@ -16,8 +16,9 @@ var myStepDefinitionsWrapper = function () {
     callback();
   });
 
-  this.When(/^I rate the idea "([^"]*)" with (\d+) stars$/, function (arg1, arg2, callback) {
-    callback.pending();
+  this.When(/^I rate the idea "([^"]*)" with (\d+) stars$/, function (idea, stars, callback) {
+    element(by.model('idea.rating')).click()
+    callback();
 
   });
 

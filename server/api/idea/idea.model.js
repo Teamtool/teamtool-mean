@@ -1,13 +1,15 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  RatingSchema = require('../rating/rating.model.js'),
+  Schema = mongoose.Schema;
+
 
 var IdeaSchema = new Schema({
   name: String,
   description: String,
   author: {type : Schema.ObjectId, ref : 'User'},
-  ratings: [{star_rating: Number, author: {type : Schema.ObjectId, ref : 'User'}}],
+  ratings: [RatingSchema],
   rating: Number,
   date: { type: Date, default: Date.now },
   info: String,
@@ -16,7 +18,7 @@ var IdeaSchema = new Schema({
 
 IdeaSchema.statics = {
   load: function (id, cb) {
-    this.findOne({ _id : id }).populate('author').exec(cb);
+    this.findOne({ _id : id }).populate('author').populate('ratings').exec(cb);
   }
 };
 
