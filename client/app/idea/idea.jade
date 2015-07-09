@@ -26,8 +26,10 @@ div(ng-include='"components/navbar/navbar.html"')
                 | {{idea.author.username}}
               .col-md-3(align="right")
                 rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
-                b (Rate: {{idea.rating}})
-
+                br
+                rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
+                br
+                i Votes: {{getVotes(idea)}}
 
             button.close(type='button', ng-click='deleteIdea(idea)') ×
             .row

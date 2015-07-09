@@ -10,7 +10,6 @@ var IdeaSchema = new Schema({
   description: String,
   author: {type : Schema.ObjectId, ref : 'User'},
   ratings: [RatingSchema],
-  rating: Number,
   date: { type: Date, default: Date.now },
   info: String,
   active: Boolean

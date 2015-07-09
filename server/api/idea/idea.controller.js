@@ -1,5 +1,15 @@
 'use strict';
 
+/**
+ * Using Rails-like standard naming convention for endpoints.
+ * GET     /ideas              ->  index
+ * POST    /ideas              ->  create
+ * GET     /ideas/:id          ->  show
+ * PUT     /ideas/:id          ->  update
+ * DELETE  /ideas/:id          ->  destroy
+ */
+
+
 var _ = require('lodash');
 var Idea = require('./idea.model');
 

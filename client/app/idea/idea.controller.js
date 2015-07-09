@@ -26,9 +26,25 @@ angular.module('teamtoolApp')
       socket.unsyncUpdates('idea');
     });
 
+    $scope.getStarAverage = function(idea) {
+      var sum = 0;
+      var MyData = [1, 2 ,3, 4, 5, 6];
+      for (var i = 0; i < MyData.length; i++){
+        sum += parseInt(MyData[i], 10); //don't forget to add the base
+      }
+      var avg = sum / MyData.length;
+      return avg;
+
+    };
+
+    $scope.getVotes = function(idea) {
+      return 2;
+    };
+
+
     $scope.addRating = function(idea) {
       $http.post('/api/ratings/', { star_rating: idea.rating, idea: idea._id } );
-      //$http.post('/api/ideas/'+idea._id+'/ratings/', { star_rating: idea.rating } );
     };
+
 
   });
