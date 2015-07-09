@@ -3,10 +3,16 @@
 angular.module('teamtoolApp')
   .controller('IdeaCtrl', function ($scope, $http, socket, Auth) {
     $scope.awesomeIdeas = [];
+    $scope.ratings = [];
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
       $scope.awesomeIdeas = awesomeIdeas;
       socket.syncUpdates('idea', $scope.awesomeIdeas);
+    });
+
+    $http.get('/api/ratings').success(function(ratings) {
+      $scope.ratings = ratings;
+      socket.syncUpdates('rating', $scope.ratings);
     });
 
     $scope.addIdea = function() {
@@ -24,6 +30,7 @@ angular.module('teamtoolApp')
 
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('idea');
+      socket.unsyncUpdates('rating');
     });
 
     $scope.getStarAverage = function(idea) {
@@ -38,12 +45,19 @@ angular.module('teamtoolApp')
     };
 
     $scope.getVotes = function(idea) {
-      return 2;
+      var votes = 0;
+      var rats = $scope.ratings;
+      for (var i = 0; i < rats.length; i++){
+        if(rats[i].idea == idea._id){
+          votes++;
+        }
+      }
+      return votes;
     };
 
 
     $scope.addRating = function(idea) {
-      $http.post('/api/ratings/', { star_rating: idea.rating, idea: idea._id } );
+      $http.post('/api/ratings', { star_rating: idea.rating, idea: idea._id } );
     };
 
 
