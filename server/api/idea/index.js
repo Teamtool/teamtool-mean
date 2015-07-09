@@ -8,6 +8,7 @@ var router = express.Router();
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);
+router.get('/:id/ratings', controller.getRatings);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);

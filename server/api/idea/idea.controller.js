@@ -12,6 +12,7 @@
 
 var _ = require('lodash');
 var Idea = require('./idea.model');
+var Rating = require('../rating/rating.model');
 
 // Get list of ideas
 exports.index = function(req, res) {
@@ -30,6 +31,15 @@ exports.show = function(req, res) {
   });
 };
 
+// Get all ratings for a given idea from the DB.
+exports.getRatings = function(req, res) {
+  Rating.find(function (err, ratings) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, ratings);
+  });
+};
+
+
 // Creates a new idea in the DB.
 exports.create = function(req, res) {
   Idea.create(req.body, function(err, idea) {
@@ -37,6 +47,7 @@ exports.create = function(req, res) {
     return res.json(201, idea);
   });
 };
+
 
 // Updates an existing idea in the DB.
 exports.update = function(req, res) {
