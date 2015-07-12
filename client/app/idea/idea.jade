@@ -29,7 +29,7 @@ div(ng-include='"components/navbar/navbar.html"')
                 rating(ng-show="!hoverEdit", ng-model="getStarAverage(idea)", max="5", readonly="true")
                 i ( Votes: {{getVotes(idea)}} )
 
-            button.close(type='button', ng-click='deleteIdea(idea)') ×
+            //button.close(type='button', ng-click='deleteIdea(idea)') ×
             .row
               .col-md-10
                 i.idea-description {{idea.description}}
