@@ -24,12 +24,10 @@ div(ng-include='"components/navbar/navbar.html"')
                 b.idea-name {{idea.name}}
               .col-md-2.idea-name
                 | {{idea.author.username}}
-              .col-md-3(align="right")
-                rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
-                br
-                rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
-                br
-                i Votes: {{getVotes(idea)}}
+              .col-md-3(align="right", ng-mouseover="hoverIn()", ng-mouseleave="hoverOut()")
+                rating(ng-show="hoverEdit", ng-model="idea.rating", max="5", on-leave='addRating(idea)')
+                rating(ng-show="!hoverEdit", ng-model="getStarAverage(idea)", max="5", readonly="true")
+                i ( Votes: {{getVotes(idea)}} )
 
             button.close(type='button', ng-click='deleteIdea(idea)') ×
             .row

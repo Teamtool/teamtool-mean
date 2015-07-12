@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('teamtoolApp')
-  .controller('IdeaCtrl', function ($scope, $http, socket, Auth) {
+  .controller('IdeaCtrl', function ($scope, $http, $filter,  socket, Auth) {
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
 
@@ -35,29 +35,36 @@ angular.module('teamtoolApp')
 
     $scope.getStarAverage = function(idea) {
       var sum = 0;
-      var MyData = [1, 2 ,3, 4, 5, 6];
-      for (var i = 0; i < MyData.length; i++){
-        sum += parseInt(MyData[i], 10); //don't forget to add the base
+      var ideas_rating =  $filter('filter')($scope.ratings, {idea:idea._id});
+      for (var i = 0; i < ideas_rating.length; i++){
+        sum += parseInt(ideas_rating[i].star_rating, 10); //don't forget to add the base
       }
-      var avg = sum / MyData.length;
+      var avg = sum / ideas_rating.length;
       return avg;
 
     };
 
     $scope.getVotes = function(idea) {
-      var votes = 0;
-      var rats = $scope.ratings;
-      for (var i = 0; i < rats.length; i++){
-        if(rats[i].idea == idea._id){
-          votes++;
-        }
-      }
-      return votes;
+      var no_ratings =  $filter('filter')($scope.ratings, {idea:idea._id});
+      return no_ratings.length;
     };
 
 
     $scope.addRating = function(idea) {
-      $http.post('/api/ratings', { star_rating: idea.rating, idea: idea._id } );
+      var my_rating =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
+      if (my_rating.length == 0 && idea.rating > 0 )
+      {
+        $http.post('/api/ratings', { star_rating: idea.rating, idea: idea._id, author: Auth.getCurrentUser()._id } );
+      }
+
+    };
+
+    $scope.hoverIn = function(){
+      this.hoverEdit = true;
+    };
+
+    $scope.hoverOut = function(){
+      this.hoverEdit = false;
     };
 
 
