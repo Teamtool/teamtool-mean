@@ -3,29 +3,31 @@ Feature: Ideas
   I should be able to add new ideas
   and see them in the ideas Backlog list on the same page
 
-  Scenario: Snoopy add a new idea
-    Given I am logged in as "snoopy" as admin
+  #TEAM-194: As user I want to see the Mean value of all stars
+  Scenario: Resl add a new idea
+    Given I am logged in as "resa" as user
     And I go to the ideas backlog
-    When I enter "Bigger Food Bowl" as idea's title
-    And I enter "I need a bigger food bowl because I earned it" as idea's description
+    When I enter "I want a green torte" as idea's title
+    And I enter "On my wedding I want a green torte because green is my favorite colour" as idea's description
     And I click on the button "Create Idea"
-    Then the ideas backlog should contain the idea "Bigger Food Bowl" with the description  "I need a bigger food bowl because I earned it"
+    Then the ideas backlog should contain the idea "I want a green torte" with the description  "On my wedding I want a green torte because green is my favorite colour"
 
-  Scenario: Charlie rates Snoopy's idea
-    Given I am logged in as "charlie" as user
+  Scenario: markdich rates Resl's idea
+    Given I am logged in as "markdich" as user
     And I go to the ideas backlog
-    When I rate the idea "Bigger Food Bowl" with 1 stars
-    Then I see the mean value of 1 stars for the idea "Bigger Food Bowl"
+    When I rate the idea "I want a green torte" with 1 stars
+    Then I see the mean value of 1 stars for the idea "I want a green torte"
 
-  Scenario: Linus rates Snoopy's idea
-    Given I am logged in as "linus" as user
-    And I go to the ideas backlog
-    When I rate the idea "Bigger Food Bowl" with 3 stars
-    Then I see the mean value of 2 stars for the idea "Bigger Food Bowl"
 
-  Scenario: Woodstock rates Snoopy's idea
-    Given I am logged in as "woodstock" as admin
+  Scenario: klausimausi rates Resl's idea
+    Given I am logged in as "klausimausi" as user
     And I go to the ideas backlog
-    When I rate the idea "Bigger Food Bowl" with 5 stars
-    Then I see the mean value of 3 stars for the idea "Bigger Food Bowl"
+    When I rate the idea "I want a green torte" with 3 stars
+    Then I see the mean value of 2 stars for the idea "I want a green torte"
+
+  Scenario: paleo rates Resl's idea
+    Given I am logged in as "paleo" as admin
+    And I go to the ideas backlog
+    When I rate the idea "I want a green torte" with 5 stars
+    Then I see the mean value of 3 stars for the idea "I want a green torte"
 

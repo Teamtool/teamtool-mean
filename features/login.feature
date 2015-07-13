@@ -11,9 +11,9 @@ Feature: Login
     And the menu should contain "Login"
     And the menu should contain "Sign up"
 
-  Scenario: Charlie logs in
+  Scenario: Resl logs in
     Given I go on "login"
-    When I enter "charlie@user.com" in "user.email"
+    When I enter "resl@user.com" in "user.email"
     And I enter "user" in "user.password"
     And I submit the login form
     Then the menu should contain "Home"
@@ -25,9 +25,9 @@ Feature: Login
     Then I see the help message "Please enter your email"
     And I see the help message "Please enter your password"
 
-  Scenario: Charlie write the wrong password
+  Scenario: Resl write the wrong password
     Given I go on "login"
-    When I enter "charlie@user.com" in "user.email"
+    When I enter "resl@user.com" in "user.email"
     And I enter "not-valid" in "user.password"
     And I submit the login form
     Then I see the help message "This password is not correct."
