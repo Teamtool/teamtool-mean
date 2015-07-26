@@ -27,7 +27,9 @@ div(ng-include='"components/navbar/navbar.html"')
               .col-md-3(align="right", ng-mouseover="hoverIn()", ng-mouseleave="hoverOut()")
                 rating(ng-show="hoverEdit", ng-model="idea.rating", max="5", on-leave='addRating(idea)')
                 rating(ng-show="!hoverEdit", ng-model="getStarAverage(idea)", max="5", readonly="true")
-                i ( Votes: {{getVotes(idea)}} )
+                i  {{getVotes(idea)}}
+                br
+                | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
 
             //button.close(type='button', ng-click='deleteIdea(idea)') ×
             .row

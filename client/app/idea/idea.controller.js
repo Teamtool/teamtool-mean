@@ -39,9 +39,21 @@ angular.module('teamtoolApp')
       for (var i = 0; i < ideas_rating.length; i++){
         sum += parseInt(ideas_rating[i].star_rating, 10); //don't forget to add the base
       }
-      var avg = sum / ideas_rating.length;
-      return avg;
 
+      if (ideas_rating.length > 0)
+        return (sum / ideas_rating.length).toFixed(1);
+      else
+        return 0;
+
+    };
+
+    $scope.getStarSum = function(idea) {
+      var sum = 0;
+      var ideas_rating =  $filter('filter')($scope.ratings, {idea:idea._id});
+      for (var i = 0; i < ideas_rating.length; i++){
+        sum += parseInt(ideas_rating[i].star_rating, 10); //don't forget to add the base
+      }
+      return sum;
     };
 
     $scope.getVotes = function(idea) {

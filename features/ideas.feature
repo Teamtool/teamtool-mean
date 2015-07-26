@@ -4,6 +4,7 @@ Feature: Ideas
   and see them in the ideas Backlog list on the same page
 
   #TEAM-194: As user I want to see the Mean value of all stars
+  #TEAM-202: Detailed Statistics for the idea votes
   Scenario: Resl add a new idea
     Given I am logged in as "resa" as user
     And I go to the ideas backlog
@@ -30,4 +31,6 @@ Feature: Ideas
     And I go to the ideas backlog
     When I rate the idea "I want a green torte" with 5 stars
     Then I see the mean value of 3 stars for the idea "I want a green torte"
+
+
 
