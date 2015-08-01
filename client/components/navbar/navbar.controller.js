@@ -3,8 +3,8 @@
 angular.module('teamtoolApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
-      'title': 'Home',
-      'link': '/'
+      'title': 'Workspace',
+      'link': '/idea'
     }];
 
     $scope.isCollapsed = true;
