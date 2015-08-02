@@ -16,7 +16,7 @@ div(ng-include='"components/navbar/navbar.html"')
           button.btn.btn-primary(type='submit', ng-click='addIdea()') Create Idea
 
       h1.page-header Ideas Backlog
-      ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | orderBy:'-_id'")
+      ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | orderBy:getStarAverage:true")
         li.idea
           a
             .row
