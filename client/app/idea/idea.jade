@@ -31,7 +31,7 @@ div(ng-include='"components/navbar/navbar.html"')
                 br
                 | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
 
-            //button.close(type='button', ng-click='deleteIdea(idea)') ×
+            button.close(ng-show='isAdmin()', type='button', ng-click='deleteIdea(idea)') ×
             .row
               .col-md-10
                 i.idea-description {{idea.description}}

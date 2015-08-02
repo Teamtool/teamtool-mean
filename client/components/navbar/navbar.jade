@@ -6,7 +6,7 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/') teamtool
+      a.navbar-brand(href='/') Teamtool
 
     div#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
       ul.nav.navbar-nav
@@ -23,13 +23,15 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
         li(ng-show='isLoggedIn()')
           p.navbar-text Hello {{ getCurrentUser().username }}
 
-        li.dropdown
+        li.dropdown(ng-show='isLoggedIn()')
           a.dropdown-toggle(href='#', data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false")
             span.glyphicon.glyphicon-cog
             span.caret
+
           ul.dropdown-menu
             li(ng-show='isLoggedIn()', ng-class='{active: isActive("/settings")}')
               a(href='/settings') Change Password
+
             li(ng-show='isAdmin()', ng-class='{active: isActive("/admin")}')
               a(href='/admin') Admin
 

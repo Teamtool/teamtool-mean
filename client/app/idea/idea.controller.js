@@ -5,6 +5,8 @@ angular.module('teamtoolApp')
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
 
+    $scope.isAdmin = Auth.isAdmin;
+
     $http.get('/api/ideas').success(function(awesomeIdeas) {
       $scope.awesomeIdeas = awesomeIdeas;
       socket.syncUpdates('idea', $scope.awesomeIdeas);
