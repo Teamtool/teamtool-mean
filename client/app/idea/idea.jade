@@ -25,10 +25,12 @@ div(ng-include='"components/navbar/navbar.html"')
               .col-md-2.idea-name
                 | {{idea.author.username}}
               .col-md-3(align="right", ng-mouseover="hoverIn()", ng-mouseleave="hoverOut()")
-                rating(ng-show="hoverEdit", ng-model="idea.rating", max="5", on-leave='addRating(idea)')
-                rating(ng-show="!hoverEdit", ng-model="getStarAverage(idea)", max="5", readonly="true")
-                i  {{getVotes(idea)}}
-                br
+                .review(ng-show='allowedToRate(idea)')
+                  rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)', state-on="'glyphicon-ok-sign'" state-off="'glyphicon-ok-circle'")
+                  i  {{getVotes(idea)}}
+                .reviewed(ng-show='!allowedToRate(idea)')
+                  rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
+                  i  {{getVotes(idea)}}
                 | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
 
             button.close(ng-show='isAdmin()', type='button', ng-click='deleteIdea(idea)') ×

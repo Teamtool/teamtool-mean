@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('teamtoolApp')
-  .controller('IdeaCtrl', function ($scope, $http, $filter,  socket, Auth) {
+  .controller('IdeaCtrl', function ($scope, $http, $filter,  socket, Auth, Modal) {
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
 
@@ -63,6 +63,18 @@ angular.module('teamtoolApp')
       return no_ratings.length;
     };
 
+    $scope.allowedToRate = function(idea) {
+      var ratings =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
+      if (ratings.length == 0 && idea.author._id != Auth.getCurrentUser()._id)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    };
+
 
     $scope.addRating = function(idea) {
       var my_rating =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
@@ -72,14 +84,5 @@ angular.module('teamtoolApp')
       }
 
     };
-
-    $scope.hoverIn = function(){
-      this.hoverEdit = true;
-    };
-
-    $scope.hoverOut = function(){
-      this.hoverEdit = false;
-    };
-
 
   });
