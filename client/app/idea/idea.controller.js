@@ -26,9 +26,9 @@ angular.module('teamtoolApp')
       $scope.idea.description = '';
     };
 
-    $scope.deleteIdea = function(idea) {
+    $scope.deleteIdea = Modal.confirm.delete(function(idea) {
       $http.delete('/api/ideas/' + idea._id);
-    };
+    });
 
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('idea');
