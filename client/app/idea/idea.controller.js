@@ -64,8 +64,8 @@ angular.module('teamtoolApp')
     };
 
     $scope.allowedToRate = function(idea) {
-      var ratings =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
-      if (ratings.length == 0 && idea.author._id != Auth.getCurrentUser()._id)
+      var my_ratings =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
+      if (my_ratings.length == 0 && idea.author._id != Auth.getCurrentUser()._id)
       {
         return true;
       }

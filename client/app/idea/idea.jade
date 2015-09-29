@@ -17,7 +17,7 @@ div(ng-include='"components/navbar/navbar.html"')
 
       h1.page-header Ideas Backlog
       ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | orderBy:getStarAverage:true")
-        li.idea
+        li.idea(ng-class="{rate: allowedToRate(idea)}")
           a
             .row
               .col-md-7
@@ -25,8 +25,8 @@ div(ng-include='"components/navbar/navbar.html"')
               .col-md-2.idea-name
                 | {{idea.author.username}}
               .col-md-3(align="right", ng-mouseover="hoverIn()", ng-mouseleave="hoverOut()")
-                .review(ng-show='allowedToRate(idea)')
-                  rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)', state-on="'glyphicon-ok-sign'" state-off="'glyphicon-ok-circle'")
+                .to-review(ng-show='allowedToRate(idea)')
+                  rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
                   i  {{getVotes(idea)}}
                 .reviewed(ng-show='!allowedToRate(idea)')
                   rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
