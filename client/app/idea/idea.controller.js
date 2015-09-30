@@ -75,6 +75,17 @@ angular.module('teamtoolApp')
       }
     };
 
+    $scope.allowedToDelete = function(idea) {
+      if (Auth.getCurrentUser().role === 'admin' || idea.author._id == Auth.getCurrentUser()._id)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    };
+
 
     $scope.addRating = function(idea) {
       var my_rating =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
