@@ -16,27 +16,36 @@ div(ng-include='"components/navbar/navbar.html"')
           button.btn.btn-primary(type='submit', ng-click='addIdea()') Create Idea
 
       h1.page-header Ideas Backlog
-      ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | orderBy:getStarAverage:true")
-        li.idea(ng-class="{rate: allowedToRate(idea)}")
-          a
-            .row
-              .col-md-7
-                b.idea-name {{idea.name}}
-              .col-md-2.idea-name
-                | {{idea.author.username}}
-              .col-md-3(align="right", ng-mouseover="hoverIn()", ng-mouseleave="hoverOut()")
-                .to-review(ng-show='allowedToRate(idea)')
-                  rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
-                  i  {{getVotes(idea)}}
-                .reviewed(ng-show='!allowedToRate(idea)')
-                  rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
-                  i  {{getVotes(idea)}}
-                | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
+      tabset(justified="true")
+        tab(ng-repeat="state in states" heading="{{state.title}}")
 
-            button.close(ng-show='allowedToDelete(idea)', type='button', ng-click='deleteIdea(idea.name, idea)') ×
-            .row
-              .col-md-10
-                i.idea-description {{idea.description}}
+          ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | filter: { state: state.value } | orderBy:'-date'")
+            li.idea(ng-class="{rate: allowedToRate(idea)}")
+              a
+                .row
+                  .col-md-7
+                    b.idea-name {{idea.name}}
+                  .col-md-2.idea-name
+                    | {{idea.author.username}}
+                  .col-md-3(align="right", ng-mouseover="hoverIn()", ng-mouseleave="hoverOut()")
+                    .to-review(ng-show='allowedToRate(idea)')
+                      rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
+                      i  {{getVotes(idea)}}
+                    .reviewed(ng-show='!allowedToRate(idea)')
+                      rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
+                      i  {{getVotes(idea)}}
+                    | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
+
+                button.close(ng-show='allowedToDelete(idea)', type='button', ng-click='deleteIdea(idea.name, idea)')
+                  span(class="glyphicon glyphicon-trash" aria-hidden="true")
+                button.close(type='button', ng-click='updateState("rejected", idea)')
+                  span(class="glyphicon glyphicon-remove" aria-hidden="true")
+                button.close(type='button', ng-click='updateState("accepted", idea)')
+                  span(class="glyphicon glyphicon-ok" aria-hidden="true")
+
+                .row
+                  .col-md-10
+                    i.idea-description {{idea.description}}
 
 
     .col-lg-2

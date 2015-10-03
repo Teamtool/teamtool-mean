@@ -5,6 +5,14 @@ angular.module('teamtoolApp')
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
 
+    $scope.states = [
+      { value:'open', title:'Open' },
+      { value:'accepted', title:'Accepted' },
+      { value:'in-progress', title:'In Progress' },
+      { value:'implemented', title:'Implemented' },
+      { value:'rejected', title:'Rejected' }
+    ];
+
     $scope.isAdmin = Auth.isAdmin;
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
@@ -21,7 +29,7 @@ angular.module('teamtoolApp')
       if($scope.idea.title === '') {
         return;
       }
-      $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, author: Auth.getCurrentUser()._id});
+      $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, author: Auth.getCurrentUser()._id, state: "open"});
       $scope.idea.title = '';
       $scope.idea.description = '';
     };
@@ -77,15 +85,15 @@ angular.module('teamtoolApp')
 
     $scope.allowedToDelete = function(idea) {
       if (Auth.getCurrentUser().role === 'admin' || idea.author._id == Auth.getCurrentUser()._id)
-      {
         return true;
-      }
       else
-      {
         return false;
-      }
     };
 
+    $scope.updateState = function(state, idea) {
+      $http.put('/api/ideas/'+idea._id, { state: state} );
+
+    };
 
     $scope.addRating = function(idea) {
       var my_rating =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
