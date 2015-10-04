@@ -38,10 +38,14 @@ div(ng-include='"components/navbar/navbar.html"')
 
                 button.close(ng-show='allowedToDelete(idea)', type='button', ng-click='deleteIdea(idea.name, idea)')
                   span(class="glyphicon glyphicon-trash" aria-hidden="true")
-                button.close(type='button', ng-click='updateState("rejected", idea)')
+                button.close(ng-show='idea.state!="implemented" && idea.state!="rejected"', type='button', ng-click='updateState("rejected", idea)')
                   span(class="glyphicon glyphicon-remove" aria-hidden="true")
-                button.close(type='button', ng-click='updateState("accepted", idea)')
+                button.close(ng-show='idea.state=="open"', type='button', ng-click='updateState("accepted", idea)')
                   span(class="glyphicon glyphicon-ok" aria-hidden="true")
+                button.close(ng-show='idea.state=="accepted"', type='button', ng-click='updateState("in-progress", idea)')
+                  span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
+                button.close(ng-show='idea.state=="in-progress"', type='button', ng-click='updateState("implemented", idea)')
+                  span(class="glyphicon glyphicon-check" aria-hidden="true")
 
                 .row
                   .col-md-10
