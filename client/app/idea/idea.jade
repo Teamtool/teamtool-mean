@@ -34,7 +34,8 @@ div(ng-include='"components/navbar/navbar.html"')
                     .reviewed(ng-show='!allowedToRate(idea)')
                       rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
                       i  {{getVotes(idea)}}
-                    | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
+                      br
+                      | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
 
                 button.close(ng-show='allowedToDelete(idea)', type='button', ng-click='deleteIdea(idea.name, idea)')
                   span(class="glyphicon glyphicon-trash" aria-hidden="true")

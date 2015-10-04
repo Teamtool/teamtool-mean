@@ -61,6 +61,11 @@ User.find({}).remove(function() {
     username: 'Lucy',
     email: 'lucy@user.com',
     password: 'user'
+  } , {
+    provider: 'local',
+    username: 'user',
+    email: 'user@user.com',
+    password: 'user'
   }, function() {
       console.log('finished populating users');
     }
