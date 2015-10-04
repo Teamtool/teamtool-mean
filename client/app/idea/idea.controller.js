@@ -43,20 +43,6 @@ angular.module('teamtoolApp')
       socket.unsyncUpdates('rating');
     });
 
-    $scope.getStarAverage = function(idea) {
-      var sum = 0;
-      var ideas_rating =  $filter('filter')($scope.ratings, {idea:idea._id});
-      for (var i = 0; i < ideas_rating.length; i++){
-        sum += parseInt(ideas_rating[i].star_rating, 10); //don't forget to add the base
-      }
-
-      if (ideas_rating.length > 0)
-        return (sum / ideas_rating.length).toFixed(1);
-      else
-        return 0;
-
-    };
-
     $scope.getStarSum = function(idea) {
       var sum = 0;
       var ideas_rating =  $filter('filter')($scope.ratings, {idea:idea._id});
@@ -66,6 +52,16 @@ angular.module('teamtoolApp')
       return sum;
     };
 
+    $scope.getStarAverage = function(idea) {
+      var sum = $scope.getStarSum(idea);
+
+      var ideas_rating =  $filter('filter')($scope.ratings, {idea:idea._id});
+      if (ideas_rating.length > 0)
+        return (sum / ideas_rating.length).toFixed(1);
+      else
+        return 0;
+    };
+
     $scope.getVotes = function(idea) {
       var no_ratings =  $filter('filter')($scope.ratings, {idea:idea._id});
       return no_ratings.length;
@@ -73,7 +69,7 @@ angular.module('teamtoolApp')
 
     $scope.allowedToRate = function(idea) {
       var my_ratings =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
-      if (my_ratings.length == 0 && idea.author._id != Auth.getCurrentUser()._id)
+      if (my_ratings.length == 0 && idea.author._id != Auth.getCurrentUser()._id && idea.state == "open")
       {
         return true;
       }
