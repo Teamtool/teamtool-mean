@@ -27,7 +27,7 @@ div(ng-include='"components/navbar/navbar.html"')
                     b.idea-name {{idea.name}}
                   .col-md-2.idea-name
                     | {{idea.author.username}}
-                  .col-md-3(align="right", ng-mouseover="hoverIn()", ng-mouseleave="hoverOut()")
+                  .col-md-3(align="right")
                     .to-review(ng-show='allowedToRate(idea)')
                       rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
                       i  {{getVotes(idea)}}
