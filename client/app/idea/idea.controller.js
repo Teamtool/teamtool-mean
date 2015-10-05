@@ -25,13 +25,17 @@ angular.module('teamtoolApp')
       socket.syncUpdates('rating', $scope.ratings);
     });
 
-    $scope.addIdea = function() {
-      if($scope.idea.title === '') {
-        return;
+    $scope.addIdea = function(form) {
+      $scope.submitted = true;
+
+      if(form.$valid) {
+        $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, author: Auth.getCurrentUser()._id, state: "open", category: $scope.idea.category });
+        $scope.idea.title = '';
+        $scope.idea.description = '';
+        $scope.idea.category = '';
+        $scope.submitted = false;
       }
-      $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, author: Auth.getCurrentUser()._id, state: "open"});
-      $scope.idea.title = '';
-      $scope.idea.description = '';
+
     };
 
     $scope.deleteIdea = Modal.confirm.delete(function(idea) {

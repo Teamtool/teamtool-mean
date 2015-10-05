@@ -9,6 +9,7 @@ var states = 'open accepted in-progress implemented rejected deleted'.split(' ')
 var IdeaSchema = new Schema({
   name: String,
   description: String,
+  category: String,
   author: {type : Schema.ObjectId, ref : 'User'},
   ratings: [RatingSchema],
   date: { type: Date, default: Date.now },

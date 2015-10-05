@@ -4,30 +4,41 @@ div(ng-include='"components/navbar/navbar.html"')
   .row
     .col-lg-2
     .col-lg-8
-      form.thing-form
+      form.thing-form(name='form', ng-submit='addIdea(form)', novalidate='')
         label Share your ideas in realtime with your team
-        .form-group
-          input.form-control(type='text', placeholder='Add the title here.', ng-model='idea.title', required='')
-        .form-group
-          textarea.form-control(type='textarea', placeholder='Add the description here.', ng-model='idea.description', required='')
+        .form-group(ng-class='{ "has-success": form.title.$valid && submitted, "has-error": form.title.$invalid && submitted }')
+          input.form-control(type='text', name='title', placeholder='Add the title here.', ng-model='idea.title', required)
+          p.help-block(ng-show='form.title.$error.required && submitted')
+            | What's the title?
 
-          //span.input-group-btn
+        .form-group(ng-class='{ "has-success": form.description.$valid && submitted, "has-error": form.description.$invalid && submitted }')
+          textarea.form-control(type='textarea', name='description', placeholder='Add the description here.', ng-model='idea.description', required)
+          p.help-block(ng-show='form.description.$error.required && submitted')
+            | What's the description?
+
+        .form-group(ng-class='{ "has-success": form.category.$valid && submitted, "has-error": form.category.$invalid && submitted }')
+          input.form-control(type='text', style="width: 300px;", name='category', placeholder='Add the category here.', ng-model='idea.category', required)
+          p.help-block(ng-show='form.category.$error.required && submitted')
+            | What's the category?
+
         div
-          button.btn.btn-primary(type='submit', ng-click='addIdea()') Create Idea
+          button.btn.btn-primary(type='submit') Create Idea
 
       h1.page-header Ideas Backlog
       tabset(justified="true")
         tab(ng-repeat="state in states" heading="{{state.title}}")
 
           ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | filter: { state: state.value } | orderBy:'-date'")
-            li.idea(ng-class="{rate: allowedToRate(idea)}")
+            li(ng-class="{'to-be-rated': allowedToRate(idea)}")
               a
                 .row
-                  .col-md-7
-                    b.idea-name {{idea.name}}
-                  .col-md-2.idea-name
+                  .col-md-6
+                    b {{idea.name}}
+                  .col-md-2
                     | {{idea.author.username}}
-                  .col-md-3(align="right")
+                  .col-md-2
+                    | {{idea.category}}
+                  .col-md-2(align="right")
                     .to-review(ng-show='allowedToRate(idea)')
                       rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
                       i  {{getVotes(idea)}}
