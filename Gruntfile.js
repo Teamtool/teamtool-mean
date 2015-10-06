@@ -26,6 +26,8 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    module: typeof grunt.option('module') === 'string' ? grunt.option('module') : '*',
+
     // Project settings
     pkg: grunt.file.readJSON('package.json'),
     yeoman: {
@@ -464,7 +466,8 @@ module.exports = function (grunt) {
       chrome: {
         options: {
           args: {
-            browser: 'chrome'
+            browser: 'chrome',
+            specs: ['features/<%= module %>.feature']
           }
         }
       }

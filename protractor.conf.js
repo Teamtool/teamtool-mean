@@ -19,7 +19,7 @@ exports.config = {
 
   // list of files / patterns to load in the browser
   specs: [
-    'features/*.feature'
+
   ],
 
   // Patterns to exclude.
