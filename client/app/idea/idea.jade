@@ -17,8 +17,8 @@ div(ng-include='"components/navbar/navbar.html"')
             | What's the description?
 
         .form-group(ng-class='{ "has-success": form.category.$valid && submitted, "has-error": form.category.$invalid && submitted }')
-          select.combobox.form-control(type='text', style="width: 300px;", name='category', placeholder='Add the category here.', ng-model='idea.category', required)
-            option
+          select.form-control(style="width: 300px;", name='category', ng-model='idea.category', required)
+            option(value="" disabled selected) Select the category
             option(ng-repeat="category in categories") {{category.value}}
           p.help-block(ng-show='form.category.$error.required && submitted')
             | What's the category?
