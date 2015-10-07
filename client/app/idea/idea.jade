@@ -17,16 +17,25 @@ div(ng-include='"components/navbar/navbar.html"')
             | What's the description?
 
         .form-group(ng-class='{ "has-success": form.category.$valid && submitted, "has-error": form.category.$invalid && submitted }')
-          input.form-control(type='text', style="width: 300px;", name='category', placeholder='Add the category here.', ng-model='idea.category', required)
+          select.combobox.form-control(type='text', style="width: 300px;", name='category', placeholder='Add the category here.', ng-model='idea.category', required)
+            option
+            option(ng-repeat="category in categories") {{category.value}}
           p.help-block(ng-show='form.category.$error.required && submitted')
             | What's the category?
 
         div
           button.btn.btn-primary(type='submit') Create Idea
 
-      h1.page-header Ideas Backlog
+      h1.align-center Ideas Backlog
+      br
       tabset(justified="true")
-        tab(ng-repeat="state in states" heading="{{state.title}}")
+        tab(ng-repeat="state in states" heading="{{state.value}}")
+          br
+          div.nav.nav-stacked(ng-show="0 == (awesomeIdeas | filter: { state: state.value }).length")
+            li
+              a
+                .row.align-center
+                  b There isn't any idea {{state.value.toLowerCase()}}.
 
           ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | filter: { state: state.value } | orderBy:'-date'")
             li(ng-class="{'to-be-rated': allowedToRate(idea)}")
@@ -37,7 +46,7 @@ div(ng-include='"components/navbar/navbar.html"')
                   .col-md-2
                     | {{idea.author.username}}
                   .col-md-2
-                    | {{idea.category}}
+                    button.btn.btn-primary.btn-xs(type="button" disabled="disabled" ng-style="{'background-color':getColor(idea)}") {{idea.category}}
                   .col-md-2(align="right")
                     .to-review(ng-show='allowedToRate(idea)')
                       rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)')
@@ -50,13 +59,13 @@ div(ng-include='"components/navbar/navbar.html"')
 
                 button.close(ng-show='allowedToDelete(idea)', type='button', ng-click='deleteIdea(idea.name, idea)')
                   span(class="glyphicon glyphicon-trash" aria-hidden="true")
-                button.close(ng-show='idea.state!="implemented" && idea.state!="rejected"', type='button', ng-click='updateState("rejected", idea)')
+                button.close(ng-show='idea.state!=states[3].value && idea.state!=states[4].value', type='button', ng-click='updateState(states[4].value, idea)')
                   span(class="glyphicon glyphicon-remove" aria-hidden="true")
-                button.close(ng-show='idea.state=="open"', type='button', ng-click='updateState("accepted", idea)')
+                button.close(ng-show='idea.state==states[0].value', type='button', ng-click='updateState(states[1].value, idea)')
                   span(class="glyphicon glyphicon-ok" aria-hidden="true")
-                button.close(ng-show='idea.state=="accepted"', type='button', ng-click='updateState("in-progress", idea)')
+                button.close(ng-show='idea.state==states[1].value', type='button', ng-click='updateState(states[2].value, idea)')
                   span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
-                button.close(ng-show='idea.state=="in-progress"', type='button', ng-click='updateState("implemented", idea)')
+                button.close(ng-show='idea.state==states[2].value', type='button', ng-click='updateState(states[3].value, idea)')
                   span(class="glyphicon glyphicon-check" aria-hidden="true")
 
                 .row

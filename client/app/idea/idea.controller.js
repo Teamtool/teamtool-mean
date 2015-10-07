@@ -6,11 +6,19 @@ angular.module('teamtoolApp')
     $scope.ratings = [];
 
     $scope.states = [
-      { value:'open', title:'Open' },
-      { value:'accepted', title:'Accepted' },
-      { value:'in-progress', title:'In Progress' },
-      { value:'implemented', title:'Implemented' },
-      { value:'rejected', title:'Rejected' }
+      { value:'Open' },
+      { value:'Accepted' },
+      { value:'In Progress' },
+      { value:'Implemented' },
+      { value:'Rejected' }
+    ];
+
+    $scope.categories = [
+      { value:'Ideas Backlog', color:'dodgerblue' },
+      { value:'Training Catalog', color:'limegreen' },
+      { value:'User Settings', color:'orange' },
+      { value:'Login/Logout', color:'orchid' },
+      { value:'Other', color:'darkred' }
     ];
 
     $scope.isAdmin = Auth.isAdmin;
@@ -29,7 +37,7 @@ angular.module('teamtoolApp')
       $scope.submitted = true;
 
       if(form.$valid) {
-        $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, author: Auth.getCurrentUser()._id, state: "open", category: $scope.idea.category });
+        $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, author: Auth.getCurrentUser()._id, state: $scope.states[0].value, category: $scope.idea.category });
         $scope.idea.title = '';
         $scope.idea.description = '';
         $scope.idea.category = '';
@@ -73,14 +81,10 @@ angular.module('teamtoolApp')
 
     $scope.allowedToRate = function(idea) {
       var my_ratings =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
-      if (my_ratings.length == 0 && idea.author._id != Auth.getCurrentUser()._id && idea.state == "open")
-      {
+      if (my_ratings.length == 0 && idea.author._id != Auth.getCurrentUser()._id && idea.state == $scope.states[0].value)
         return true;
-      }
       else
-      {
         return false;
-      }
     };
 
     $scope.allowedToDelete = function(idea) {
@@ -92,6 +96,15 @@ angular.module('teamtoolApp')
 
     $scope.updateState = function(state, idea) {
       $http.put('/api/ideas/'+idea._id, { state: state} );
+
+    };
+
+    $scope.getColor = function(idea) {
+      for (var i = 0; i < $scope.categories.length; i++) {
+        if(idea.category == $scope.categories[i].value) {
+          return $scope.categories[i].color;
+        }
+      }
 
     };
 
