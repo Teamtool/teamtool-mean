@@ -59,13 +59,13 @@ div(ng-include='"components/navbar/navbar.html"')
 
                 button.close(ng-show='allowedToDelete(idea)', type='button', ng-click='deleteIdea(idea.name, idea)')
                   span(class="glyphicon glyphicon-trash" aria-hidden="true")
-                button.close(ng-show='idea.state!=states[3].value && idea.state!=states[4].value', type='button', ng-click='updateState(states[4].value, idea)')
+                button.close(ng-show='idea.state!=states[3].value && idea.state!=states[4].value', type='button', ng-click='openUpdateStateModal(states[4].value, idea)')
                   span(class="glyphicon glyphicon-remove" aria-hidden="true")
-                button.close(ng-show='idea.state==states[0].value', type='button', ng-click='updateState(states[1].value, idea)')
+                button.close(ng-show='idea.state==states[0].value', type='button', ng-click='openUpdateStateModal(states[1].value, idea)')
                   span(class="glyphicon glyphicon-ok" aria-hidden="true")
-                button.close(ng-show='idea.state==states[1].value', type='button', ng-click='updateState(states[2].value, idea)')
+                button.close(ng-show='idea.state==states[1].value', type='button', ng-click='openUpdateStateModal(states[2].value, idea)')
                   span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
-                button.close(ng-show='idea.state==states[2].value', type='button', ng-click='updateState(states[3].value, idea)')
+                button.close(ng-show='idea.state==states[2].value', type='button', ng-click='openUpdateStateModal(states[3].value, idea)')
                   span(class="glyphicon glyphicon-check" aria-hidden="true")
 
                 .row
@@ -82,3 +82,33 @@ footer.footer
       a(href='https://github.com/Teamtool/teamtool-mean.git') Github
       = ' | '
       a(href='https://github.com/Teamtool/teamtool-mean/issues') Issues
+
+
+script(type="text/ng-template" id="updateStateModal")
+  div.modal-header
+    h3.modal-title Change the status of this idea to {{nextState.toLowerCase()}}?
+
+  div.modal-body
+    a
+      .row
+        .col-md-6
+          b {{idea.name}}
+        .col-md-2
+          | {{idea.author.username}}
+        .col-md-2
+          button.btn.btn-primary.btn-xs(type="button" disabled="disabled" ng-style="{'background-color':getColor(idea)}") {{idea.category}}
+        .col-md-2(align="right")
+          .to-review(ng-show='allowedToRate(idea)')
+            rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)' )
+            i  {{getVotes(idea)}}
+          .reviewed(ng-show='!allowedToRate(idea)')
+            rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
+            i  {{getVotes(idea)}}
+            br
+            | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
+      .row
+        .col-md-10
+          i.idea-description {{idea.description}}
+  div.modal-footer
+    button.btn.btn-primary(type="button" ng-click="modalInstance.close()") OK
+    button.btn.btn-warning(type="button" ng-click="modalInstance.dismiss()") Cancel

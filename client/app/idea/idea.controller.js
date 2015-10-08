@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('teamtoolApp')
-  .controller('IdeaCtrl', function ($scope, $http, $filter,  socket, Auth, Modal) {
+  .controller('IdeaCtrl', function ($scope, $http, $filter, $modal, socket, Auth, Modal) {
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
 
@@ -114,7 +114,21 @@ angular.module('teamtoolApp')
       {
         $http.post('/api/ratings', { star_rating: idea.rating, idea: idea._id, author: Auth.getCurrentUser()._id } );
       }
+    };
 
+    $scope.openUpdateStateModal = function (nextState, idea) {
+      $scope.nextState = nextState;
+      $scope.idea = idea;
+
+      $scope.modalInstance = $modal.open({
+        templateUrl: 'updateStateModal',
+        windowClass: 'updateStateModal',
+        scope: $scope
+      });
+
+      $scope.modalInstance.result.then(function () {
+        $scope.updateState(nextState, idea);
+      });
     };
 
   });
