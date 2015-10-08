@@ -119,6 +119,7 @@ angular.module('teamtoolApp')
     $scope.openUpdateStateModal = function (nextState, idea) {
       $scope.nextState = nextState;
       $scope.idea = idea;
+      $scope.modalWindowOpen = true;
 
       $scope.modalInstance = $modal.open({
         templateUrl: 'updateStateModal',
@@ -128,6 +129,10 @@ angular.module('teamtoolApp')
 
       $scope.modalInstance.result.then(function () {
         $scope.updateState(nextState, idea);
+      });
+
+      $scope.modalInstance.result.finally(function () {
+        $scope.modalWindowOpen = false;
       });
     };
 
