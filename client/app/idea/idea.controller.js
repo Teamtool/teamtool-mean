@@ -22,6 +22,11 @@ angular.module('teamtoolApp')
     ];
 
     $scope.isAdmin = Auth.isAdmin;
+    $scope.isCollapsed = true;
+
+    $scope.$watch('isCollapsed', function(){
+      $scope.ideaFormToggleText = $scope.isCollapsed ? 'Open' : 'Close';
+    });
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
       $scope.awesomeIdeas = awesomeIdeas;

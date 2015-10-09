@@ -4,27 +4,30 @@ div(ng-include='"components/navbar/navbar.html"')
   .row
     .col-lg-2
     .col-lg-8
-      form.thing-form(name='form', ng-submit='addIdea(form)', novalidate='')
-        label Share your ideas in realtime with your team
-        .form-group(ng-class='{ "has-success": form.title.$valid && submitted, "has-error": form.title.$invalid && submitted }')
-          input.form-control(type='text', name='title', placeholder='Add the title here.', ng-model='idea.title', required)
-          p.help-block(ng-show='form.title.$error.required && submitted')
-            | What's the title?
+      button.btn.btn-default(type="button", ng-class="{'btn-success': isCollapsed, 'btn-danger': !isCollapsed}", ng-click="isCollapsed = !isCollapsed") {{ideaFormToggleText}} Create Idea Form
+      div(uib-collapse="isCollapsed")
+        br
+        form(name='form', ng-submit='addIdea(form)', novalidate='')
+          label Share your ideas in realtime with your team
+          .form-group(ng-class='{ "has-success": form.title.$valid && submitted, "has-error": form.title.$invalid && submitted }')
+            input.form-control(type='text', name='title', placeholder='Add the title here.', ng-model='idea.title', required)
+            p.help-block(ng-show='form.title.$error.required && submitted')
+              | What's the title?
 
-        .form-group(ng-class='{ "has-success": form.description.$valid && submitted, "has-error": form.description.$invalid && submitted }')
-          textarea.form-control(type='textarea', name='description', placeholder='Add the description here.', ng-model='idea.description', required)
-          p.help-block(ng-show='form.description.$error.required && submitted')
-            | What's the description?
+          .form-group(ng-class='{ "has-success": form.description.$valid && submitted, "has-error": form.description.$invalid && submitted }')
+            textarea.form-control(type='textarea', name='description', placeholder='Add the description here.', ng-model='idea.description', required)
+            p.help-block(ng-show='form.description.$error.required && submitted')
+              | What's the description?
 
-        .form-group(ng-class='{ "has-success": form.category.$valid && submitted, "has-error": form.category.$invalid && submitted }')
-          select.form-control(style="width: 300px;", name='category', ng-model='idea.category', required)
-            option(value="" disabled selected) Select the category
-            option(ng-repeat="category in categories") {{category.value}}
-          p.help-block(ng-show='form.category.$error.required && submitted')
-            | What's the category?
+          .form-group(ng-class='{ "has-success": form.category.$valid && submitted, "has-error": form.category.$invalid && submitted }')
+            select.form-control(style="width: 300px;", name='category', ng-model='idea.category', required)
+              option(value="" disabled selected) Select the category
+              option(ng-repeat="category in categories") {{category.value}}
+            p.help-block(ng-show='form.category.$error.required && submitted')
+              | What's the category?
 
-        div
-          button.btn.btn-primary(type='submit') Create Idea
+          div
+            button.btn.btn-primary(type='submit') Create Idea
 
       h1.align-center Ideas Backlog
       br

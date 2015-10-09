@@ -7,7 +7,8 @@ angular.module('teamtoolApp', [
   'btford.socket-io',
   'ui.router',
   'ui.bootstrap',
-  'validation.match'
+  'validation.match',
+  'ngAnimate'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
