@@ -5,6 +5,7 @@ div(ng-include='"components/navbar/navbar.html"')
     .col-lg-2
     .col-lg-8
       button.btn.btn-default(type="button", ng-class="{'btn-success': isCollapsed, 'btn-danger': !isCollapsed}", ng-click="isCollapsed = !isCollapsed") {{ideaFormToggleText}} Create Idea Form
+        //span.glyphicon(ng-class="{'glyphicon-plus': isCollapsed, 'glyphicon-minus': !isCollapsed}")
       div(uib-collapse="isCollapsed")
         br
         form(name='form', ng-submit='addIdea(form)', novalidate='')
