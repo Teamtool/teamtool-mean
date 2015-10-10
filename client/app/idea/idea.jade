@@ -42,7 +42,7 @@ div(ng-include='"app/navbar/navbar.html"')
                   b There isn't any idea {{state.value.toLowerCase()}}.
 
           ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | filter: { state: state.value } | orderBy:'-date'")
-            li(ng-class="{'to-be-rated': allowedToRate(idea)}")
+            li(ng-class="{'to-be-rated': allowedToRate(idea) && isLoggedIn()}")
               a
                 include ideaHeaderRow.jade
 
