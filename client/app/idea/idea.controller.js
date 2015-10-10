@@ -13,13 +13,23 @@ angular.module('teamtoolApp')
       { value:'Rejected' }
     ];
 
-    $scope.categories = [
+/*    $scope.categoriesOld = [
       { value:'Ideas Backlog', color:'dodgerblue' },
       { value:'Training Catalog', color:'limegreen' },
       { value:'User Settings', color:'orange' },
       { value:'Login/Logout', color:'orchid' },
       { value:'Other', color:'darkred' }
-    ];
+    ];*/
+
+    $scope.categoryMap = {
+      'Ideas Backlog' : 'dodgerblue',
+      'Training Catalog' : 'limegreen',
+      'User Settings' : 'orange',
+      'Login/Logout' : 'orchid',
+      'Other' : 'darkred'
+    };
+
+    $scope.categories = Object.keys($scope.categoryMap);
 
     $scope.isCollapsed = true;
 
@@ -107,13 +117,16 @@ angular.module('teamtoolApp')
 
     };
 
-    $scope.getColor = function(idea) {
+/*    $scope.getColorOld = function(idea) {
       for (var i = 0; i < $scope.categories.length; i++) {
         if(idea.category == $scope.categories[i].value) {
           return $scope.categories[i].color;
         }
       }
+    };*/
 
+    $scope.getColor = function(idea) {
+      return $scope.categoryMap[idea.category];
     };
 
     $scope.addRating = function(idea) {

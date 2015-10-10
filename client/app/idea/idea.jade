@@ -23,7 +23,7 @@ div(ng-include='"app/navbar/navbar.html"')
           .form-group(ng-class='{ "has-success": form.category.$valid && submitted, "has-error": form.category.$invalid && submitted }')
             select.form-control(style="width: 300px;", name='category', ng-model='idea.category', required)
               option(value="" disabled selected) Select the category
-              option(ng-repeat="category in categories") {{category.value}}
+              option(ng-repeat="category in categories") {{category}}
             p.help-block(ng-show='form.category.$error.required && submitted')
               | What's the category?
 
