@@ -48,13 +48,13 @@ div(ng-include='"app/navbar/navbar.html"')
 
                 button.close(ng-show='allowedToDelete(idea)', type='button', ng-click='deleteIdea(idea.name, idea)')
                   span(class="glyphicon glyphicon-trash" aria-hidden="true")
-                button.close(ng-show='idea.state!=states[3].value && idea.state!=states[4].value', type='button', ng-click='openUpdateStateModal(states[4].value, idea)')
+                button.close(ng-show='idea.state!=states[3].value && idea.state!=states[4].value', type='button', ng-click='openUpdateStateModal(states[4].value, idea)', ng-disabled="!isLoggedIn")
                   span(class="glyphicon glyphicon-remove" aria-hidden="true")
-                button.close(ng-show='idea.state==states[0].value', type='button', ng-click='openUpdateStateModal(states[1].value, idea)')
+                button.close(ng-show='idea.state==states[0].value', type='button', ng-click='openUpdateStateModal(states[1].value, idea)', ng-disabled="!isLoggedIn")
                   span(class="glyphicon glyphicon-ok" aria-hidden="true")
-                button.close(ng-show='idea.state==states[1].value', type='button', ng-click='openUpdateStateModal(states[2].value, idea)')
+                button.close(ng-show='idea.state==states[1].value', type='button', ng-click='openUpdateStateModal(states[2].value, idea)', ng-disabled="!isLoggedIn")
                   span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
-                button.close(ng-show='idea.state==states[2].value', type='button', ng-click='openUpdateStateModal(states[3].value, idea)')
+                button.close(ng-show='idea.state==states[2].value', type='button', ng-click='openUpdateStateModal(states[3].value, idea)', ng-disabled="!isLoggedIn")
                   span(class="glyphicon glyphicon-check" aria-hidden="true")
 
                 include ideaBodyRow.jade
