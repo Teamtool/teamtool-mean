@@ -6,9 +6,15 @@ angular.module('teamtoolApp')
       {'title': 'Ideas', 'link': '/idea'}
     ];
 
-    $scope.isLoggedIn = Auth.isLoggedIn();
-    $scope.isAdmin = Auth.isAdmin();
     $scope.currentUser = Auth.getCurrentUser();
+
+    $scope.isLoggedIn = function() {
+      return Auth.isLoggedIn();
+    };
+
+    $scope.isAdmin = function() {
+      return Auth.isAdmin();
+    };
 
     $scope.logout = function() {
       Auth.logout();

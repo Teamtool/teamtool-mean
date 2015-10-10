@@ -7,7 +7,7 @@
     button.btn.btn-primary.btn-xs(type="button" disabled="disabled" ng-style="{'background-color':getColor(idea)}") {{idea.category}}
   .col-md-2(align="right")
     .to-review(ng-show='allowedToRate(idea)')
-      rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)' readonly="modalWindowOpen || !isLoggedIn")
+      rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)' readonly="modalWindowOpen || !isLoggedIn()")
       i  {{getVotes(idea)}}
     .reviewed(ng-show='!allowedToRate(idea)')
       rating(ng-model="getStarAverage(idea)", max="5", readonly="true")

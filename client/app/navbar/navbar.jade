@@ -9,26 +9,26 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
           a(ng-href='{{item.link}}') {{item.title}}
 
       ul.nav.navbar-nav.navbar-right
-        li(ng-hide='isLoggedIn', ng-class='{active: isActive("/signup")}')
+        li(ng-hide='isLoggedIn()', ng-class='{active: isActive("/signup")}')
           a.signup(href='/signup') Sign up
 
-        li(ng-hide='isLoggedIn', ng-class='{active: isActive("/login")}')
+        li(ng-hide='isLoggedIn()', ng-class='{active: isActive("/login")}')
           a.login(href='/login') Login
 
-        li(ng-show='isLoggedIn')
+        li(ng-show='isLoggedIn()')
           p.navbar-text Hello {{ currentUser.username }}
 
-        li(uib-dropdown, ng-show='isLoggedIn')
+        li(uib-dropdown, ng-show='isLoggedIn()')
           a(uib-dropdown-toggle, id="single-button")
             span.glyphicon.glyphicon-cog
             span.caret
 
           ul.uib-dropdown-menu(aria-labelledby="single-button")
-            li(ng-show='isLoggedIn', ng-class='{active: isActive("/settings")}')
+            li(ng-show='isLoggedIn()', ng-class='{active: isActive("/settings")}')
               a(href='/settings') Change Password
 
-            li(ng-show='isAdmin', ng-class='{active: isActive("/admin")}')
+            li(ng-show='isAdmin()', ng-class='{active: isActive("/admin")}')
               a(href='/admin') Admin
 
-        li(ng-show='isLoggedIn', ng-class='{active: isActive("/logout")}')
+        li(ng-show='isLoggedIn()', ng-class='{active: isActive("/logout")}')
           a.logout(href='', ng-click='logout()') Logout

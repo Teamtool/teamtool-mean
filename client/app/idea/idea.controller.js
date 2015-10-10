@@ -2,8 +2,6 @@
 
 angular.module('teamtoolApp')
   .controller('IdeaCtrl', function ($scope, $http, $filter, $modal, socket, Auth, Modal) {
-    $scope.isLoggedIn = Auth.isLoggedIn();
-
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
 
@@ -28,6 +26,10 @@ angular.module('teamtoolApp')
     $scope.$watch('isCollapsed', function(){
       $scope.ideaFormToggleText = $scope.isCollapsed ? 'Open' : 'Close';
     });
+
+    $scope.isLoggedIn = function() {
+      return Auth.isLoggedIn();
+    };
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
       $scope.awesomeIdeas = awesomeIdeas;
