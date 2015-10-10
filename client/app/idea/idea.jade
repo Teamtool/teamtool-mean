@@ -4,7 +4,7 @@ div(ng-include='"app/navbar/navbar.html"')
   .row
     .col-lg-2
     .col-lg-8
-      button.btn.btn-default(ng-show="isLoggedIn()", type="button", ng-class="{'btn-success': isCollapsed, 'btn-danger': !isCollapsed}", ng-click="isCollapsed = !isCollapsed") {{ideaFormToggleText}} Create Idea Form
+      button.btn.btn-default(ng-show="isLoggedIn()", type="button", ng-class="{'btn-success': isCollapsed, 'btn-danger': !isCollapsed}", ng-click="isCollapsed = !isCollapsed") {{ideaFormToggleText}}
         //span.glyphicon(ng-class="{'glyphicon-plus': isCollapsed, 'glyphicon-minus': !isCollapsed}")
       div(uib-collapse="isCollapsed")
         br

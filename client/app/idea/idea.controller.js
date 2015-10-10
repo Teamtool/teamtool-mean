@@ -34,7 +34,7 @@ angular.module('teamtoolApp')
     $scope.isCollapsed = true;
 
     $scope.$watch('isCollapsed', function(){
-      $scope.ideaFormToggleText = $scope.isCollapsed ? 'Open' : 'Close';
+      $scope.ideaFormToggleText = $scope.isCollapsed ? 'Create Idea' : 'Close Form';
     });
 
     $scope.isLoggedIn = function() {
