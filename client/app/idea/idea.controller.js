@@ -2,6 +2,8 @@
 
 angular.module('teamtoolApp')
   .controller('IdeaCtrl', function ($scope, $http, $filter, $modal, socket, Auth, Modal) {
+    $scope.isLoggedIn = Auth.isLoggedIn();
+
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
 
@@ -21,7 +23,6 @@ angular.module('teamtoolApp')
       { value:'Other', color:'darkred' }
     ];
 
-    $scope.isAdmin = Auth.isAdmin;
     $scope.isCollapsed = true;
 
     $scope.$watch('isCollapsed', function(){

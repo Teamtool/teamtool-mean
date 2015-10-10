@@ -1,0 +1,34 @@
+div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
+  div.container
+    div.navbar-header
+      a.navbar-brand(href='/') Teamtool
+
+    div.navbar-main
+      ul.nav.navbar-nav
+        li(ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
+          a(ng-href='{{item.link}}') {{item.title}}
+
+      ul.nav.navbar-nav.navbar-right
+        li(ng-hide='isLoggedIn', ng-class='{active: isActive("/signup")}')
+          a.signup(href='/signup') Sign up
+
+        li(ng-hide='isLoggedIn', ng-class='{active: isActive("/login")}')
+          a.login(href='/login') Login
+
+        li(ng-show='isLoggedIn')
+          p.navbar-text Hello {{ currentUser.username }}
+
+        li(uib-dropdown, ng-show='isLoggedIn')
+          a(uib-dropdown-toggle, id="single-button")
+            span.glyphicon.glyphicon-cog
+            span.caret
+
+          ul.uib-dropdown-menu(aria-labelledby="single-button")
+            li(ng-show='isLoggedIn', ng-class='{active: isActive("/settings")}')
+              a(href='/settings') Change Password
+
+            li(ng-show='isAdmin', ng-class='{active: isActive("/admin")}')
+              a(href='/admin') Admin
+
+        li(ng-show='isLoggedIn', ng-class='{active: isActive("/logout")}')
+          a.logout(href='', ng-click='logout()') Logout
