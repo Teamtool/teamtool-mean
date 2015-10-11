@@ -9,6 +9,7 @@ angular.module('teamtoolApp')
 
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
+    $scope.newIdea = {};
 
     $scope.states = [
       { value:'Open' },
@@ -27,6 +28,7 @@ angular.module('teamtoolApp')
     };
 
     $scope.categories = Object.keys($scope.categoryMap);
+
 
     /*
      Scope Api calls
@@ -130,15 +132,15 @@ angular.module('teamtoolApp')
 
       if(form.$valid) {
         $http.post('/api/ideas', {
-          name: $scope.idea.title,
-          description: $scope.idea.description,
+          name: $scope.newIdea.title,
+          description: $scope.newIdea.description,
           author: Auth.getCurrentUser()._id,
           state: $scope.states[0].value,
-          category: $scope.idea.category
+          category: $scope.newIdea.category
         });
-        $scope.idea.title = '';
-        $scope.idea.description = '';
-        $scope.idea.category = '';
+        $scope.newIdea.title = '';
+        $scope.newIdea.description = '';
+        $scope.newIdea.category = '';
         $scope.submitted = false;
       }
     };
