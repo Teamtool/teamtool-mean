@@ -43,9 +43,9 @@ div(ng-include='"app/navbar/navbar.html"')
             a(href='#', ng-click='sortCriterion = "date"; sortReverse = true; sortCriterionLabel = "date (oldest first) "') Date (oldest first)
           li.divider
           li
-            a(href='#', ng-click='sortCriterion = "getAverageRating(idea, false)"; sortReverse = false; sortCriterionLabel = "best average rated "') Best average rated
+            a(href='#', ng-click='sortCriterion = "raterCount == 0 ? 0 : totalRatingCount / raterCount"; sortReverse = false; sortCriterionLabel = "best average rated "') Best average rated
           li
-            a(href='#', ng-click='sortCriterion = "getAverageRating(idea, false)"; sortReverse = true; sortCriterionLabel = "worst average rated "') Worst average rated
+            a(href='#', ng-click='sortCriterion = "raterCount == 0 ? 0 : totalRatingCount / raterCount"; sortReverse = true; sortCriterionLabel = "worst average rated "') Worst average rated
           li.divider
           li
             a(href='#', ng-click='sortCriterion = "raterCount"; sortReverse = false; sortCriterionLabel = "most rated "') Most rated
