@@ -13,14 +13,6 @@ angular.module('teamtoolApp')
       { value:'Rejected' }
     ];
 
-/*    $scope.categoriesOld = [
-      { value:'Ideas Backlog', color:'dodgerblue' },
-      { value:'Training Catalog', color:'limegreen' },
-      { value:'User Settings', color:'orange' },
-      { value:'Login/Logout', color:'orchid' },
-      { value:'Other', color:'darkred' }
-    ];*/
-
     $scope.categoryMap = {
       'Ideas Backlog' : 'dodgerblue',
       'Training Catalog' : 'limegreen',
@@ -116,14 +108,6 @@ angular.module('teamtoolApp')
       $http.put('/api/ideas/'+idea._id, { state: state} );
 
     };
-
-/*    $scope.getColorOld = function(idea) {
-      for (var i = 0; i < $scope.categories.length; i++) {
-        if(idea.category == $scope.categories[i].value) {
-          return $scope.categories[i].color;
-        }
-      }
-    };*/
 
     $scope.getColor = function(idea) {
       return $scope.categoryMap[idea.category];
