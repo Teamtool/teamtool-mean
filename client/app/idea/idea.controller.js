@@ -2,6 +2,11 @@
 
 angular.module('teamtoolApp')
   .controller('IdeaCtrl', function ($scope, $http, $filter, $modal, socket, Auth, Modal) {
+
+    /*
+    Constants
+     */
+
     $scope.awesomeIdeas = [];
     $scope.ratings = [];
 
@@ -23,15 +28,9 @@ angular.module('teamtoolApp')
 
     $scope.categories = Object.keys($scope.categoryMap);
 
-    $scope.isCollapsed = true;
-
-    $scope.$watch('isCollapsed', function(){
-      $scope.ideaFormToggleText = $scope.isCollapsed ? 'Create Idea' : 'Close Form';
-    });
-
-    $scope.isLoggedIn = function() {
-      return Auth.isLoggedIn();
-    };
+    /*
+     Scope Api calls
+     */
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
       $scope.awesomeIdeas = awesomeIdeas;
@@ -43,51 +42,33 @@ angular.module('teamtoolApp')
       socket.syncUpdates('rating', $scope.ratings);
     });
 
-    $scope.addIdea = function(form) {
-      $scope.submitted = true;
 
-      if(form.$valid) {
-        $http.post('/api/ideas', { name: $scope.idea.title , description: $scope.idea.description, author: Auth.getCurrentUser()._id, state: $scope.states[0].value, category: $scope.idea.category });
-        $scope.idea.title = '';
-        $scope.idea.description = '';
-        $scope.idea.category = '';
-        $scope.submitted = false;
-      }
+    /*
+    Util functions
+     */
 
+    $scope.isLoggedIn = function() {
+      return Auth.isLoggedIn();
     };
 
-    $scope.deleteIdea = Modal.confirm.delete(function(idea) {
-      $http.delete('/api/ideas/' + idea._id);
+
+    /*
+    For View
+     */
+
+    $scope.sortCriterion = "date";
+    $scope.sortCriterionLabel = "date (newest first) ";
+    $scope.sortReverse = false;
+
+    $scope.getSortCriterion = function(idea) {
+      return '-' + $scope.sortCriterion;
+    };
+
+    $scope.isCollapsed = true;
+
+    $scope.$watch('isCollapsed', function(){
+      $scope.ideaFormToggleText = $scope.isCollapsed ? 'Create Idea' : 'Close Form';
     });
-
-    $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('idea');
-      socket.unsyncUpdates('rating');
-    });
-
-    $scope.getStarSum = function(idea) {
-      var sum = 0;
-      var ideas_rating =  $filter('filter')($scope.ratings, {idea:idea._id});
-      for (var i = 0; i < ideas_rating.length; i++){
-        sum += parseInt(ideas_rating[i].star_rating, 10); //don't forget to add the base
-      }
-      return sum;
-    };
-
-    $scope.getStarAverage = function(idea) {
-      var sum = $scope.getStarSum(idea);
-
-      var ideas_rating =  $filter('filter')($scope.ratings, {idea:idea._id});
-      if (ideas_rating.length > 0)
-        return (sum / ideas_rating.length).toFixed(1);
-      else
-        return 0;
-    };
-
-    $scope.getVotes = function(idea) {
-      var no_ratings =  $filter('filter')($scope.ratings, {idea:idea._id});
-      return no_ratings.length;
-    };
 
     $scope.allowedToRate = function(idea) {
       var my_ratings =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
@@ -104,21 +85,19 @@ angular.module('teamtoolApp')
         return false;
     };
 
-    $scope.updateState = function(state, idea) {
-      $http.put('/api/ideas/'+idea._id, { state: state} );
-
-    };
-
     $scope.getColor = function(idea) {
       return $scope.categoryMap[idea.category];
     };
 
-    $scope.addRating = function(idea) {
-      var my_rating =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
-      if (my_rating.length == 0 && idea.rating > 0 )
-      {
-        $http.post('/api/ratings', { star_rating: idea.rating, idea: idea._id, author: Auth.getCurrentUser()._id } );
+    $scope.getAverageRating = function(idea, roundDown) {
+      var average = 0;
+      if(idea.raterCount != 0) {
+        average = (idea.totalRatingCount / idea.raterCount).toFixed(1);
+        if(roundDown) {
+          average = Math.floor(average);
+        }
       }
+      return average;
     };
 
     $scope.openUpdateStateModal = function (nextState, idea) {
@@ -141,4 +120,41 @@ angular.module('teamtoolApp')
       });
     };
 
+
+    /*
+    Scope functions
+     */
+
+    $scope.addIdea = function(form) {
+      $scope.submitted = true;
+
+      if(form.$valid) {
+        $http.post('/api/ideas', {
+          name: $scope.idea.title,
+          description: $scope.idea.description,
+          author: Auth.getCurrentUser()._id,
+          state: $scope.states[0].value,
+          category: $scope.idea.category
+        });
+        $scope.idea.title = '';
+        $scope.idea.description = '';
+        $scope.idea.category = '';
+        $scope.submitted = false;
+      }
+    };
+
+    $scope.deleteIdea = Modal.confirm.delete(function(idea) {
+      $http.delete('/api/ideas/' + idea._id);
+    });
+
+    $scope.updateState = function(state, idea) {
+      $http.put('/api/ideas/'+idea._id, { state: state} );
+    };
+
+    $scope.addRating = function(idea) {
+      if (idea.currentRating > 0) {
+        $http.post('/api/ratings', { star_rating: idea.currentRating, idea: idea._id, author: Auth.getCurrentUser()._id } );
+        $http.put('/api/ideas/' + idea._id, {totalRatingCount: idea.totalRatingCount + idea.currentRating, raterCount: idea.raterCount + 1} );
+      }
+    };
   });

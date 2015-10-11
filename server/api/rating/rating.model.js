@@ -4,12 +4,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var RatingSchema = new Schema({
-  content: String,
   star_rating: Number,
   date: { type: Date, default: Date.now },
   author: {type : Schema.ObjectId, ref : 'User'},
-  idea: {type : Schema.ObjectId, ref : 'Idea'},
-  active: Boolean
+  idea: {type : Schema.ObjectId, ref : 'Idea'}
 });
 
 RatingSchema.statics = {

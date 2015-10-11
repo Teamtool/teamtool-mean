@@ -7,10 +7,10 @@
     button.btn.btn-primary.btn-xs(type="button" disabled="disabled" ng-style="{'background-color':getColor(idea)}") {{idea.category}}
   .col-md-2(align="right")
     .to-review(ng-show='allowedToRate(idea)')
-      rating(ng-model="idea.rating", max="5", on-leave='addRating(idea)' readonly="modalWindowOpen || !isLoggedIn()")
-      i  {{getVotes(idea)}}
+      uib-rating(ng-model="idea.currentRating", max="5", on-leave='addRating(idea)' readonly="modalWindowOpen || !isLoggedIn()")
+      i {{idea.raterCount}}
     .reviewed(ng-show='!allowedToRate(idea)')
-      rating(ng-model="getStarAverage(idea)", max="5", readonly="true")
-      i  {{getVotes(idea)}}
+      uib-rating(ng-init="averageRating = getAverageRating(idea, true)", ng-model="averageRating", max="5", readonly="true")
+      i {{idea.raterCount}}
       br
-      | {{getStarAverage(idea)}} / {{getStarSum(idea)}} stars
+      | {{getAverageRating(idea, false)}} / {{idea.totalRatingCount}} stars

@@ -35,7 +35,7 @@ Thing.find({}).remove(function() {
 
 User.find({}).remove(function() {
   User.create({
-/*    provider: 'local',
+    provider: 'local',
     username: 'Snoopy',
     role: 'admin',
     email: 'snoopy@admin.com',
@@ -56,10 +56,10 @@ User.find({}).remove(function() {
     username: 'Linus',
     email: 'linus@user.com',
     password: 'user'
-  }, {*/
+  }, {
     provider: 'local',
     username: 'Lucy',
-    email: 'kemalakapak@gmail.com',
+    email: 'lucy@user.com',
     password: 'user'
   } , {
     provider: 'local',

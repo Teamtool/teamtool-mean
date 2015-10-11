@@ -5,7 +5,6 @@ div(ng-include='"app/navbar/navbar.html"')
     .col-lg-2
     .col-lg-8
       button.btn.btn-default(ng-show="isLoggedIn()", type="button", ng-class="{'btn-success': isCollapsed, 'btn-danger': !isCollapsed}", ng-click="isCollapsed = !isCollapsed") {{ideaFormToggleText}}
-        //span.glyphicon(ng-class="{'glyphicon-plus': isCollapsed, 'glyphicon-minus': !isCollapsed}")
       div(uib-collapse="isCollapsed")
         br
         form(name='form', ng-submit='addIdea(form)', novalidate='')
@@ -31,6 +30,45 @@ div(ng-include='"app/navbar/navbar.html"')
             button.btn.btn-primary(type='submit') Create Idea
 
       h1.align-center Ideas Backlog
+
+      br
+
+      div.btn-group.right(uib-dropdown, ng-show='isLoggedIn()')
+        button.btn.btn-primary(uib-dropdown-toggle, id="split-button") Sorted by {{sortCriterionLabel}}
+          span.caret
+        ul.uib-dropdown-menu(aria-labelledby="split-button")
+          li
+            a(href='#', ng-click='sortCriterion = "date"; sortReverse = false; sortCriterionLabel = "date (newest first) "') Date (newest first)
+          li
+            a(href='#', ng-click='sortCriterion = "date"; sortReverse = true; sortCriterionLabel = "date (oldest first) "') Date (oldest first)
+          li.divider
+          li
+            a(href='#', ng-click='sortCriterion = "getAverageRating(idea, false)"; sortReverse = false; sortCriterionLabel = "best average rated "') Best average rated
+          li
+            a(href='#', ng-click='sortCriterion = "getAverageRating(idea, false)"; sortReverse = true; sortCriterionLabel = "worst average rated "') Worst average rated
+          li.divider
+          li
+            a(href='#', ng-click='sortCriterion = "raterCount"; sortReverse = false; sortCriterionLabel = "most rated "') Most rated
+          li
+            a(href='#', ng-click='sortCriterion = "raterCount"; sortReverse = true; sortCriterionLabel = "least rated "') Least rated
+          li.divider
+          li
+            a(href='#', ng-click='sortCriterion = "totalRatingCount"; sortReverse = false; sortCriterionLabel = "most starred "') Most starred
+          li
+            a(href='#', ng-click='sortCriterion = "totalRatingCount"; sortReverse = true; sortCriterionLabel = "least starred "') Least starred
+          li.divider
+          li
+            a(href='#', ng-click='sortCriterion = "category"; sortReverse = true; sortCriterionLabel = "category (A-Z) "') Category (A-Z)
+          li
+            a(href='#', ng-click='sortCriterion = "category"; sortReverse = false; sortCriterionLabel = "category (Z-A) "') Category (Z-A)
+          li.divider
+          li
+            a(href='#', ng-click='sortCriterion = "author.username"; sortReverse = true; sortCriterionLabel = "author (A-Z) "') Author (A-Z)
+          li
+            a(href='#', ng-click='sortCriterion = "author.username"; sortReverse = false; sortCriterionLabel = "author (Z-A) "') Author (Z-A)
+
+      br
+      br
       br
       tabset(justified="true")
         tab(ng-repeat="state in states" heading="{{state.value}}")
@@ -41,7 +79,7 @@ div(ng-include='"app/navbar/navbar.html"')
                 .row.align-center
                   b There isn't any idea {{state.value.toLowerCase()}}.
 
-          ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | filter: { state: state.value } | orderBy:'-date'")
+          ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | filter: { state: state.value } | orderBy:getSortCriterion():sortReverse")
             li(ng-class="{'to-be-rated': allowedToRate(idea) && isLoggedIn()}")
               a
                 include ideaHeaderRow.jade
