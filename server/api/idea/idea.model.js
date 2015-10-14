@@ -15,6 +15,16 @@ var IdeaSchema = new Schema({
   state: { type: String, enum: states },
   totalRatingCount: { type: Number, default: 0 },
   raterCount: { type: Number, default: 0 }
+}, {
+  toObject: {virtuals: true},
+  toJSON: {virtuals: true}
+});
+
+IdeaSchema.virtual('averageRating').get(function() {
+  if(this.raterCount != 0)
+    return (this.totalRatingCount / this.raterCount).toFixed(1);
+  else
+    return 0;
 });
 
 IdeaSchema.statics = {

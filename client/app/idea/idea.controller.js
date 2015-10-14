@@ -58,13 +58,59 @@ angular.module('teamtoolApp')
     For View
      */
 
+    // Sort
+
     $scope.sortCriterion = "date";
     $scope.sortCriterionLabel = "date (newest first) ";
-    $scope.sortReverse = false;
+    $scope.sortReverse = true;
 
-    $scope.getSortCriterion = function(idea) {
-      return '-' + $scope.sortCriterion;
+    $scope.getFirstSortCriterion = function(idea) {
+      if(($scope.sortCriterion == "totalRatingCount" || $scope.sortCriterion == "averageRating") && !$scope.isIdeaRatedOrCreatedByCurrentUser(idea))
+        return 0;
+      else
+        return $scope.getIdeaAttributeByString(idea, $scope.sortCriterion);
     };
+
+    $scope.getSecondSortCriterion = function(idea) {
+      if($scope.sortCriterion == "averageRating")
+        return idea.raterCount;
+      else if (!$scope.isIdeaRatedOrCreatedByCurrentUser(idea))
+        return 0;
+      else
+        return $scope.fixReversing(idea.averageRating);
+    };
+
+    $scope.getThirdSortCriterion = function(idea) {
+      if($scope.sortCriterion == "totalRatingCount")
+        return idea.raterCount;
+
+      return $scope.fixReversing(idea.raterCount);
+    };
+
+    $scope.fixReversing = function(number) {
+      if(($scope.sortCriterion == "category" || $scope.sortCriterion == "author.username") && !$scope.sortReverse)
+        return number * -1;
+      else
+        return number;
+    };
+
+    $scope.getIdeaAttributeByString = function(idea, attribute) {
+      if(attribute == "date")
+        return idea.date;
+      if(attribute == "averageRating")
+        return idea.averageRating;
+      if(attribute == "totalRatingCount")
+        return idea.totalRatingCount;
+      if(attribute == "raterCount")
+        return idea.raterCount;
+      if(attribute == "category")
+        return idea.category;
+      if(attribute == "author.username")
+        return idea.author.username;
+    }
+
+
+    // Other View
 
     $scope.isCollapsed = true;
 
@@ -72,34 +118,40 @@ angular.module('teamtoolApp')
       $scope.ideaFormToggleText = $scope.isCollapsed ? 'Create Idea' : 'Close Form';
     });
 
-    $scope.allowedToRate = function(idea) {
-      var my_ratings =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
-      if (my_ratings.length == 0 && idea.author._id != Auth.getCurrentUser()._id && idea.state == $scope.states[0].value)
-        return true;
-      else
-        return false;
+    $scope.isGreenBackgroundActive = function(idea) {
+      return $scope.isLoggedIn() && $scope.allowedToRate(idea);
     };
 
     $scope.allowedToDelete = function(idea) {
-      if (Auth.getCurrentUser().role === 'admin' || idea.author._id == Auth.getCurrentUser()._id)
-        return true;
-      else
+      return Auth.getCurrentUser().role === 'admin' || $scope.isIdeaCreatedByCurrentUser(idea);
+    };
+
+    $scope.allowedToRate = function(idea) {
+      return !$scope.isIdeaRatedOrCreatedByCurrentUser(idea) && idea.state == $scope.states[0].value;
+    };
+
+    $scope.isIdeaRatedOrCreatedByCurrentUser = function(idea) {
+      return $scope.isIdeaRatedByCurrentUser(idea) || $scope.isIdeaCreatedByCurrentUser(idea);
+    };
+
+    $scope.isIdeaCreatedByCurrentUser = function(idea) {
+      return idea.author._id == Auth.getCurrentUser()._id;
+    };
+
+    $scope.isIdeaRatedByCurrentUser = function(idea) {
+      var my_rating_for_the_idea =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
+      if (my_rating_for_the_idea.length == 0)
         return false;
+      else
+        return true;
     };
 
     $scope.getColor = function(idea) {
       return $scope.categoryMap[idea.category];
     };
 
-    $scope.getAverageRating = function(idea, roundDown) {
-      var average = 0;
-      if(idea.raterCount != 0) {
-        average = (idea.totalRatingCount / idea.raterCount).toFixed(1);
-        if(roundDown) {
-          average = Math.floor(average);
-        }
-      }
-      return average;
+    $scope.getNumberFloored = function(number) {
+      return Math.floor(number);
     };
 
     $scope.openUpdateStateModal = function (nextState, idea) {
