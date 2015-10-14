@@ -82,12 +82,14 @@ angular.module('teamtoolApp')
 
     $scope.getThirdSortCriterion = function(idea) {
       if($scope.sortCriterion == "totalStarCount")
+        // For this case: isIdeaRatedOrCreatedByCurrentUser = false (1. & 2. criteria = 0) Green ideas
         return idea.raterCount;
       else
         return $scope.fixReversing(idea.raterCount);
     };
 
     $scope.fixReversing = function(number) {
+      // Category and username ordering should sort "also in reverse" in the right direction
       if(($scope.sortCriterion == "category" || $scope.sortCriterion == "author.username") && !$scope.sortReverse)
         return number * -1;
       else
