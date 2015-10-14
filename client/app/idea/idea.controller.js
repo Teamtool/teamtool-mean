@@ -65,7 +65,7 @@ angular.module('teamtoolApp')
     $scope.sortReverse = true;
 
     $scope.getFirstSortCriterion = function(idea) {
-      if(($scope.sortCriterion == "totalRatingCount" || $scope.sortCriterion == "averageRating") && !$scope.isIdeaRatedOrCreatedByCurrentUser(idea))
+      if(($scope.sortCriterion == "totalStarCount" || $scope.sortCriterion == "averageRating") && !$scope.isIdeaRatedOrCreatedByCurrentUser(idea))
         return 0;
       else
         return $scope.getIdeaAttributeByString(idea, $scope.sortCriterion);
@@ -81,10 +81,10 @@ angular.module('teamtoolApp')
     };
 
     $scope.getThirdSortCriterion = function(idea) {
-      if($scope.sortCriterion == "totalRatingCount")
+      if($scope.sortCriterion == "totalStarCount")
         return idea.raterCount;
-
-      return $scope.fixReversing(idea.raterCount);
+      else
+        return $scope.fixReversing(idea.raterCount);
     };
 
     $scope.fixReversing = function(number) {
@@ -99,15 +99,15 @@ angular.module('teamtoolApp')
         return idea.date;
       if(attribute == "averageRating")
         return idea.averageRating;
-      if(attribute == "totalRatingCount")
-        return idea.totalRatingCount;
+      if(attribute == "totalStarCount")
+        return idea.totalStarCount;
       if(attribute == "raterCount")
         return idea.raterCount;
       if(attribute == "category")
         return idea.category;
       if(attribute == "author.username")
         return idea.author.username;
-    }
+    };
 
 
     // Other View
@@ -208,7 +208,7 @@ angular.module('teamtoolApp')
     $scope.addRating = function(idea) {
       if (idea.currentRating > 0) {
         $http.post('/api/ratings', { star_rating: idea.currentRating, idea: idea._id, author: Auth.getCurrentUser()._id } );
-        $http.put('/api/ideas/' + idea._id, {totalRatingCount: idea.totalRatingCount + idea.currentRating, raterCount: idea.raterCount + 1} );
+        $http.put('/api/ideas/' + idea._id, {totalStarCount: idea.totalStarCount + idea.currentRating, raterCount: idea.raterCount + 1} );
       }
     };
   });

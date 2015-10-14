@@ -13,7 +13,7 @@ var IdeaSchema = new Schema({
   author: {type : Schema.ObjectId, ref : 'User'},
   date: { type: Date, default: Date.now },
   state: { type: String, enum: states },
-  totalRatingCount: { type: Number, default: 0 },
+  totalStarCount: { type: Number, default: 0 },
   raterCount: { type: Number, default: 0 }
 }, {
   toObject: {virtuals: true},
@@ -22,7 +22,7 @@ var IdeaSchema = new Schema({
 
 IdeaSchema.virtual('averageRating').get(function() {
   if(this.raterCount != 0)
-    return (this.totalRatingCount / this.raterCount).toFixed(1);
+    return (this.totalStarCount / this.raterCount).toFixed(1);
   else
     return 0;
 });

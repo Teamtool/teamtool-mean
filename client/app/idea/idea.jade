@@ -46,9 +46,9 @@ div(ng-include='"app/navbar/navbar.html"')
             a(href='#', ng-click='sortCriterion = "averageRating"; sortReverse = false; sortCriterionLabel = "worst average rated "') Worst average rated
           li.divider
           li
-            a(href='#', ng-click='sortCriterion = "totalRatingCount"; sortReverse = true; sortCriterionLabel = "stars (High to Low) "') Stars (High to Low)
+            a(href='#', ng-click='sortCriterion = "totalStarCount"; sortReverse = true; sortCriterionLabel = "stars (High to Low) "') Stars (High to Low)
           li
-            a(href='#', ng-click='sortCriterion = "totalRatingCount"; sortReverse = false; sortCriterionLabel = "stars (Low to High) "') Stars (Low to High)
+            a(href='#', ng-click='sortCriterion = "totalStarCount"; sortReverse = false; sortCriterionLabel = "stars (Low to High) "') Stars (Low to High)
           li.divider
           li
             a(href='#', ng-click='sortCriterion = "raterCount"; sortReverse = true; sortCriterionLabel = "most rated "') Most rated
