@@ -67,8 +67,10 @@ angular.module('teamtoolApp')
     $scope.getFirstSortCriterion = function(idea) {
       if(($scope.sortCriterion == "totalStarCount" || $scope.sortCriterion == "averageRating") && !$scope.isIdeaRatedOrCreatedByCurrentUser(idea))
         return 0;
+      else if($scope.sortCriterion == "author.username")
+        return idea.author.username;
       else
-        return $scope.getIdeaAttributeByString(idea, $scope.sortCriterion);
+        return idea[$scope.sortCriterion];
     };
 
     $scope.getSecondSortCriterion = function(idea) {
@@ -94,21 +96,6 @@ angular.module('teamtoolApp')
         return number * -1;
       else
         return number;
-    };
-
-    $scope.getIdeaAttributeByString = function(idea, attribute) {
-      if(attribute == "date")
-        return idea.date;
-      if(attribute == "averageRating")
-        return idea.averageRating;
-      if(attribute == "totalStarCount")
-        return idea.totalStarCount;
-      if(attribute == "raterCount")
-        return idea.raterCount;
-      if(attribute == "category")
-        return idea.category;
-      if(attribute == "author.username")
-        return idea.author.username;
     };
 
 
