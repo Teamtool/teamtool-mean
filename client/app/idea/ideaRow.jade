@@ -10,7 +10,7 @@
 
   .col-md-2(align="right")
     div(ng-show='vm.allowedToRate(idea)' style="display: inline")
-      uib-rating(ng-model="idea.currentRating", max="5", on-leave='vm.addRating(idea)' readonly="modalWindowOpen")
+      uib-rating(ng-model="idea.currentRating", max="5", on-leave='vm.addRating(idea)' readonly="vm.modalWindowOpen")
 
     div(ng-show='!vm.allowedToRate(idea) && vm.isLoggedIn()' style="display: inline")
       uib-rating(ng-init="averageRating = vm.getNumberFloored(idea.averageRating)", ng-model="averageRating", max="5", readonly="true")

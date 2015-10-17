@@ -142,23 +142,22 @@ angular.module('teamtoolApp')
     };
 
     vm.openUpdateStateModal = function (nextState, idea) {
-      $scope.nextState = nextState;
+      vm.modalWindowOpen = true;
+      vm.nextState = nextState;
       $scope.idea = idea;
-      $scope.modalWindowOpen = true;
 
-      $scope.modalInstance = $modal.open({
+      vm.modalInstance = $modal.open({
         templateUrl: 'updateStateModal',
         windowClass: 'updateStateModal',
-        controller: 'IdeaCtrl as vm',
         scope: $scope
       });
 
-      $scope.modalInstance.result.then(function () {
+      vm.modalInstance.result.then(function () {
         vm.updateState(nextState, idea);
       });
 
-      $scope.modalInstance.result.finally(function () {
-        $scope.modalWindowOpen = false;
+      vm.modalInstance.result.finally(function () {
+        vm.modalWindowOpen = false;
       });
     };
 

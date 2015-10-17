@@ -107,9 +107,9 @@ footer.footer
       a(href='https://github.com/Teamtool/teamtool-mean/issues') Issues
 
 
-script(type="text/ng-template" id="updateStateModal")
+script(type="text/ng-template" id="updateStateModal" ng-controller='IdeaCtrl as vm')
   div.modal-header
-    h3.modal-title Change the status of this idea to {{nextState.toLowerCase()}}?
+    h3.modal-title Change the status of this idea to {{vm.nextState.toLowerCase()}}?
 
   div.modal-body.color-blue
 
@@ -120,5 +120,5 @@ script(type="text/ng-template" id="updateStateModal")
         | {{idea.description}}
 
   div.modal-footer
-    button.btn.btn-primary(type="button" ng-click="modalInstance.close()") OK
-    button.btn.btn-warning(type="button" ng-click="modalInstance.dismiss()") Cancel
+    button.btn.btn-primary(type="button" ng-click="vm.modalInstance.close()") OK
+    button.btn.btn-warning(type="button" ng-click="vm.modalInstance.dismiss()") Cancel
