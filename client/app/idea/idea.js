@@ -8,4 +8,6 @@ angular.module('teamtoolApp')
         templateUrl: 'app/idea/idea.html',
         controller: 'IdeaCtrl'
       });
-  });
+  })
+  .controller('IdeaCtrl', IdeaCtrl)
+  .filter('descLimit', descLimitFilter);
