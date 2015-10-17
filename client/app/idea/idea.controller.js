@@ -2,7 +2,7 @@
 
 function descLimitFilter($filter) {
   return function(input, expanded) {
-    return expanded || input.length < 200 ? input : $filter('limitTo')(input, 200) + ' .....';
+    return expanded || input.length < 280 ? input : $filter('limitTo')(input, 230) + ' .....';
   }
 }
 
