@@ -82,7 +82,7 @@ div(ng-controller='IdeaCtrl as vm')
 
               .row
                 .col-md-10
-                  | {{idea.description}}
+                  div(ng-bind-html = " idea.description | linky:'_blank' ")
 
                 .col-md-2
                   button.close(ng-show='vm.allowedToDelete(idea)', type='button', ng-click='vm.deleteIdea(idea.name, idea)')
