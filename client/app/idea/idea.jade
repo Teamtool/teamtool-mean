@@ -28,7 +28,7 @@ div(ng-controller='IdeaCtrl as vm')
                 | What's the category?
 
             div
-              button.btn.btn-primary(type='submit') Create Idea
+              button.btn.btn-primary(type='submit' ng-click='vm.states[0].active = true') Create Idea
 
         h1.align-center Ideas Backlog
         br
@@ -70,7 +70,7 @@ div(ng-controller='IdeaCtrl as vm')
         br
         br
         uib-tabset.color-blue(justified="true")
-          uib-tab(ng-repeat="state in vm.states", heading="{{state.value}}")
+          uib-tab(ng-repeat="state in vm.states", heading="{{state.value}}", active="state.active")
             br
             div.nav.nav-stacked(ng-show="0 == (vm.awesomeIdeas | filter: { state: state.value }).length")
               .align-center
