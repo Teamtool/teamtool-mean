@@ -1,0 +1,29 @@
+.row
+  .col-md-6
+    b {{idea.name}}
+
+  .col-md-2
+    | {{idea.author.username}}
+
+  .col-md-2
+    button.btn.btn-primary.btn-xs(type="button" disabled="disabled" ng-style="{'background-color':vm.getColor(idea)}") {{idea.category}}
+
+  .col-md-2(align="right")
+    div(ng-show='vm.allowedToRate(idea)' style="display: inline")
+      uib-rating(ng-model="idea.currentRating", max="5", on-leave='vm.addRating(idea)' readonly="modalWindowOpen")
+
+    div(ng-show='!vm.allowedToRate(idea) && vm.isLoggedIn()' style="display: inline")
+      uib-rating(ng-init="averageRating = vm.getNumberFloored(idea.averageRating)", ng-model="averageRating", max="5", readonly="true")
+
+    div(ng-show='!vm.isLoggedIn()' style="display: inline")
+      uib-rating(ng-model="0", max="5", readonly="true")
+
+    i {{idea.raterCount}}
+
+.row
+  .col-md-12(align="right")
+    div(ng-show='vm.allowedToRate(idea) || !vm.isLoggedIn()')
+      | ? / ? stars
+    div(ng-show='!vm.allowedToRate(idea) && vm.isLoggedIn()')
+      | {{idea.averageRating}} / {{idea.totalStarCount}} stars
+

@@ -7,11 +7,13 @@ angular.module('teamtoolApp')
     Constants
      */
 
-    $scope.awesomeIdeas = [];
-    $scope.ratings = [];
-    $scope.newIdea = {};
+    var vm = this;
 
-    $scope.states = [
+    vm.awesomeIdeas = [];
+    vm.ratings = [];
+    vm.newIdea = {};
+
+    vm.states = [
       { value:'Open' },
       { value:'Accepted' },
       { value:'In Progress' },
@@ -19,7 +21,7 @@ angular.module('teamtoolApp')
       { value:'Rejected' }
     ];
 
-    $scope.categoryMap = {
+    vm.categoryMap = {
       'Ideas Backlog' : 'dodgerblue',
       'Training Catalog' : 'limegreen',
       'User Settings' : 'orange',
@@ -27,7 +29,7 @@ angular.module('teamtoolApp')
       'Other' : 'darkred'
     };
 
-    $scope.categories = Object.keys($scope.categoryMap);
+    vm.categories = Object.keys(vm.categoryMap);
 
 
     /*
@@ -35,13 +37,13 @@ angular.module('teamtoolApp')
      */
 
     $http.get('/api/ideas').success(function(awesomeIdeas) {
-      $scope.awesomeIdeas = awesomeIdeas;
-      socket.syncUpdates('idea', $scope.awesomeIdeas);
+      vm.awesomeIdeas = awesomeIdeas;
+      socket.syncUpdates('idea', vm.awesomeIdeas);
     });
 
     $http.get('/api/ratings').success(function(ratings) {
-      $scope.ratings = ratings;
-      socket.syncUpdates('rating', $scope.ratings);
+      vm.ratings = ratings;
+      socket.syncUpdates('rating', vm.ratings);
     });
 
 
@@ -49,7 +51,7 @@ angular.module('teamtoolApp')
     Util functions
      */
 
-    $scope.isLoggedIn = function() {
+    vm.isLoggedIn = function() {
       return Auth.isLoggedIn();
     };
 
@@ -60,39 +62,39 @@ angular.module('teamtoolApp')
 
     // Sort
 
-    $scope.sortCriterion = "date";
-    $scope.sortCriterionLabel = "date (newest first) ";
-    $scope.sortReverse = true;
+    vm.sortCriterion = "date";
+    vm.sortCriterionLabel = "date (newest first) ";
+    vm.sortReverse = true;
 
-    $scope.getFirstSortCriterion = function(idea) {
-      if(($scope.sortCriterion == "totalStarCount" || $scope.sortCriterion == "averageRating") && !$scope.isIdeaRatedOrCreatedByCurrentUser(idea))
+    vm.getFirstSortCriterion = function(idea) {
+      if((vm.sortCriterion == "totalStarCount" || vm.sortCriterion == "averageRating") && !vm.isIdeaRatedOrCreatedByCurrentUser(idea))
         return 0;
-      else if($scope.sortCriterion == "author.username")
+      else if(vm.sortCriterion == "author.username")
         return idea.author.username;
       else
-        return idea[$scope.sortCriterion];
+        return idea[vm.sortCriterion];
     };
 
-    $scope.getSecondSortCriterion = function(idea) {
-      if($scope.sortCriterion == "averageRating")
+    vm.getSecondSortCriterion = function(idea) {
+      if(vm.sortCriterion == "averageRating")
         return idea.raterCount;
-      else if (!$scope.isIdeaRatedOrCreatedByCurrentUser(idea))
+      else if (!vm.isIdeaRatedOrCreatedByCurrentUser(idea))
         return 0;
       else
-        return $scope.fixReversing(idea.averageRating);
+        return vm.fixReversing(idea.averageRating);
     };
 
-    $scope.getThirdSortCriterion = function(idea) {
-      if($scope.sortCriterion == "totalStarCount")
+    vm.getThirdSortCriterion = function(idea) {
+      if(vm.sortCriterion == "totalStarCount")
         // For this case: isIdeaRatedOrCreatedByCurrentUser = false (1. & 2. criteria = 0) Green ideas
         return idea.raterCount;
       else
-        return $scope.fixReversing(idea.raterCount);
+        return vm.fixReversing(idea.raterCount);
     };
 
-    $scope.fixReversing = function(number) {
+    vm.fixReversing = function(number) {
       // Category and username ordering should sort "also in reverse" in the right direction
-      if(($scope.sortCriterion == "category" || $scope.sortCriterion == "author.username") && !$scope.sortReverse)
+      if((vm.sortCriterion == "category" || vm.sortCriterion == "author.username") && !vm.sortReverse)
         return number * -1;
       else
         return number;
@@ -101,49 +103,45 @@ angular.module('teamtoolApp')
 
     // Other View
 
-    $scope.isCollapsed = true;
+    vm.isCollapsed = true;
 
-    $scope.$watch('isCollapsed', function(){
-      $scope.ideaFormToggleText = $scope.isCollapsed ? 'Create Idea' : 'Close Form';
+    $scope.$watch('vm.isCollapsed', function(){
+      vm.ideaFormToggleText = vm.isCollapsed ? 'Create Idea' : 'Close Form';
     });
 
-    $scope.isGreenBackgroundActive = function(idea) {
-      return $scope.isLoggedIn() && $scope.allowedToRate(idea);
+    vm.allowedToDelete = function(idea) {
+      return Auth.getCurrentUser().role === 'admin' || vm.isIdeaCreatedByCurrentUser(idea);
     };
 
-    $scope.allowedToDelete = function(idea) {
-      return Auth.getCurrentUser().role === 'admin' || $scope.isIdeaCreatedByCurrentUser(idea);
+    vm.allowedToRate = function(idea) {
+      return vm.isLoggedIn() && !vm.isIdeaRatedOrCreatedByCurrentUser(idea) && idea.state == vm.states[0].value;
     };
 
-    $scope.allowedToRate = function(idea) {
-      return !$scope.isIdeaRatedOrCreatedByCurrentUser(idea) && idea.state == $scope.states[0].value;
+    vm.isIdeaRatedOrCreatedByCurrentUser = function(idea) {
+      return vm.isIdeaRatedByCurrentUser(idea) || vm.isIdeaCreatedByCurrentUser(idea);
     };
 
-    $scope.isIdeaRatedOrCreatedByCurrentUser = function(idea) {
-      return $scope.isIdeaRatedByCurrentUser(idea) || $scope.isIdeaCreatedByCurrentUser(idea);
-    };
-
-    $scope.isIdeaCreatedByCurrentUser = function(idea) {
+    vm.isIdeaCreatedByCurrentUser = function(idea) {
       return idea.author._id == Auth.getCurrentUser()._id;
     };
 
-    $scope.isIdeaRatedByCurrentUser = function(idea) {
-      var my_rating_for_the_idea =  $filter('filter')($scope.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
+    vm.isIdeaRatedByCurrentUser = function(idea) {
+      var my_rating_for_the_idea =  $filter('filter')(vm.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
       if (my_rating_for_the_idea.length == 0)
         return false;
       else
         return true;
     };
 
-    $scope.getColor = function(idea) {
-      return $scope.categoryMap[idea.category];
+    vm.getColor = function(idea) {
+      return vm.categoryMap[idea.category];
     };
 
-    $scope.getNumberFloored = function(number) {
+    vm.getNumberFloored = function(number) {
       return Math.floor(number);
     };
 
-    $scope.openUpdateStateModal = function (nextState, idea) {
+    vm.openUpdateStateModal = function (nextState, idea) {
       $scope.nextState = nextState;
       $scope.idea = idea;
       $scope.modalWindowOpen = true;
@@ -151,11 +149,12 @@ angular.module('teamtoolApp')
       $scope.modalInstance = $modal.open({
         templateUrl: 'updateStateModal',
         windowClass: 'updateStateModal',
+        controller: 'IdeaCtrl as vm',
         scope: $scope
       });
 
       $scope.modalInstance.result.then(function () {
-        $scope.updateState(nextState, idea);
+        vm.updateState(nextState, idea);
       });
 
       $scope.modalInstance.result.finally(function () {
@@ -168,33 +167,33 @@ angular.module('teamtoolApp')
     Scope functions
      */
 
-    $scope.addIdea = function(form) {
-      $scope.submitted = true;
+    vm.addIdea = function(form) {
+      vm.submitted = true;
 
       if(form.$valid) {
         $http.post('/api/ideas', {
-          name: $scope.newIdea.title,
-          description: $scope.newIdea.description,
+          name: vm.newIdea.title,
+          description: vm.newIdea.description,
           author: Auth.getCurrentUser()._id,
-          state: $scope.states[0].value,
-          category: $scope.newIdea.category
+          state: vm.states[0].value,
+          category: vm.newIdea.category
         });
-        $scope.newIdea.title = '';
-        $scope.newIdea.description = '';
-        $scope.newIdea.category = '';
-        $scope.submitted = false;
+        vm.newIdea.title = '';
+        vm.newIdea.description = '';
+        vm.newIdea.category = '';
+        vm.submitted = false;
       }
     };
 
-    $scope.deleteIdea = Modal.confirm.delete(function(idea) {
+    vm.deleteIdea = Modal.confirm.delete(function(idea) {
       $http.delete('/api/ideas/' + idea._id);
     });
 
-    $scope.updateState = function(state, idea) {
+    vm.updateState = function(state, idea) {
       $http.put('/api/ideas/'+idea._id, { state: state} );
     };
 
-    $scope.addRating = function(idea) {
+    vm.addRating = function(idea) {
       if (idea.currentRating > 0) {
         $http.post('/api/ratings', { star_rating: idea.currentRating, idea: idea._id, author: Auth.getCurrentUser()._id } );
         $http.put('/api/ideas/' + idea._id, {totalStarCount: idea.totalStarCount + idea.currentRating, raterCount: idea.raterCount + 1} );

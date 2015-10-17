@@ -1,100 +1,100 @@
 div(ng-include='"app/navbar/navbar.html"')
 
-.container
-  .row
-    .col-lg-2
-    .col-lg-8
-      button.btn.btn-default(ng-show="isLoggedIn()", type="button", ng-class="{'btn-success': isCollapsed, 'btn-danger': !isCollapsed}", ng-click="isCollapsed = !isCollapsed") {{ideaFormToggleText}}
-      div(uib-collapse="isCollapsed")
-        br
-        form(name='form', ng-submit='addIdea(form)', novalidate='')
-          label Share your ideas in realtime with your team
-          .form-group(ng-class='{ "has-success": form.title.$valid && submitted, "has-error": form.title.$invalid && submitted }')
-            input.form-control(type='text', name='title', placeholder='Add the title here.', ng-model='newIdea.title', required)
-            p.help-block(ng-show='form.title.$error.required && submitted')
-              | What's the title?
-
-          .form-group(ng-class='{ "has-success": form.description.$valid && submitted, "has-error": form.description.$invalid && submitted }')
-            textarea.form-control(type='textarea', name='description', placeholder='Add the description here.', ng-model='newIdea.description', required)
-            p.help-block(ng-show='form.description.$error.required && submitted')
-              | What's the description?
-
-          .form-group(ng-class='{ "has-success": form.category.$valid && submitted, "has-error": form.category.$invalid && submitted }')
-            select.form-control(style="width: 300px;", name='category', ng-model='newIdea.category', required)
-              option(value="" disabled selected) Select the category
-              option(ng-repeat="category in categories") {{category}}
-            p.help-block(ng-show='form.category.$error.required && submitted')
-              | What's the category?
-
-          div
-            button.btn.btn-primary(type='submit') Create Idea
-
-      h1.align-center Ideas Backlog
-      br
-      div.btn-group.right(uib-dropdown, ng-show='isLoggedIn()')
-        button.btn.btn-primary(uib-dropdown-toggle, id="split-button") Sorted by {{sortCriterionLabel}}
-          span.caret
-        ul.uib-dropdown-menu(aria-labelledby="split-button")
-          li
-            a(href='#', ng-click='sortCriterion = "date"; sortReverse = true; sortCriterionLabel = "date (newest first) "') Date (newest first)
-          li
-            a(href='#', ng-click='sortCriterion = "date"; sortReverse = false; sortCriterionLabel = "date (oldest first) "') Date (oldest first)
-          li.divider
-          li
-            a(href='#', ng-click='sortCriterion = "averageRating"; sortReverse = true; sortCriterionLabel = "best average rated "') Best average rated
-          li
-            a(href='#', ng-click='sortCriterion = "averageRating"; sortReverse = false; sortCriterionLabel = "worst average rated "') Worst average rated
-          li.divider
-          li
-            a(href='#', ng-click='sortCriterion = "totalStarCount"; sortReverse = true; sortCriterionLabel = "stars (High to Low) "') Stars (High to Low)
-          li
-            a(href='#', ng-click='sortCriterion = "totalStarCount"; sortReverse = false; sortCriterionLabel = "stars (Low to High) "') Stars (Low to High)
-          li.divider
-          li
-            a(href='#', ng-click='sortCriterion = "raterCount"; sortReverse = true; sortCriterionLabel = "most rated "') Most rated
-          li
-            a(href='#', ng-click='sortCriterion = "raterCount"; sortReverse = false; sortCriterionLabel = "least rated "') Least rated
-          li.divider
-          li
-            a(href='#', ng-click='sortCriterion = "category"; sortReverse = false; sortCriterionLabel = "category (A-Z) "') Category (A-Z)
-          li
-            a(href='#', ng-click='sortCriterion = "category"; sortReverse = true; sortCriterionLabel = "category (Z-A) "') Category (Z-A)
-          li.divider
-          li
-            a(href='#', ng-click='sortCriterion = "author.username"; sortReverse = false; sortCriterionLabel = "author (A-Z) "') Author (A-Z)
-          li
-            a(href='#', ng-click='sortCriterion = "author.username"; sortReverse = true; sortCriterionLabel = "author (Z-A) "') Author (Z-A)
-
-      br
-      br
-      br
-      uib-tabset(justified="true")
-        uib-tab(ng-repeat="state in states", heading="{{state.value}}")
+div(ng-controller='IdeaCtrl as vm')
+  .container
+    .row
+      .col-lg-2
+      .col-lg-8
+        button.btn.btn-default(ng-show="vm.isLoggedIn()", type="button", ng-class="{'btn-success': vm.isCollapsed, 'btn-danger': !vm.isCollapsed}", ng-click="vm.isCollapsed = !vm.isCollapsed") {{vm.ideaFormToggleText}}
+        div(uib-collapse="vm.isCollapsed")
           br
-          div.nav.nav-stacked(ng-show="0 == (awesomeIdeas | filter: { state: state.value }).length")
+          form(name='form', ng-submit='vm.addIdea(form)', novalidate='')
+            label Share your ideas in realtime with your team
+            .form-group(ng-class='{ "has-success": form.title.$valid && submitted, "has-error": form.title.$invalid && submitted }')
+              input.form-control(type='text', name='title', placeholder='Add the title here.', ng-model='vm.newIdea.title', required)
+              p.help-block(ng-show='form.title.$error.required && submitted')
+                | What's the title?
+
+            .form-group(ng-class='{ "has-success": form.description.$valid && submitted, "has-error": form.description.$invalid && submitted }')
+              textarea.form-control(type='textarea', name='description', placeholder='Add the description here.', ng-model='vm.newIdea.description', required)
+              p.help-block(ng-show='form.description.$error.required && submitted')
+                | What's the description?
+
+            .form-group(ng-class='{ "has-success": form.category.$valid && submitted, "has-error": form.category.$invalid && submitted }')
+              select.form-control(style="width: 300px;", name='category', ng-model='vm.newIdea.category', required)
+                option(value="" disabled selected) Select the category
+                option(ng-repeat="category in vm.categories") {{category}}
+              p.help-block(ng-show='form.category.$error.required && submitted')
+                | What's the category?
+
+            div
+              button.btn.btn-primary(type='submit') Create Idea
+
+        h1.align-center Ideas Backlog
+        br
+        div.btn-group.right(uib-dropdown, ng-show='vm.isLoggedIn()')
+          button.btn.btn-primary(uib-dropdown-toggle, id="split-button") Sorted by {{vm.sortCriterionLabel}}
+            span.caret
+          ul.uib-dropdown-menu(aria-labelledby="split-button")
             li
-              a
-                .row.align-center
-                  b There isn't any idea {{state.value.toLowerCase()}}.
+              a(href='#', ng-click='vm.sortCriterion = "date"; vm.sortReverse = true; vm.sortCriterionLabel = "date (newest first) "') Date (newest first)
+            li
+              a(href='#', ng-click='vm.sortCriterion = "date"; vm.sortReverse = false; vm.sortCriterionLabel = "date (oldest first) "') Date (oldest first)
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "averageRating"; vm.sortReverse = true; vm.sortCriterionLabel = "best average rated "') Best average rated
+            li
+              a(href='#', ng-click='vm.sortCriterion = "averageRating"; vm.sortReverse = false; vm.sortCriterionLabel = "worst average rated "') Worst average rated
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "totalStarCount"; vm.sortReverse = true; vm.sortCriterionLabel = "stars (High to Low) "') Stars (High to Low)
+            li
+              a(href='#', ng-click='vm.sortCriterion = "totalStarCount"; vm.sortReverse = false; vm.sortCriterionLabel = "stars (Low to High) "') Stars (Low to High)
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "raterCount"; vm.sortReverse = true; vm.sortCriterionLabel = "most rated "') Most rated
+            li
+              a(href='#', ng-click='vm.sortCriterion = "raterCount"; vm.sortReverse = false; vm.sortCriterionLabel = "least rated "') Least rated
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "category"; vm.sortReverse = false; vm.sortCriterionLabel = "category (A-Z) "') Category (A-Z)
+            li
+              a(href='#', ng-click='vm.sortCriterion = "category"; vm.sortReverse = true; vm.sortCriterionLabel = "category (Z-A) "') Category (Z-A)
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "author.username"; vm.sortReverse = false; vm.sortCriterionLabel = "author (A-Z) "') Author (A-Z)
+            li
+              a(href='#', ng-click='vm.sortCriterion = "author.username"; vm.sortReverse = true; vm.sortCriterionLabel = "author (Z-A) "') Author (Z-A)
 
-          ul.nav.nav-tabs.nav-stacked(ng-repeat="idea in awesomeIdeas | filter: { state: state.value } | orderBy:[getFirstSortCriterion, getSecondSortCriterion, getThirdSortCriterion]:sortReverse")
-            li(ng-class="{'greenBackground': isGreenBackgroundActive(idea)}")
-              a
-                include ideaHeaderRow.jade
+        br
+        br
+        br
+        uib-tabset.color-blue(justified="true")
+          uib-tab(ng-repeat="state in vm.states", heading="{{state.value}}")
+            br
+            div.nav.nav-stacked(ng-show="0 == (vm.awesomeIdeas | filter: { state: state.value }).length")
+              .align-center
+                b There isn't any idea {{state.value.toLowerCase()}}.
 
-                button.close(ng-show='allowedToDelete(idea)', type='button', ng-click='deleteIdea(idea.name, idea)')
-                  span(class="glyphicon glyphicon-trash" aria-hidden="true")
-                button.close(ng-show='idea.state!=states[3].value && idea.state!=states[4].value', type='button', ng-click='openUpdateStateModal(states[4].value, idea)', ng-disabled="!isLoggedIn()")
-                  span(class="glyphicon glyphicon-remove" aria-hidden="true")
-                button.close(ng-show='idea.state==states[0].value', type='button', ng-click='openUpdateStateModal(states[1].value, idea)', ng-disabled="!isLoggedIn()")
-                  span(class="glyphicon glyphicon-ok" aria-hidden="true")
-                button.close(ng-show='idea.state==states[1].value', type='button', ng-click='openUpdateStateModal(states[2].value, idea)', ng-disabled="!isLoggedIn()")
-                  span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
-                button.close(ng-show='idea.state==states[2].value', type='button', ng-click='openUpdateStateModal(states[3].value, idea)', ng-disabled="!isLoggedIn()")
-                  span(class="glyphicon glyphicon-check" aria-hidden="true")
+            div.nav.nav-tabs.nav-stacked.padding8(ng-class="{'greenBackground': vm.allowedToRate(idea)}", ng-repeat="idea in vm.awesomeIdeas | filter: { state: state.value } | orderBy:[vm.getFirstSortCriterion, vm.getSecondSortCriterion, vm.getThirdSortCriterion]:vm.sortReverse")
 
-                include ideaBodyRow.jade
+              include ideaRow.jade
 
+              .row
+                .col-md-10
+                  | {{idea.description}}
+
+                .col-md-2
+                  button.close(ng-show='vm.allowedToDelete(idea)', type='button', ng-click='vm.deleteIdea(idea.name, idea)')
+                    span(class="glyphicon glyphicon-trash" aria-hidden="true")
+                  button.close(ng-show='idea.state!=vm.states[3].value && idea.state!=vm.states[4].value', type='button', ng-click='vm.openUpdateStateModal(vm.states[4].value, idea)', ng-disabled="!vm.isLoggedIn()")
+                    span(class="glyphicon glyphicon-remove" aria-hidden="true")
+                  button.close(ng-show='idea.state==vm.states[0].value', type='button', ng-click='vm.openUpdateStateModal(vm.states[1].value, idea)', ng-disabled="!vm.isLoggedIn()")
+                    span(class="glyphicon glyphicon-ok" aria-hidden="true")
+                  button.close(ng-show='idea.state==vm.states[1].value', type='button', ng-click='vm.openUpdateStateModal(vm.states[2].value, idea)', ng-disabled="!vm.isLoggedIn()")
+                    span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
+                  button.close(ng-show='idea.state==vm.states[2].value', type='button', ng-click='vm.openUpdateStateModal(vm.states[3].value, idea)', ng-disabled="!vm.isLoggedIn()")
+                    span(class="glyphicon glyphicon-check" aria-hidden="true")
 
     .col-lg-2
 footer.footer
@@ -111,10 +111,13 @@ script(type="text/ng-template" id="updateStateModal")
   div.modal-header
     h3.modal-title Change the status of this idea to {{nextState.toLowerCase()}}?
 
-  div.modal-body
-    a
-      include ideaHeaderRow.jade
-      include ideaBodyRow.jade
+  div.modal-body.color-blue
+
+    include ideaRow.jade
+
+    .row
+      .col-md-10
+        | {{idea.description}}
 
   div.modal-footer
     button.btn.btn-primary(type="button" ng-click="modalInstance.close()") OK
