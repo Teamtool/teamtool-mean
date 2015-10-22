@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('teamtoolApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookies, $q) {
     var currentUser = {};
-    if($cookieStore.get('token')) {
+    if($cookies.get('token')) {
       currentUser = User.get();
     }
 
@@ -20,12 +20,15 @@ angular.module('teamtoolApp')
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
+        var expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() + 365); // in one year
+
         $http.post('/auth/local', {
           email: user.email,
           password: user.password
         }).
         success(function(data) {
-          $cookieStore.put('token', data.token);
+          $cookies.put('token', data.token, {'expires': expireDate});
           currentUser = User.get();
           deferred.resolve(data);
           return cb();
@@ -45,7 +48,7 @@ angular.module('teamtoolApp')
        * @param  {Function}
        */
       logout: function() {
-        $cookieStore.remove('token');
+        $cookies.remove('token');
         currentUser = {};
       },
 
@@ -61,7 +64,7 @@ angular.module('teamtoolApp')
 
         return User.save(user,
           function(data) {
-            $cookieStore.put('token', data.token);
+            $cookies.put('token', data.token);
             currentUser = User.get();
             return cb(user);
           },
@@ -140,7 +143,7 @@ angular.module('teamtoolApp')
        * Get auth token
        */
       getToken: function() {
-        return $cookieStore.get('token');
+        return $cookies.get('token');
       }
     };
   });
