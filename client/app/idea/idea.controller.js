@@ -198,8 +198,7 @@ function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
     if (idea.currentRating > 0) {
       $http.put('/api/ideas/' + idea._id + '/ratings', {
           rater: Auth.getCurrentUser().username,
-          star: idea.currentRating,
-          date: Date.now
+          star: idea.currentRating
       });
     }
   };

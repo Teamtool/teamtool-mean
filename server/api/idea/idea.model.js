@@ -11,7 +11,7 @@ var IdeaSchema = new Schema({
   description: String,
   category: { type: String, enum: categories },
   author: String,
-  ratings: [{rater: String, star: Number, date: Date}],
+  ratings: [{rater: String, star: Number, date: { type: Date, default: Date.now }}],
   date: { type: Date, default: Date.now },
   state: { type: String, enum: states }
 }, {
