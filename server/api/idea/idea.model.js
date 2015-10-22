@@ -7,7 +7,7 @@ var states = 'Open, Accepted, In Progress, Implemented, Rejected, Deleted'.split
 var categories = 'Ideas Backlog, Training Catalog, User Settings, Login/Logout, Other'.split(', ');
 
 var IdeaSchema = new Schema({
-  name: String,
+  title: String,
   description: String,
   category: { type: String, enum: categories },
   author: String,

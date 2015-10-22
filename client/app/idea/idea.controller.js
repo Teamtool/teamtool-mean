@@ -173,7 +173,7 @@ function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
     vm.submitted = true;
     if(form.$valid) {
       $http.post('/api/ideas', {
-        name: vm.newIdea.title,
+        title: vm.newIdea.title,
         description: vm.newIdea.description,
         author: Auth.getCurrentUser().username,
         state: vm.states[0].value,

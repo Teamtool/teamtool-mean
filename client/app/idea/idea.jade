@@ -85,7 +85,7 @@ div(ng-controller='IdeaCtrl as vm')
                   div(ng-click="vm.toggle(idea)" ng-bind-html="idea.description | descLimit : idea.expanded | linky:'_blank'")
 
                 .col-md-2
-                  button.close(ng-show='vm.allowedToDelete(idea)', type='button', ng-click='vm.deleteIdea(idea.name, idea)')
+                  button.close(ng-show='vm.allowedToDelete(idea)', type='button', ng-click='vm.deleteIdea(idea.title, idea)')
                     span(class="glyphicon glyphicon-trash" aria-hidden="true")
                   button.close(ng-show='idea.state!=vm.states[3].value && idea.state!=vm.states[4].value', type='button', ng-click='vm.openUpdateStateModal(vm.states[4].value, idea)', ng-disabled="!vm.isLoggedIn()")
                     span(class="glyphicon glyphicon-remove" aria-hidden="true")
