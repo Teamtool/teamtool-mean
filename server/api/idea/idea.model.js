@@ -10,26 +10,31 @@ var IdeaSchema = new Schema({
   name: String,
   description: String,
   category: { type: String, enum: categories },
-  author: {type : Schema.ObjectId, ref : 'User'},
+  author: String,
+  ratings: [{rater: String, star: Number, date: Date}],
   date: { type: Date, default: Date.now },
-  state: { type: String, enum: states },
-  totalStarCount: { type: Number, default: 0 },
-  raterCount: { type: Number, default: 0 }
+  state: { type: String, enum: states }
 }, {
   toObject: {virtuals: true},
   toJSON: {virtuals: true}
 });
 
+IdeaSchema.virtual('raterCount').get(function() {
+  return this.ratings.length;
+});
+
+IdeaSchema.virtual('totalStarCount').get(function() {
+  return this.ratings.reduce(
+    function(total, rating){ return total + rating.star }, 0);
+});
+
 IdeaSchema.virtual('averageRating').get(function() {
-  if(this.raterCount != 0)
-    return (this.totalStarCount / this.raterCount).toFixed(1);
-  else
-    return 0;
+  return (this.ratings.length != 0) ? (this.totalStarCount / this.ratings.length).toFixed(1) : 0;
 });
 
 IdeaSchema.statics = {
   load: function (id, cb) {
-    this.findOne({ _id : id }).populate('author').exec(cb);
+    this.findOne({ _id : id }).exec(cb);
   }
 };
 

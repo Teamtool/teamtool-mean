@@ -16,9 +16,7 @@ exports.register = function(socket) {
 }
 
 function onSave(socket, doc, cb) {
-  Idea.populate(doc, {path:'author', select: 'username'}, function(err, idea) {
-    socket.emit('idea:save', idea);
-  });
+  socket.emit('idea:save', doc);
 }
 
 function onRemove(socket, doc, cb) {

@@ -12,7 +12,6 @@
 
 var _ = require('lodash');
 var Idea = require('./idea.model');
-var Rating = require('../rating/rating.model');
 var User = require('../user/user.model');
 var nodemailer = require('nodemailer');
 var fs = require('fs');
@@ -35,7 +34,7 @@ exports.index = function(req, res) {
   Idea.find(function (err, ideas) {
     if(err) { return handleError(res, err); }
     return res.json(200, ideas);
-  }).populate('author');
+  });
 };
 
 // Get a single idea
@@ -44,14 +43,6 @@ exports.show = function(req, res) {
     if(err) { return handleError(res, err); }
     if(!idea) { return res.send(404); }
     return res.json(idea);
-  });
-};
-
-// Get all ratings for a given idea from the DB.
-exports.getRatings = function(req, res) {
-  Rating.find(function (err, ratings) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, ratings);
   });
 };
 
@@ -66,7 +57,7 @@ exports.create = function(req, res) {
 
       var mailTo = "";
       for (var i in users) {
-        if(!idea.author._id.equals(users[i]._id)) {
+        if(idea.author != users[i].username) {
           mailTo = mailTo.concat(users[i].email + ",");
         }
       }
@@ -108,6 +99,19 @@ exports.update = function(req, res) {
     if(!idea) { return res.send(404); }
     var updated = _.merge(idea, req.body);
     updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, idea);
+    });
+  });
+};
+
+exports.addRating = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  Idea.findById(req.params.id, function (err, idea) {
+    if (err) { return handleError(res, err); }
+    if(!idea) { return res.send(404); }
+    idea.ratings.push(req.body);
+    idea.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, idea);
     });

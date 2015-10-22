@@ -7,7 +7,7 @@ function descLimitFilter($filter) {
 }
 
 
-function IdeaCtrl($scope, $http, $filter, $modal, socket, Auth, Modal) {
+function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
 
   /*
   Constants
@@ -15,8 +15,6 @@ function IdeaCtrl($scope, $http, $filter, $modal, socket, Auth, Modal) {
 
   var vm = this;
 
-  vm.awesomeIdeas = [];
-  vm.ratings = [];
   vm.newIdea = {};
 
   vm.states = [
@@ -50,11 +48,6 @@ function IdeaCtrl($scope, $http, $filter, $modal, socket, Auth, Modal) {
     });
   });
 
-  $http.get('/api/ratings').success(function(ratings) {
-    vm.ratings = ratings;
-    socket.syncUpdates('rating', vm.ratings);
-  });
-
 
   /*
   Util functions
@@ -78,8 +71,6 @@ function IdeaCtrl($scope, $http, $filter, $modal, socket, Auth, Modal) {
   vm.getFirstSortCriterion = function(idea) {
     if((vm.sortCriterion == "totalStarCount" || vm.sortCriterion == "averageRating") && !vm.isIdeaRatedOrCreatedByCurrentUser(idea))
       return 0;
-    else if(vm.sortCriterion == "author.username")
-      return idea.author.username;
     else
       return idea[vm.sortCriterion];
   };
@@ -103,7 +94,7 @@ function IdeaCtrl($scope, $http, $filter, $modal, socket, Auth, Modal) {
 
   vm.fixReversing = function(number) {
     // Category and username ordering should sort "also in reverse" in the right direction
-    if((vm.sortCriterion == "category" || vm.sortCriterion == "author.username") && !vm.sortReverse)
+    if((vm.sortCriterion == "category" || vm.sortCriterion == "author") && !vm.sortReverse)
       return number * -1;
     else
       return number;
@@ -135,15 +126,14 @@ function IdeaCtrl($scope, $http, $filter, $modal, socket, Auth, Modal) {
   };
 
   vm.isIdeaCreatedByCurrentUser = function(idea) {
-    return idea.author._id == Auth.getCurrentUser()._id;
+    return idea.author == Auth.getCurrentUser().username;
   };
 
   vm.isIdeaRatedByCurrentUser = function(idea) {
-    var my_rating_for_the_idea =  $filter('filter')(vm.ratings, {idea:idea._id, author: Auth.getCurrentUser()._id});
-    if (my_rating_for_the_idea.length == 0)
-      return false;
-    else
+    if (_.findWhere(idea.ratings, {'rater':Auth.getCurrentUser().username}))
       return true;
+    else
+      return false;
   };
 
   vm.getColor = function(idea) {
@@ -181,12 +171,11 @@ function IdeaCtrl($scope, $http, $filter, $modal, socket, Auth, Modal) {
 
   vm.addIdea = function(form) {
     vm.submitted = true;
-
     if(form.$valid) {
       $http.post('/api/ideas', {
         name: vm.newIdea.title,
         description: vm.newIdea.description,
-        author: Auth.getCurrentUser()._id,
+        author: Auth.getCurrentUser().username,
         state: vm.states[0].value,
         category: vm.newIdea.category
       });
@@ -207,8 +196,11 @@ function IdeaCtrl($scope, $http, $filter, $modal, socket, Auth, Modal) {
 
   vm.addRating = function(idea) {
     if (idea.currentRating > 0) {
-      $http.post('/api/ratings', { star_rating: idea.currentRating, idea: idea._id, author: Auth.getCurrentUser()._id } );
-      $http.put('/api/ideas/' + idea._id, {totalStarCount: idea.totalStarCount + idea.currentRating, raterCount: idea.raterCount + 1} );
+      $http.put('/api/ideas/' + idea._id + '/ratings', {
+          rater: Auth.getCurrentUser().username,
+          star: idea.currentRating,
+          date: Date.now
+      });
     }
   };
 }

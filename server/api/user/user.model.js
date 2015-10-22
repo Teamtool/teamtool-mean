@@ -92,6 +92,29 @@ UserSchema
     });
 }, 'The specified email address is already in use.');
 
+// Validate empty username
+UserSchema
+  .path('username')
+  .validate(function(username) {
+    if (authTypes.indexOf(this.provider) !== -1) return true;
+    return username.length;
+  }, 'Username cannot be blank');
+
+// Validate username is not taken
+UserSchema
+  .path('username')
+  .validate(function(value, respond) {
+    var self = this;
+    this.constructor.findOne({username: value}, function(err, user) {
+      if(err) throw err;
+      if(user) {
+        if(self.id === user.id) return respond(true);
+        return respond(false);
+      }
+      respond(true);
+    });
+  }, 'The specified username is already in use.');
+
 var validatePresenceOf = function(value) {
   return value && value.length;
 };
