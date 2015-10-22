@@ -29,7 +29,7 @@ IdeaSchema.virtual('totalStarCount').get(function() {
 });
 
 IdeaSchema.virtual('averageRating').get(function() {
-  return (this.ratings.length != 0) ? (this.totalStarCount / this.ratings.length).toFixed(1) : 0;
+  return (this.raterCount != 0) ? (this.totalStarCount / this.raterCount).toFixed(1) : 0;
 });
 
 IdeaSchema.statics = {
