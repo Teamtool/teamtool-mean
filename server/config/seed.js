@@ -49,13 +49,19 @@ User.find({}).remove(function() {
 
 Idea.find({}).remove(function() {
   Idea.create({
-    name : 'Development Tools',
+    title : 'Development Tools',
     description : 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less.',
-    author: User.findOne({username: 'Test User'}).username
+    category: 'Ideas Backlog',
+    author: 'user',
+    ratings: [{rater:'Lucy', star:5}, {rater:'Charlie', star:3}],
+    state: 'Open'
   }, {
-    name : 'Deployment Ready',
+    title : 'Deployment Ready',
     description : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators',
-    author: User.findOne({username: 'Test User'}).username
+    category: 'Training Catalog',
+    author: 'Lucy',
+    ratings: [{rater:'Linus', star:1}, {rater:'Charlie', star:4}],
+    state: 'Open'
   });
 
 });
