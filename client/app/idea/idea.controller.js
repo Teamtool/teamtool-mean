@@ -7,7 +7,7 @@ function descLimitFilter($filter) {
 }
 
 
-function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
+function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal, usSpinnerService) {
 
   /*
   Constants
@@ -40,7 +40,9 @@ function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
    Scope Api calls
    */
 
+  usSpinnerService.spin('spinner-ideasLoading');
   $http.get('/api/ideas').success(function(awesomeIdeas) {
+    usSpinnerService.stop('spinner-ideasLoading');
     vm.awesomeIdeas = awesomeIdeas;
     socket.syncUpdates('idea', vm.awesomeIdeas);
     angular.forEach(vm.awesomeIdeas, function(item) {

@@ -8,7 +8,8 @@ angular.module('teamtoolApp', [
   'ui.router',
   'ui.bootstrap',
   'validation.match',
-  'ngAnimate'
+  'ngAnimate',
+  'angularSpinner'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

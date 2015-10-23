@@ -76,6 +76,7 @@ div(ng-controller='IdeaCtrl as vm')
               .align-center
                 b There isn't any idea {{state.value.toLowerCase()}}.
 
+
             div.nav.nav-tabs.nav-stacked.padding8(ng-class="{'greenBackground': vm.allowedToRate(idea)}", ng-repeat="idea in vm.awesomeIdeas | filter: { state: state.value } | orderBy:[vm.getFirstSortCriterion, vm.getSecondSortCriterion, vm.getThirdSortCriterion]:vm.sortReverse")
 
               include ideaRow.jade
@@ -95,6 +96,9 @@ div(ng-controller='IdeaCtrl as vm')
                     span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
                   button.close(ng-show='idea.state==vm.states[2].value', type='button', ng-click='vm.openUpdateStateModal(vm.states[3].value, idea)', ng-disabled="!vm.isLoggedIn()")
                     span(class="glyphicon glyphicon-check" aria-hidden="true")
+
+      div(us-spinner="{scale:0.5, radius:30, width:9, length:16, top:'35%', speed:1.5, color:'#428bca'}" spinner-key="spinner-ideasLoading" spinner-start-active="true")
+
 
     .col-lg-2
 footer.footer
