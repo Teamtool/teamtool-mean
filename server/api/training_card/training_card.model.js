@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var TrainingCardSchema = new Schema({
-  name: String,
+  title: String,
   info: String,
   active: Boolean
 });
