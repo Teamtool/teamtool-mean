@@ -1,4 +1,3 @@
-div(ng-include='"app/navbar/navbar.html"')
 
 div(ng-controller='IdeaCtrl as vm')
   .container
@@ -101,14 +100,7 @@ div(ng-controller='IdeaCtrl as vm')
 
 
     .col-lg-2
-footer.footer
-  .container
-    p
-      | Teamtool V0.1
-      = ' | '
-      a(href='https://github.com/Teamtool/teamtool-mean.git') Github
-      = ' | '
-      a(href='https://github.com/Teamtool/teamtool-mean/issues') Issues
+
 
 
 script(type="text/ng-template" id="updateStateModal" ng-controller='IdeaCtrl as vm')

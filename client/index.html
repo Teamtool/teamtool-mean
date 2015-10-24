@@ -27,6 +27,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    <div ng-include='"app/navbar/navbar.html"'></div>
     <div ui-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -86,5 +87,18 @@
           <script src="components/socket/socket.service.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
-</body>
+
+    <footer class="footer">
+      <div class="container">
+        <p>
+          Teamtool V0.1  |
+          <a href="https://github.com/Teamtool/teamtool-mean.git">Github</a>
+          |
+          <a href="https://github.com/Teamtool/teamtool-mean/issues">Issues</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+
+
 </html>
