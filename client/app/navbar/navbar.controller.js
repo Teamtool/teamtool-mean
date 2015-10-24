@@ -3,7 +3,9 @@
 angular.module('teamtoolApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [
-      {'title': 'Ideas', 'link': '/idea'}
+      {'title': 'Ideas', 'link': '/idea'},
+      {'title': 'Training Catalog', 'link': '/training_cards'}
+
     ];
 
     $scope.currentUser = Auth.getCurrentUser();
