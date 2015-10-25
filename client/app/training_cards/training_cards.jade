@@ -1,5 +1,5 @@
 
-div(ng-controller='TrainingCardsCtrl as vm')
+div(ng-controller='TrainingCardsCtrl as tcc')
   .container
     .row
       .col-lg-2
@@ -7,18 +7,18 @@ div(ng-controller='TrainingCardsCtrl as vm')
         form.thing-form
           label New Training Card
           p.input-group
-            input.form-control(type='text', placeholder='Training card title here.', ng-model='new_training_card.title')
+            input.form-control(type='text', placeholder='Training card title here.', ng-model='tcc.new_training_card.title')
             span.input-group-btn
-              button.btn.btn-primary(type='submit', ng-click='addTrainingCard()') Add New
+              button.btn.btn-primary(type='submit', ng-click='tcc.addTrainingCard()') Add New
         h1.page-header Training Cards
-        ul.nav.nav-tabs.nav-stacked(ng-repeat='card in training_cards')
+        ul.nav.nav-tabs.nav-stacked(ng-repeat='card in tcc.training_cards')
           li
             .row
               .col-md-10
                 h4 {{card.title}}
 
               .col-md-2
-                button.close(type='button', ng-click='deleteTrainingCard(card)')
+                button.close(type='button', ng-click='tcc.deleteTrainingCard(card)')
                   span(class="glyphicon glyphicon-trash" aria-hidden="true")
             br
 

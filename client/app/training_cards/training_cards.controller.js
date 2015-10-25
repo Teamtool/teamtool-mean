@@ -3,25 +3,27 @@
 angular.module('teamtoolApp')
   .controller('TrainingCardsCtrl', function  ($scope, $http, socket) {
 
-    $scope.new_training_card = {};
+    var vm = this;
 
-    $scope.training_cards = [];
+    vm.new_training_card = {};
+
+    vm.training_cards = [];
 
 
     $http.get('/api/training_cards').success(function(training_cards) {
-      $scope.training_cards = training_cards;
-      socket.syncUpdates('training_card', $scope.training_cards);
+      vm.training_cards = training_cards;
+      socket.syncUpdates('training_card', vm.training_cards);
     });
 
-    $scope.addTrainingCard = function() {
-      if($scope.new_training_card === '') {
+    vm.addTrainingCard = function() {
+      if(vm.new_training_card === '') {
         return;
       }
-      $http.post('/api/training_cards', { title: $scope.new_training_card.title });
-      $scope.new_training_card = '';
+      $http.post('/api/training_cards', { title: vm.new_training_card.title });
+      vm.new_training_card = '';
     };
 
-    $scope.deleteTrainingCard = function(training_card) {
+    vm.deleteTrainingCard = function(training_card) {
       $http.delete('/api/training_cards/' + training_card._id);
     };
 
