@@ -13,13 +13,14 @@ div(ng-controller='TrainingCardsCtrl as tcc')
         h1.page-header Training Cards
         ul.nav.nav-tabs.nav-stacked(ng-repeat='card in tcc.training_cards')
           li
-            .row
-              .col-md-10
-                h4 {{card.title}}
+            .training-card
+              .row
+                .col-md-10
+                  h4 {{card.title}}
 
-              .col-md-2
-                button.close(type='button', ng-click='tcc.deleteTrainingCard(card)')
-                  span(class="glyphicon glyphicon-trash" aria-hidden="true")
+                .col-md-2
+                  button.close(type='button', ng-click='tcc.deleteTrainingCard(card)')
+                    span(class="glyphicon glyphicon-trash" aria-hidden="true")
             br
 
       .col-lg-2
