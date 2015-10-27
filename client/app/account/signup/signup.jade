@@ -11,7 +11,6 @@
           p.help-block(ng-show='form.firstname.$error.required && submitted')
             | What's your first name?
 
-
         .form-group(ng-class='{ "has-success": form.surname.$valid && submitted,\
         "has-error": form.surname.$invalid && submitted }')
           label Surname
@@ -22,9 +21,11 @@
         .form-group(ng-class='{ "has-success": form.username.$valid && submitted,\
         "has-error": form.username.$invalid && submitted }')
           label Username
-          input.form-control(type='text', name='username', ng-model='user.username', required='')
+          input.form-control(type='text', name='username', ng-model='user.username', required='', mongoose-error='')
           p.help-block(ng-show='form.username.$error.required && submitted')
             | Please choose a username
+          p.help-block(ng-show='form.username.$error.mongoose')
+            | {{ errors.username }}
 
         .form-group(ng-class='{ "has-success": form.email.$valid && submitted,\
         "has-error": form.email.$invalid && submitted }')
