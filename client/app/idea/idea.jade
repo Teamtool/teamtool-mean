@@ -4,30 +4,31 @@ div(ng-controller='IdeaCtrl as vm')
     .row
       .col-lg-2
       .col-lg-8
-        button.btn.btn-default(ng-show="vm.isLoggedIn()", type="button", ng-class="{'btn-success': vm.isCollapsed, 'btn-danger': !vm.isCollapsed}", ng-click="vm.isCollapsed = !vm.isCollapsed") {{vm.ideaFormToggleText}}
-        div(uib-collapse="vm.isCollapsed")
-          br
-          form(name='form', ng-submit='vm.addIdea(form)', novalidate='')
-            label Share your ideas in realtime with your team
-            .form-group(ng-class='{ "has-success": form.title.$valid && vm.submitted, "has-error": form.title.$invalid && vm.submitted }')
-              input.form-control(type='text', name='title', placeholder='Add the title here.', ng-model='vm.newIdea.title', required)
-              p.help-block(ng-show='form.title.$error.required && vm.submitted')
-                | What's the title?
+        div(ng-show="vm.isLoggedIn()")
+          button.btn.btn-default(type="button", ng-class="{'btn-success': vm.isCollapsed, 'btn-danger': !vm.isCollapsed}", ng-click="vm.isCollapsed = !vm.isCollapsed") {{vm.ideaFormToggleText}}
+          div(uib-collapse="vm.isCollapsed")
+            br
+            form(name='form', ng-submit='vm.addIdea(form)', novalidate='')
+              label Share your ideas in realtime with your team
+              .form-group(ng-class='{ "has-success": form.title.$valid && vm.submitted, "has-error": form.title.$invalid && vm.submitted }')
+                input.form-control(type='text', name='title', placeholder='Add the title here.', ng-model='vm.newIdea.title', required)
+                p.help-block(ng-show='form.title.$error.required && vm.submitted')
+                  | What's the title?
 
-            .form-group(ng-class='{ "has-success": form.description.$valid && vm.submitted, "has-error": form.description.$invalid && vm.submitted }')
-              textarea.form-control(type='textarea', name='description', placeholder='Add the description here.', ng-model='vm.newIdea.description', required)
-              p.help-block(ng-show='form.description.$error.required && vm.submitted')
-                | What's the description?
+              .form-group(ng-class='{ "has-success": form.description.$valid && vm.submitted, "has-error": form.description.$invalid && vm.submitted }')
+                textarea.form-control(type='textarea', name='description', placeholder='Add the description here.', ng-model='vm.newIdea.description', required)
+                p.help-block(ng-show='form.description.$error.required && vm.submitted')
+                  | What's the description?
 
-            .form-group(ng-class='{ "has-success": form.category.$valid && vm.submitted, "has-error": form.category.$invalid && vm.submitted }')
-              select.form-control(style="width: 300px;", name='category', ng-model='vm.newIdea.category', required)
-                option(value="" disabled selected) Select the category
-                option(ng-repeat="category in vm.categories") {{category}}
-              p.help-block(ng-show='form.category.$error.required && vm.submitted')
-                | What's the category?
+              .form-group(ng-class='{ "has-success": form.category.$valid && vm.submitted, "has-error": form.category.$invalid && vm.submitted }')
+                select.form-control(style="width: 300px;", name='category', ng-model='vm.newIdea.category', required)
+                  option(value="" disabled selected) Select the category
+                  option(ng-repeat="category in vm.categories") {{category}}
+                p.help-block(ng-show='form.category.$error.required && vm.submitted')
+                  | What's the category?
 
-            div
-              button.btn.btn-primary(type='submit' ng-click='vm.states[0].active = true') Create Idea
+              div
+                button.btn.btn-primary(type='submit' ng-click='vm.states[0].active = true') Create Idea
 
         h1.align-center Ideas Backlog
         br
