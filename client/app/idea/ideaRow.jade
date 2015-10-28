@@ -16,7 +16,7 @@
       | ? / ? stars
 
     div(ng-show='(vm.isLoggedIn() && vm.isIdeaRatedOrCreatedByCurrentUser(idea)) || idea.state != vm.states[0].value')
-      uib-rating(ng-init="averageRating = vm.getNumberFloored(idea.averageRating)", ng-model="idea.averageRating", max="5", readonly="true")
+      uib-rating(ng-init="averageRating = vm.getNumberFloored(idea.averageRating)", ng-model="averageRating", max="5", readonly="true")
       | {{idea.raterCount}}
       br
       | {{idea.averageRating}} / {{idea.totalStarCount}} stars
