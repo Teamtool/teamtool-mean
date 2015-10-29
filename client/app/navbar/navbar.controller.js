@@ -8,7 +8,9 @@ angular.module('teamtoolApp')
 
     ];
 
-    $scope.currentUser = Auth.getCurrentUser();
+    $scope.currentUser = function() {
+      return Auth.getCurrentUser();
+    };
 
     $scope.isLoggedIn = function() {
       return Auth.isLoggedIn();
