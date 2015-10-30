@@ -41,7 +41,7 @@
         .form-group(ng-class='{ "has-success": form.confirmEmail.$valid && submitted,\
         "has-error": form.confirmEmail.$error.match }')
           label Email confirmation
-          input.form-control(type='email', name='confirmEmail', ng-model='user.confirmEmail', data-match="user.email", required='', mongoose-error='')
+          input.form-control(type='email', name='confirmEmail', ng-model='user.confirmEmail', onPaste="return false", data-match="user.email", required='', mongoose-error='')
           p.help-block(ng-show='form.confirmEmail.$error.match')
             | Emails do not match!
 
@@ -58,7 +58,7 @@
         .form-group(ng-class='{ "has-success": form.confirmPassword.$valid && submitted,\
         "has-error": form.confirmPassword.$error.match }')
           label Password confirmation
-          input.form-control(type='password', name='confirmPassword', ng-model='user.confirmPassword', data-match="user.password", required='', mongoose-error='')
+          input.form-control(type='password', name='confirmPassword', ng-model='user.confirmPassword', onPaste="return false", data-match="user.password", required='', mongoose-error='')
           p.help-block(ng-show='form.confirmPassword.$error.match')
             | Passwords do not match!
 
