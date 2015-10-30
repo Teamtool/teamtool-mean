@@ -96,9 +96,6 @@ div(ng-controller='IdeaCtrl as vm')
                   button.close(ng-show='idea.state==vm.states[2].value', type='button', ng-click='vm.openUpdateStateModal(vm.states[3].value, idea)', ng-disabled="!vm.isLoggedIn()")
                     span(class="glyphicon glyphicon-check" aria-hidden="true")
 
-      div(us-spinner="{scale:0.5, radius:30, width:9, length:16, top:'35%', speed:1.5, color:'#428bca'}" spinner-key="spinner-ideasLoading" spinner-start-active="true")
-
-
     .col-lg-2
 
 

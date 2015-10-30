@@ -9,7 +9,7 @@ angular.module('teamtoolApp', [
   'ui.bootstrap',
   'validation.match',
   'ngAnimate',
-  'angularSpinner'
+  'angular-loading-bar'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
