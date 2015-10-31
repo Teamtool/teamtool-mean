@@ -18,6 +18,9 @@ exports.setup = function (User, config) {
         if (!user.authenticate(password)) {
           return done(null, false, { message: 'This password is not correct.' });
         }
+        if (!user.active) {
+          return done(null, false, { message: 'This account has not been activated yet.' });
+        }
         return done(null, user);
       });
     }

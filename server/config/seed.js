@@ -10,38 +10,45 @@ var Idea = require('../api/idea/idea.model');
 
 User.find({}).remove(function() {
   User.create({
-    provider: 'local',
-    username: 'Snoopy',
-    role: 'admin',
-    email: 'snoopy@admin.com',
-    password: 'admin'
+      provider: 'local',
+      username: 'Snoopy',
+      role: 'admin',
+      email: 'snoopy@admin.com',
+      password: 'admin',
+      active: true
   }, {
-    provider: 'local',
-    username: 'Woodstock',
-    role: 'admin',
-    email: 'woodstock@admin.com',
-    password: 'admin'
-  }, {
-    provider: 'local',
-    username: 'Charlie',
-    email: 'charlie@user.com',
-    password: 'user'
-  }, {
-    provider: 'local',
-    username: 'Linus',
-    email: 'linus@user.com',
-    password: 'user'
-  }, {
-    provider: 'local',
-    username: 'Lucy',
-    email: 'lucy@user.com',
-    password: 'user'
-  } , {
-    provider: 'local',
-    username: 'user',
-    email: 'akcasoy@gmail.com',
-    password: 'user'
-  }, function() {
+      provider: 'local',
+      username: 'Woodstock',
+      role: 'admin',
+      email: 'woodstock@admin.com',
+      password: 'admin',
+      active: true
+    }, {
+      provider: 'local',
+      username: 'Charlie',
+      email: 'charlie@user.com',
+      password: 'user',
+      active: true
+    }, {
+      provider: 'local',
+      username: 'Linus',
+      email: 'linus@user.com',
+      password: 'user',
+      active: true
+    }, {
+      provider: 'local',
+      username: 'Lucy',
+      email: 'lucy@user.com',
+      password: 'user',
+      active: true
+    } , {
+      provider: 'local',
+      username: 'user',
+      email: 'akcasoy@gmail.com',
+      password: 'user',
+      active: true,
+      role: 'admin'
+    }, function() {
       console.log('finished populating users');
     }
   );
@@ -57,6 +64,13 @@ Idea.find({}).remove(function() {
     state: 'Open'
   }, {
     title : 'Deployment Ready',
+    description : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators',
+    category: 'Training Catalog',
+    author: 'Lucy',
+    ratings: [{rater:'Linus', star:1}, {rater:'Charlie', star:4}],
+    state: 'Open'
+  }, {
+    title : 'Deployment Ready 2',
     description : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators',
     category: 'Training Catalog',
     author: 'Lucy',

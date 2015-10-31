@@ -63,11 +63,6 @@ angular.module('teamtoolApp')
         var cb = callback || angular.noop;
 
         return User.save(user,
-          function(data) {
-            $cookies.put('token', data.token);
-            currentUser = User.get();
-            return cb(user);
-          },
           function(err) {
             this.logout();
             return cb(err);

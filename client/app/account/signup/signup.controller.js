@@ -17,8 +17,8 @@ angular.module('teamtoolApp')
           password: $scope.user.password
         })
         .then( function() {
-          // Account created, redirect to home
-          $location.path('/');
+          // Account created, redirect to login
+          $location.path('/login');
         })
         .catch( function(err) {
           err = err.data;
