@@ -67,6 +67,7 @@ function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
   vm.sortReverse = true;
 
   vm.getFirstSortCriterion = function(idea) {
+    // anonymisation of ratings
     if((vm.sortCriterion == "totalStarCount" || vm.sortCriterion == "averageRating") && !vm.isIdeaRatedOrCreatedByCurrentUser(idea))
       return 0;
     else
@@ -83,15 +84,18 @@ function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
   };
 
   vm.getThirdSortCriterion = function(idea) {
-    if(vm.sortCriterion == "totalStarCount")
-      // For this case: isIdeaRatedOrCreatedByCurrentUser = false (1. & 2. criteria = 0) Green ideas
-      return idea.raterCount;
+    return vm.fixReversing(idea.raterCount);
+  };
+
+  vm.getFourthSortCriterion = function(idea) {
+    if(vm.sortReverse)
+      return new Date(idea.date).getTime();
     else
-      return vm.fixReversing(idea.raterCount);
+      return new Date(idea.date).getTime() * -1;
   };
 
   vm.fixReversing = function(number) {
-    // Category and username ordering should sort "also in reverse" in the right direction
+    // Category and username ordering should sort "also in reverse" in the right direction of rating/rater
     if((vm.sortCriterion == "category" || vm.sortCriterion == "author") && !vm.sortReverse)
       return number * -1;
     else

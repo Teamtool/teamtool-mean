@@ -76,7 +76,7 @@ div(ng-controller='IdeaCtrl as vm')
                 b There isn't any idea {{state.value.toLowerCase()}}.
 
 
-            div.nav.nav-tabs.nav-stacked.padding8(ng-class="{'greenBackground': vm.allowedToRate(idea)}", ng-repeat="idea in vm.awesomeIdeas | filter: { state: state.value } | orderBy:[vm.getFirstSortCriterion, vm.getSecondSortCriterion, vm.getThirdSortCriterion]:vm.sortReverse")
+            div.nav.nav-tabs.nav-stacked.padding8(ng-class="{'greenBackground': vm.allowedToRate(idea)}", ng-repeat="idea in vm.awesomeIdeas | filter: { state: state.value } | orderBy:[vm.getFirstSortCriterion, vm.getSecondSortCriterion, vm.getThirdSortCriterion, vm.getFourthSortCriterion]:vm.sortReverse")
 
               include ideaRow.jade
 
