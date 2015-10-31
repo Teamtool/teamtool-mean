@@ -4,6 +4,7 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var sendEmail = require('../../components/email/email.js');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -31,6 +32,7 @@ exports.create = function (req, res, next) {
     if (err) return validationError(res, err);
     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
     res.json({ token: token });
+    sendEmail({role : 'admin'}, 'newUser.html', 'There is a new user!');
   });
 };
 
