@@ -18,6 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/question_answer/question_answer.socket').register(socket);
   require('../api/training_card/training_card.socket').register(socket);
   require('../api/idea/idea.socket').register(socket);
 }
