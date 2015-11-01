@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('teamtoolApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
+  .controller('LoginCtrl', function ($rootScope, $scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -14,8 +14,13 @@ angular.module('teamtoolApp')
           password: $scope.user.password
         })
         .then( function() {
-          // Logged in, redirect to ideas
-          $location.path('/idea');
+          if(typeof $rootScope.originalUrl != 'undefined') {
+            $location.path($rootScope.originalUrl);
+            delete $rootScope.originalUrl;
+          } else {
+            // Logged in, redirect to ideas
+            $location.path('/');
+          }
         })
         .catch( function(err) {
           $scope.errors.other = err.message;

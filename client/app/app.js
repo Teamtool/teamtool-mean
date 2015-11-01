@@ -50,6 +50,7 @@ angular.module('teamtoolApp', [
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
         if (next.authenticate && !loggedIn) {
+          $rootScope.originalUrl = next.url;
           $location.path('/login');
         }
       });
