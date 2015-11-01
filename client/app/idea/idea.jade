@@ -4,7 +4,7 @@ div(ng-controller='IdeaCtrl as vm')
     .row
       .col-lg-2
       .col-lg-8
-        button.btn.btn-default(ng-disabled="!vm.isLoggedIn()", type="button", ng-class="{'btn-success': vm.isCollapsed, 'btn-danger': !vm.isCollapsed}", ng-click="vm.isCollapsed = !vm.isCollapsed") {{vm.ideaFormToggleText}}
+        button.btn.btn-default(ng-disabled="!vm.isLoggedIn()", type="button", ng-class="{'btn-success': vm.isCollapsed, 'btn-danger': !vm.isCollapsed}", ng-click="vm.isCollapsed = !vm.isCollapsed") {{vm.isCollapsed && 'Create Idea' || 'Close Form'}}
         div(uib-collapse="vm.isCollapsed")
           br
           form(name='form', ng-submit='vm.addIdea(form)', novalidate='')
@@ -95,6 +95,7 @@ div(ng-controller='IdeaCtrl as vm')
                     span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
                   button.close(ng-show='idea.state==vm.states[2].value', type='button', ng-click='vm.openUpdateStateModal(vm.states[3].value, idea)', ng-disabled="!vm.isLoggedIn()")
                     span(class="glyphicon glyphicon-check" aria-hidden="true")
+
 
     .col-lg-2
 

@@ -111,10 +111,6 @@ function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
 
   vm.isCollapsed = true;
 
-  $scope.$watch('vm.isCollapsed', function(){
-    vm.ideaFormToggleText = vm.isCollapsed ? 'Create Idea' : 'Close Form';
-  });
-
   vm.allowedToDelete = function(idea) {
     return Auth.getCurrentUser().role === 'admin' || vm.isIdeaCreatedByCurrentUser(idea);
   };
