@@ -6,7 +6,7 @@ function descLimitFilter($filter) {
   }
 }
 
-function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
+function IdeaCtrl($scope, $http, $uibModal, socket, Auth, Modal) {
 
   /*
   Constants
@@ -147,7 +147,7 @@ function IdeaCtrl($scope, $http, $modal, socket, Auth, Modal) {
     vm.nextState = nextState;
     $scope.idea = idea;
 
-    vm.modalInstance = $modal.open({
+    vm.modalInstance = $uibModal.open({
       templateUrl: 'updateStateModal',
       windowClass: 'updateStateModal',
       scope: $scope
