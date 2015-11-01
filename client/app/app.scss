@@ -17,8 +17,8 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 // Component styles are injected through grunt
 // injector
+@import 'account/admin/admin.scss';
 @import 'account/login/login.scss';
-@import 'admin/admin.scss';
 @import 'idea/idea.scss';
 @import 'main/main.scss';
 @import 'training_cards/training_cards.scss';

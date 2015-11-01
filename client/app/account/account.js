@@ -13,6 +13,12 @@ angular.module('teamtoolApp')
         templateUrl: 'app/account/signup/signup.html',
         controller: 'SignupCtrl'
       })
+      .state('admin', {
+        url: '/admin',
+        templateUrl: 'app/account/admin/admin.html',
+        controller: 'AdminCtrl',
+        authenticate: true
+      })
       .state('settings', {
         url: '/settings',
         templateUrl: 'app/account/settings/settings.html',
