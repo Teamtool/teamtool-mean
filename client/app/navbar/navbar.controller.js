@@ -4,7 +4,8 @@ angular.module('teamtoolApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [
       {'title': 'Ideas', 'link': '/idea'},
-      {'title': 'Training Catalog', 'link': '/training_cards'}
+      {'title': 'Training Catalog', 'link': '/training_cards'},
+      {'title': 'Question/Answers', 'link': '/question_answer'}
 
     ];
 

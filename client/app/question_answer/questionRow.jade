@@ -1,0 +1,26 @@
+.row
+  .col-md-5
+    | on {{questionAnswer.dateJS.toLocaleString().substring(0, questionAnswer.dateJS.toLocaleString().length-6)}}
+
+  .col-md-5
+    | asked by {{questionAnswer.author}}
+
+  .col-md-2(align="right")
+    div(ng-show='vm.allowedToRate(questionAnswer)')
+      uib-rating(ng-model="questionAnswer.currentRating", max="5", on-leave='vm.addRating(questionAnswer)' readonly="vm.modalWindowOpen")
+      | {{questionAnswer.raterCount}}
+      br
+      | ? / ? stars
+
+    div(ng-show='(vm.isLoggedIn() && vm.isQuestionRatedOrCreatedByCurrentUser(questionAnswer)) || questionAnswer.state != vm.states[0].value')
+      uib-rating(ng-init="averageRating = vm.getNumberFloored(questionAnswer.averageRating)", ng-model="averageRating", max="5", readonly="true")
+      | {{questionAnswer.raterCount}}
+      br
+      | {{questionAnswer.averageRating}} / {{questionAnswer.totalStarCount}} stars
+
+    div(ng-show='!vm.isLoggedIn() && questionAnswer.state == vm.states[0].value')
+      uib-rating(ng-init="emptyRating = 0", ng-model="emptyRating", max="5", readonly="true")
+      | {{questionAnswer.raterCount}}
+      br
+      | ? / ? stars
+

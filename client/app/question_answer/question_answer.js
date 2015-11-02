@@ -8,4 +8,5 @@ angular.module('teamtoolApp')
         templateUrl: 'app/question_answer/question_answer.html',
         controller: 'QuestionAnswerCtrl'
       });
-  });
+  })
+  .controller('QuestionAnswerCtrl', QuestionAnswerCtrl);

@@ -1,2 +1,82 @@
-.col-md-12
-    | This is the question_answer view.
+div(ng-controller='QuestionAnswerCtrl as vm')
+  .container
+    .row
+      .col-lg-2
+      .col-lg-8
+        div
+          br
+          form(ng-show="vm.isLoggedIn()" name='form', ng-submit='vm.addQuestion(form)', novalidate='')
+            label Share your questions in realtime
+            .form-group(ng-class='{ "has-success": form.text.$valid && vm.submitted, "has-error": form.text.$invalid && vm.submitted }')
+              textarea.form-control.textareaResizeNone(type='textarea', name='text', placeholder='Write your question here ...', ng-model='vm.newQuestionAnswer.text', maxlength="200", rows="2" required)
+              span.color-blue.right {{200 - vm.newQuestionAnswer.text.length}} characters left
+              p.help-block(ng-show='form.text.$error.required && vm.submitted')
+                | What's the question?
+            div
+              button.btn.btn-success(type='submit' ng-click='vm.states[0].active = true') Ask
+
+        h1.align-center Questions Backlog
+        br
+        div.btn-group.right(uib-dropdown, ng-show='vm.isLoggedIn()')
+          button.btn.btn-primary(uib-dropdown-toggle, id="split-button") Sorted by {{vm.sortCriterionLabel}}
+            span.caret
+          ul.uib-dropdown-menu(aria-labelledby="split-button")
+            li
+              a(href='#', ng-click='vm.sortCriterion = "date"; vm.sortReverse = true; vm.sortCriterionLabel = "date (newest first) "') Date (newest first)
+            li
+              a(href='#', ng-click='vm.sortCriterion = "date"; vm.sortReverse = false; vm.sortCriterionLabel = "date (oldest first) "') Date (oldest first)
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "averageRating"; vm.sortReverse = true; vm.sortCriterionLabel = "best average rated "') Best average rated
+            li
+              a(href='#', ng-click='vm.sortCriterion = "averageRating"; vm.sortReverse = false; vm.sortCriterionLabel = "worst average rated "') Worst average rated
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "totalStarCount"; vm.sortReverse = true; vm.sortCriterionLabel = "stars (High to Low) "') Stars (High to Low)
+            li
+              a(href='#', ng-click='vm.sortCriterion = "totalStarCount"; vm.sortReverse = false; vm.sortCriterionLabel = "stars (Low to High) "') Stars (Low to High)
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "raterCount"; vm.sortReverse = true; vm.sortCriterionLabel = "most rated "') Most rated
+            li
+              a(href='#', ng-click='vm.sortCriterion = "raterCount"; vm.sortReverse = false; vm.sortCriterionLabel = "least rated "') Least rated
+            li.divider
+            li
+              a(href='#', ng-click='vm.sortCriterion = "author"; vm.sortReverse = false; vm.sortCriterionLabel = "author (A-Z) "') Author (A-Z)
+            li
+              a(href='#', ng-click='vm.sortCriterion = "author"; vm.sortReverse = true; vm.sortCriterionLabel = "author (Z-A) "') Author (Z-A)
+        br
+        br
+        br
+        uib-tabset.color-blue(justified="true")
+          uib-tab(ng-repeat="state in vm.states.slice(0,2)", heading="{{state.value}}", active="state.active")
+            br
+            div.nav.nav-stacked(ng-show="0 == (vm.questionAnswers | filter: { state: (state.value == vm.states[1].value ? vm.states[1].value : '!' + vm.states[1].value) }).length")
+              .align-center
+                b There isn't any questions {{state.value.toLowerCase()}}.
+
+            div.nav.nav-tabs.nav-stacked.padding8(ng-class="{'greenBackground': questionAnswer.state == vm.states[2].value}", ng-repeat="questionAnswer in vm.questionAnswers | filter: { state: (state.value == vm.states[1].value ? vm.states[1].value : '!' + vm.states[1].value) } | orderBy:[vm.getFirstSortCriterion, vm.getSecondSortCriterion, vm.getThirdSortCriterion, vm.getFourthSortCriterion, vm.getFifthSortCriterion]:vm.sortReverse")
+              include questionRow.jade
+              .row
+                .col-md-10
+                  | {{questionAnswer.text}}
+                .col-md-2
+                  button.close(ng-show='vm.allowedToDelete(questionAnswer)', type='button', ng-click='vm.deleteQuestion(questionAnswer.text, questionAnswer)')
+                    span(class="glyphicon glyphicon-trash" aria-hidden="true")
+                  button.close(ng-show='questionAnswer.state == vm.states[2].value && vm.isAdmin()', type='button', ng-click='vm.openUpdateStateModal(vm.states[1].value, questionAnswer)', ng-disabled="!vm.isLoggedIn()")
+                    span(class="glyphicon glyphicon-ok" aria-hidden="true")
+                  button.close(ng-show='questionAnswer.state==vm.states[0].value && vm.isAdmin() && !vm.currentQuestion', type='button', ng-click='vm.openUpdateStateModal(vm.states[2].value, questionAnswer)', ng-disabled="!vm.isLoggedIn()")
+                    span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
+
+    .col-lg-2
+script(type="text/ng-template" id="updateStateModal" ng-controller='QuestionAnswerCtrl as vm')
+  div.modal-header
+    h3.modal-title Change the status of this question to {{vm.nextState.toLowerCase()}}?
+  div.modal-body.color-blue
+    include questionRow.jade
+    .row
+      .col-md-10
+        | {{questionAnswer.text}}
+  div.modal-footer
+    button.btn.btn-success(type="button" ng-click="vm.modalInstance.close()") OK
+    button.btn.btn-danger(type="button" ng-click="vm.modalInstance.dismiss()") Cancel

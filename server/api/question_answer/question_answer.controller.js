@@ -42,6 +42,19 @@ exports.update = function(req, res) {
   });
 };
 
+exports.addRating = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  QuestionAnswer.findById(req.params.id, function (err, question_answer) {
+    if (err) { return handleError(res, err); }
+    if(!question_answer) { return res.send(404); }
+    question_answer.ratings.push(req.body);
+    question_answer.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, question_answer);
+    });
+  });
+};
+
 // Deletes a question_answer from the DB.
 exports.destroy = function(req, res) {
   QuestionAnswer.findById(req.params.id, function (err, question_answer) {
