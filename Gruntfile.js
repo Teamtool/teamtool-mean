@@ -35,14 +35,14 @@ module.exports = function (grunt) {
       client: require('./bower.json').appPath || 'client',
       dist: 'dist'
     },
-    forever: {
+    foreverMulti: {
       express: {
-        options: {
-          index: 'dist/server/app.js',
-          logDir: 'logs'
-        }
+        action: 'restart',
+        file: 'dist/server/app.js',
+        options: ["-m 'teamtool" + " port "+ process.env.PORT+"'"]
       }
     },
+
     express: {
       options: {
         port: process.env.PORT || 9000
@@ -605,7 +605,7 @@ module.exports = function (grunt) {
       'build',
       'env:all',
       'env:prod',
-      'forever:express:restart',
+      'foreverMulti:express:restart',
       'wait',
       'open',
       'express-keepalive'
@@ -725,6 +725,6 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.loadNpmTasks('grunt-forever');
+  grunt.loadNpmTasks('grunt-forever-multi');
 
 };
