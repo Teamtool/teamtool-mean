@@ -1,12 +1,18 @@
 'use strict';
 
-function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal) {
+function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal, TimerService) {
 
   /*
    Constants
    */
 
   var vm = this;
+
+  vm.successSeconds = 3;
+  vm.warningSeconds = 6;
+  vm.maxSeconds = 10;
+
+  vm.timer = TimerService.getTimer();
 
   vm.newQuestionAnswer = {};
 
@@ -20,10 +26,30 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal) {
    Scope Api calls
    */
 
+  vm.startProgressBar = function() {
+    TimerService.start(vm.successSeconds, vm.warningSeconds, vm.maxSeconds);
+  };
+
   $http.get('/api/question_answers').success(function(questionAnswers) {
     vm.questionAnswers = questionAnswers;
     socket.syncUpdates('question_answer', vm.questionAnswers);
+    initializeOngoingProgressBar();
+    vm.setDefaultCriterion();
   });
+
+  function initializeOngoingProgressBar() {
+    var questionBeingAnswered = _.findWhere(vm.questionAnswers, {state: vm.states[2].value});
+    if(questionBeingAnswered != undefined) {
+
+      var diff = new Date().getTime() - new Date(questionBeingAnswered.answeredAt).getTime();
+      var seconds = Math.floor(diff / 1000);
+
+      TimerService.setTimerSeconds(seconds);
+      if(!vm.timer.isRunning) {
+        vm.startProgressBar();
+      }
+    }
+  }
 
   /*
    Util functions
@@ -42,13 +68,31 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal) {
    For View
    */
 
-  vm.currentQuestion = false;
+  vm.showQuestionFilter = function(questionAnswer){
+    if(vm.states[0].active)
+      return questionAnswer.state == vm.states[0].value || questionAnswer.state == vm.states[2].value;
+    else
+      return questionAnswer.state == vm.states[1].value;
+  };
+
+  // Progress Bar
+
 
   // Sort
 
-  vm.sortCriterion = "averageRating";
-  vm.sortCriterionLabel = "best average rated ";
+
   vm.sortReverse = true;
+
+  vm.setDefaultCriterion = function() {
+    if(!vm.isAdmin()) {
+      vm.sortCriterion = "date";
+      vm.sortCriterionLabel = "date (newest first) ";
+    } else {
+      vm.sortCriterion = "averageRating";
+      vm.sortCriterionLabel = "best average rated ";
+    }
+  };
+
 
   vm.getFirstSortCriterion = function(questionAnswer) {
     if(questionAnswer.state == 'Current' && vm.sortReverse)
@@ -126,27 +170,6 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal) {
     return Math.floor(number);
   };
 
-  vm.openUpdateStateModal = function (nextState, questionAnswer) {
-    vm.modalWindowOpen = true;
-    vm.nextState = nextState;
-    $scope.questionAnswer = questionAnswer;
-
-    vm.modalInstance = $uibModal.open({
-      templateUrl: 'updateStateModal',
-      windowClass: 'updateStateModal',
-      scope: $scope
-    });
-
-    vm.modalInstance.result.then(function () {
-      vm.updateState(nextState, questionAnswer);
-    });
-
-    vm.modalInstance.result.finally(function () {
-      vm.modalWindowOpen = false;
-    });
-  };
-
-
   /*
    Scope functions
    */
@@ -165,16 +188,17 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal) {
   };
 
   vm.deleteQuestion = Modal.confirm.delete(function(questionAnswer) {
-    $http.delete('/api/question_answers/' + questionAnswer._id);
+    $http.put('/api/question_answers/'+ questionAnswer._id, { state: 'Deleted'} );
   });
 
-  vm.updateState = function(state, questionAnswer) {
-    if(state == vm.states[2].value)
-      vm.currentQuestion=true;
-    else if(state == vm.states[1].value)
-      vm.currentQuestion=false;
+  vm.setCurrent = function(questionAnswer) {
+    $http.put('/api/question_answers/'+ questionAnswer._id, { state: vm.states[2].value, answeredAt: new Date()} );
+    vm.startProgressBar();
+  };
 
-    $http.put('/api/question_answers/'+ questionAnswer._id, { state: state} );
+  vm.setAnswered = function(questionAnswer) {
+    $http.put('/api/question_answers/'+ questionAnswer._id, { state: vm.states[1].value} );
+    TimerService.reset();
   };
 
   vm.addRating = function(questionAnswer) {

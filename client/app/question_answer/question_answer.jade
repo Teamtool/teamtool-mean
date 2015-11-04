@@ -51,22 +51,26 @@ div(ng-controller='QuestionAnswerCtrl as vm')
         uib-tabset.color-blue(justified="true")
           uib-tab(ng-repeat="state in vm.states.slice(0,2)", heading="{{state.value}}", active="state.active")
             br
-            div.nav.nav-stacked(ng-show="0 == (vm.questionAnswers | filter: { state: (state.value == vm.states[1].value ? vm.states[1].value : '!' + vm.states[1].value) }).length")
+            div.nav.nav-stacked(ng-show="0 == (vm.questionAnswers | filter:vm.showQuestionFilter).length")
               .align-center
                 b There isn't any questions {{state.value.toLowerCase()}}.
 
-            div.nav.nav-tabs.nav-stacked.padding8(ng-class="{'greenBackground': questionAnswer.state == vm.states[2].value}", ng-repeat="questionAnswer in vm.questionAnswers | filter: { state: (state.value == vm.states[1].value ? vm.states[1].value : '!' + vm.states[1].value) } | orderBy:[vm.getFirstSortCriterion, vm.getSecondSortCriterion, vm.getThirdSortCriterion, vm.getFourthSortCriterion, vm.getFifthSortCriterion]:vm.sortReverse")
+            div(ng-show="0 != (vm.questionAnswers | filter:vm.showQuestionFilter).length")
+              progressbar(ng-class="vm.timer.progressBarActive ? 'progress-striped active' : ''" value="vm.timer.seconds" type="{{vm.timer.color}}" max="vm.maxSeconds")
+                b {{vm.timer.text}}
+
+            div.nav.nav-tabs.nav-stacked.padding8(ng-class="{'greenBackground': questionAnswer.state == vm.states[2].value, 'yellowBackground': vm.allowedToRate(questionAnswer)}", ng-repeat="questionAnswer in vm.questionAnswers | filter:vm.showQuestionFilter | orderBy:[vm.getFirstSortCriterion, vm.getSecondSortCriterion, vm.getThirdSortCriterion, vm.getFourthSortCriterion, vm.getFifthSortCriterion]:vm.sortReverse")
               include questionRow.jade
               .row
                 .col-md-10
                   | {{questionAnswer.text}}
                 .col-md-2
                   button.close(ng-show='vm.allowedToDelete(questionAnswer)', type='button', ng-click='vm.deleteQuestion(questionAnswer.text, questionAnswer)')
-                    span(class="glyphicon glyphicon-trash" aria-hidden="true")
-                  button.close(ng-show='questionAnswer.state == vm.states[2].value && vm.isAdmin()', type='button', ng-click='vm.openUpdateStateModal(vm.states[1].value, questionAnswer)', ng-disabled="!vm.isLoggedIn()")
-                    span(class="glyphicon glyphicon-ok" aria-hidden="true")
-                  button.close(ng-show='questionAnswer.state==vm.states[0].value && vm.isAdmin() && !vm.currentQuestion', type='button', ng-click='vm.openUpdateStateModal(vm.states[2].value, questionAnswer)', ng-disabled="!vm.isLoggedIn()")
-                    span(class="glyphicon glyphicon-play-circle" aria-hidden="true")
+                    span.padding2(class="glyphicon glyphicon-trash" aria-hidden="true")
+                  button.close(ng-show='questionAnswer.state == vm.states[2].value && vm.isAdmin()', type='button', ng-click='vm.setAnswered(questionAnswer)', ng-disabled="!vm.isLoggedIn()")
+                    span.padding2(class="glyphicon glyphicon-ok" aria-hidden="true")
+                  button.close(ng-show='questionAnswer.state==vm.states[0].value && vm.isAdmin() && !vm.timer.isRunning && (vm.timer.seconds == vm.maxSeconds + 1 || vm.timer.seconds == 0)', type='button', ng-click='vm.setCurrent(questionAnswer)', ng-disabled="!vm.isLoggedIn()")
+                    span.padding2(class="glyphicon glyphicon-play-circle" aria-hidden="true")
 
     .col-lg-2
 script(type="text/ng-template" id="updateStateModal" ng-controller='QuestionAnswerCtrl as vm')

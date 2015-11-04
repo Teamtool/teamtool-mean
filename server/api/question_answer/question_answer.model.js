@@ -10,7 +10,8 @@ var QuestionAnswerSchema = new Schema({
   author: String,
   ratings: [{_id:false, rater: String, star: Number, date: {type: Date, default: Date.now}}],
   date: { type: Date, default: Date.now },
-  state: { type: String, enum: states }
+  state: { type: String, enum: states },
+  answeredAt: Date
 }, {
   toObject: {virtuals: true},
   toJSON: {virtuals: true}
