@@ -185,7 +185,7 @@ function IdeaCtrl($scope, $http, $uibModal, socket, Auth, Modal) {
   };
 
   vm.deleteIdea = Modal.confirm.delete(function(idea) {
-    $http.delete('/api/ideas/' + idea._id);
+    $http.put('/api/ideas/'+idea._id, { state: 'Deleted'} );
   });
 
   vm.updateState = function(state, idea) {
