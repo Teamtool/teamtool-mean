@@ -8,9 +8,9 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal, Timer
 
   var vm = this;
 
-  vm.successSeconds = 3;
-  vm.warningSeconds = 6;
-  vm.maxSeconds = 10;
+  vm.successSeconds = 10;
+  vm.warningSeconds = 20;
+  vm.maxSeconds = 30;
 
   vm.timer = TimerService.getTimer();
 
