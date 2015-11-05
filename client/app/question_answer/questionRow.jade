@@ -8,7 +8,7 @@
   .col-md-2(align="right")
     // Admins can always see the current rating and rate if they haven't already
     div(ng-show='vm.isAdmin() && vm.allowedToRate(questionAnswer)')
-      uib-rating(ng-init="questionAnswer.currentRating = vm.getNumberFloored(questionAnswer.averageRating)", ng-model="questionAnswer.currentRating", max="5", ng-click='vm.addRating(questionAnswer)')
+      uib-rating(ng-init="questionAnswer.currentRatingAdmin = vm.getNumberFloored(questionAnswer.averageRating)", ng-model="questionAnswer.currentRatingAdmin", max="5", ng-click='vm.addRatingAdmin(questionAnswer)')
       | {{questionAnswer.raterCount}}
       br
       | {{questionAnswer.averageRating}} / {{questionAnswer.totalStarCount}} stars

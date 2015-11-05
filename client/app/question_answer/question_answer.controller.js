@@ -105,7 +105,7 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal, Timer
 
   vm.getSecondSortCriterion = function(questionAnswer) {
     // anonymisation of ratings
-    if((vm.sortCriterion == "totalStarCount" || vm.sortCriterion == "averageRating") && !vm.isQuestionRatedOrCreatedByCurrentUser(questionAnswer))
+    if(!vm.isAdmin && (vm.sortCriterion == "totalStarCount" || vm.sortCriterion == "averageRating") && !vm.isQuestionRatedOrCreatedByCurrentUser(questionAnswer))
       return 0;
     else
       return questionAnswer[vm.sortCriterion];
@@ -114,7 +114,7 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal, Timer
   vm.getThirdSortCriterion = function(questionAnswer) {
     if(vm.sortCriterion == "averageRating")
       return questionAnswer.raterCount;
-    else if (!vm.isQuestionRatedOrCreatedByCurrentUser(questionAnswer))
+    else if (!vm.isAdmin && !vm.isQuestionRatedOrCreatedByCurrentUser(questionAnswer))
       return 0;
     else
       return vm.fixReversing(questionAnswer.averageRating);
@@ -206,6 +206,13 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal, Timer
       rater: Auth.getCurrentUser().username,
       star: questionAnswer.currentRating
     });
-
   };
+
+  vm.addRatingAdmin = function(questionAnswer) {
+    $http.put('/api/question_answers/' + questionAnswer._id + '/ratings', {
+      rater: Auth.getCurrentUser().username,
+      star: questionAnswer.currentRatingAdmin
+    });
+  };
+
 }
