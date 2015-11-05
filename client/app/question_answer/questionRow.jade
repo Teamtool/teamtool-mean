@@ -1,23 +1,33 @@
 .row
   .col-md-5
-    | on {{questionAnswer.dateJS.toLocaleString().substring(0, questionAnswer.dateJS.toLocaleString().length-6)}}
+    | asked on {{questionAnswer.dateJS.toLocaleString().substring(0, questionAnswer.dateJS.toLocaleString().length-6)}}
 
   .col-md-5
-    | asked by {{questionAnswer.author}}
+    | by {{questionAnswer.author}}
 
   .col-md-2(align="right")
-    div(ng-show='vm.allowedToRate(questionAnswer)')
-      uib-rating(ng-model="questionAnswer.currentRating", max="5", on-leave='vm.addRating(questionAnswer)' readonly="vm.modalWindowOpen")
+    // Admins can always see the current rating and rate if they haven't already
+    div(ng-show='vm.isAdmin() && vm.allowedToRate(questionAnswer)')
+      uib-rating(ng-init="questionAnswer.currentRating = vm.getNumberFloored(questionAnswer.averageRating)", ng-model="questionAnswer.currentRating", max="5", ng-click='vm.addRating(questionAnswer)')
+      | {{questionAnswer.raterCount}}
+      br
+      | {{questionAnswer.averageRating}} / {{questionAnswer.totalStarCount}} stars
+
+    // Users cannot see the current rating if they haven't rated yet
+    div(ng-show='!vm.isAdmin() && vm.allowedToRate(questionAnswer)')
+      uib-rating(ng-model="questionAnswer.currentRating", max="5", ng-click='vm.addRating(questionAnswer)')
       | {{questionAnswer.raterCount}}
       br
       | ? / ? stars
 
+    // Users cann see the current rating if they have created or already rated the idea
     div(ng-show='(vm.isLoggedIn() && vm.isQuestionRatedOrCreatedByCurrentUser(questionAnswer)) || questionAnswer.state != vm.states[0].value')
       uib-rating(ng-init="averageRating = vm.getNumberFloored(questionAnswer.averageRating)", ng-model="averageRating", max="5", readonly="true")
       | {{questionAnswer.raterCount}}
       br
       | {{questionAnswer.averageRating}} / {{questionAnswer.totalStarCount}} stars
 
+    // Unauthorised users cannot see the rating of open ideas
     div(ng-show='!vm.isLoggedIn() && questionAnswer.state == vm.states[0].value')
       uib-rating(ng-init="emptyRating = 0", ng-model="emptyRating", max="5", readonly="true")
       | {{questionAnswer.raterCount}}

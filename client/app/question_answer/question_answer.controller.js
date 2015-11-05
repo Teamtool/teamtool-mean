@@ -126,7 +126,7 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal, Timer
 
   vm.getFifthSortCriterion = function(questionAnswer) {
     questionAnswer.dateJS = new Date(questionAnswer.date);
-    if(vm.sortReverse)
+    if(!vm.sortReverse)
       return questionAnswer.dateJS.getTime();
     else
       return questionAnswer.dateJS.getTime() * -1;
@@ -202,11 +202,10 @@ function QuestionAnswerCtrl($scope, $http, $uibModal, socket, Auth, Modal, Timer
   };
 
   vm.addRating = function(questionAnswer) {
-    if (questionAnswer.currentRating > 0) {
-      $http.put('/api/question_answers/' + questionAnswer._id + '/ratings', {
-        rater: Auth.getCurrentUser().username,
-        star: questionAnswer.currentRating
-      });
-    }
+    $http.put('/api/question_answers/' + questionAnswer._id + '/ratings', {
+      rater: Auth.getCurrentUser().username,
+      star: questionAnswer.currentRating
+    });
+
   };
 }
