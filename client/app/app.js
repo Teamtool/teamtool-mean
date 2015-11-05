@@ -30,6 +30,7 @@ angular.module('teamtoolApp', [
         timer.seconds++;
         if (timer.seconds <= successSeconds) {
           timer.color = 'success';
+          timer.text = '~' + (Math.floor((maxSeconds-timer.seconds)/60)+1)  + ' minutes left';
 
         } else if (timer.seconds > successSeconds && timer.seconds < warningSeconds) {
           timer.color = 'warning';
