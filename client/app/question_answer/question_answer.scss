@@ -41,3 +41,14 @@
 .textareaResizeNone {
   resize: none;
 }
+
+.progress-striped span {
+  position: absolute;
+  display: block;
+  width: 100%;
+  color: #428bca;
+}
+
+.progress-striped span.colorWhite {
+  color: white;
+}

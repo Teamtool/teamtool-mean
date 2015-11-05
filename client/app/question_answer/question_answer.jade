@@ -57,7 +57,7 @@ div(ng-controller='QuestionAnswerCtrl as vm')
 
             div(ng-show="0 != (vm.questionAnswers | filter:vm.showQuestionFilter).length")
               progressbar(ng-class="vm.timer.progressBarActive ? 'progress-striped active' : ''" value="vm.timer.seconds" type="{{vm.timer.color}}" max="vm.maxSeconds")
-                b {{vm.timer.text}}
+                span(ng-class="(vm.timer.seconds > vm.maxSeconds*6/11) ? 'colorWhite' : ''") {{vm.timer.text}}
 
             div.nav.nav-tabs.nav-stacked.padding8(ng-class="{'greenBackground': questionAnswer.state == vm.states[2].value, 'yellowBackground': vm.allowedToRate(questionAnswer)}", ng-repeat="questionAnswer in vm.questionAnswers | filter:vm.showQuestionFilter | orderBy:[vm.getFirstSortCriterion, vm.getSecondSortCriterion, vm.getThirdSortCriterion, vm.getFourthSortCriterion, vm.getFifthSortCriterion]:vm.sortReverse")
               include questionRow.jade
